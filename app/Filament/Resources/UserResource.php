@@ -5,6 +5,9 @@ namespace App\Filament\Resources;
 use Filament\Actions\RestoreAction;
 use Filament\Forms;
 use App\Models\User;
+use Filament\Forms\Components\Fieldset;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Select;
 use Filament\Tables;
 use Filament\Forms\Form;
 use Filament\Tables\Actions\ForceDeleteAction;
@@ -65,6 +68,62 @@ class UserResource extends Resource
                 ->email()
                 ->required()
                 ->label(trans('filament-users::user.resource.email')),
+
+
+            Fieldset::make('Phone Information')
+                ->schema([
+                    Select::make('phone_country_code')
+                        ->label('Country Code')
+                        ->options(function () {
+                            return \App\Models\Country::query()
+                                ->orderBy('phone_code')
+                                ->get()
+                                ->mapWithKeys(function ($country) {
+                                    return [$country->phone_code => "{$country->phone_code} ({$country->name})"];
+                                });
+                        })
+                        ->searchable()
+                        ->preload()
+                        ->required()
+                        ->columnSpan(2),
+
+                    TextInput::make('phone')
+                        ->label('Phone Number')
+                        ->tel()
+                        ->required()
+                        ->unique(ignoreRecord: true)
+                        ->columnSpan(3),
+                ])
+                ->markAsRequired()
+                ->columns(5)->columnSpan(1),
+            Fieldset::make('WhatsApp Information')
+                ->schema([
+                    Select::make('whatsapp_country_code')
+                        ->label('Country Code')
+                        ->options(function () {
+                            return \App\Models\Country::query()
+                                ->orderBy('phone_code')
+                                ->get()
+                                ->mapWithKeys(function ($country) {
+                                    return [$country->phone_code => "{$country->phone_code} ({$country->name})"];
+                                });
+                        })
+                        ->searchable()
+                        ->preload()
+                        ->native(false)
+                        ->required()
+                        ->columnSpan(2),
+
+                    TextInput::make('whatsapp_number')
+                        ->label('WhatsApp Number')
+                        ->tel()
+                        ->nullable()
+                        ->columnSpan(3),
+                ])
+                ->columns(5)
+                ->columnSpan(1),
+
+
             TextInput::make('password')
                 ->label(trans('filament-users::user.resource.password'))
                 ->password()
@@ -74,6 +133,50 @@ class UserResource extends Resource
                         ? Hash::make($state)
                         : $record->password;
                 }),
+            TextInput::make('nid_number')->nullable(),
+
+            FileUpload::make('nid_font_image')
+                ->label('NID Front Image')
+                ->previewable()
+                ->downloadable()
+                ->image()
+                ->imageEditor()
+                ->imagePreviewHeight('150')
+                ->nullable(),
+
+            FileUpload::make('nid_back_image')
+                ->label('NID Back Image')
+                ->image()
+                ->previewable()
+                ->downloadable()
+                ->imageEditor()
+                ->imagePreviewHeight('150')
+                ->nullable(),
+
+            FileUpload::make('image')
+                ->label('Profile Image')
+                ->image()
+                ->previewable()
+                ->downloadable()
+                ->imageEditor()
+                ->imagePreviewHeight('150')
+                ->nullable(),
+
+//            FileUpload::make('user_images')
+//                ->label('User Images')
+//                ->image()
+//                ->multiple()
+//                ->reorderable()
+//                ->imageEditor()
+//                ->imagePreviewHeight('150')
+//                ->nullable(),
+
+            Select::make('is_blocked')
+                ->label('Blocked')
+                ->options([
+                    false => 'No',
+                    true => 'Yes',
+                ])->default(false),
         ];
 
 

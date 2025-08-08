@@ -86,7 +86,7 @@ class MinuteBundleResource extends Resource
                         1 => 'Active',
                         0 => 'Inactive',
                     ]),
-                Tables\Filters\TernaryFilter::make('status')->label('স্ট্যাটাস'),
+
                 TrashedFilter::make(),
             ])
             ->actions([

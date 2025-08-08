@@ -1,0 +1,9 @@
+/* resources/css/filament.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom sidebar color */
+.fi-sidebar {
+    @apply bg-gray-900 text-white; /* Or use any Tailwind classes like bg-indigo-800 */
+}

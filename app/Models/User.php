@@ -22,7 +22,24 @@ class User extends Authenticatable implements FilamentUser
     protected $fillable = [
         'name',
         'email',
+        'email_verified_at',
         'password',
+        'phone',
+        'phone_country_code',
+        'whatsapp_number',
+        'whatsapp_country_code',
+        'nid_number',
+        'nid_font_image',
+        'nid_back_image',
+        'image',
+        'user_images',
+        'is_blocked',
+    ];
+
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'user_images' => 'array',
+        'is_blocked' => 'boolean',
     ];
 
     /**
