@@ -12,7 +12,7 @@
                                     @endif
                                     {{-- Fallback when no SD image exists --}}
                                     <img class="img-fluid w-100" loading="lazy" style="max-height: 450px"
-                                         src="{{ $slide->image }}" alt="Slide image">
+                                         src="{{ asset('uploads/'.$slide->image)}}" alt="Slide image">
                                     @if ($slide->link)
                                 </a>
                             @endif
