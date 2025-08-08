@@ -23,7 +23,7 @@
                                 placeholder="096XXXXXXXX"
                                 required
                             >
-                            <button type="submit" class="btn btn-primary btn-lg px-4">
+                            <button type="submit" class="btn btn-primary btn-md px-4">
                                 <i class="bi bi-search"></i> Search
                             </button>
                         </div>
