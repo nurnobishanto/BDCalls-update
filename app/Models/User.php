@@ -68,6 +68,21 @@ class User extends Authenticatable implements FilamentUser
             'password' => 'hashed',
         ];
     }
+    public function ipNumbers(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(UserIpNumber::class);
+    }
+    public function packages()
+    {
+        return $this->hasManyThrough(
+            Package::class,
+            UserIpNumber::class,
+            'user_id',       // Foreign key on UserIpNumber table
+            'id',            // Foreign key on Package table
+            'id',            // Local key on User table
+            'package_id'     // Local key on UserIpNumber table
+        );
+    }
     public function canAccessPanel(\Filament\Panel $panel): bool
     {
         return 1;

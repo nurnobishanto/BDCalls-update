@@ -2,13 +2,13 @@
 
 namespace App\Filament\Resources;
 
-use AmidEsfahani\FilamentTinyEditor\TinyEditor;
-use App\Filament\Resources\PageResource\Pages;
-use App\Filament\Resources\PageResource\RelationManagers;
-use App\Models\Page;
+use App\Filament\Resources\UserIpNumberResource\Pages;
+use App\Filament\Resources\UserIpNumberResource\RelationManagers;
+use App\Models\UserIpNumber;
 use Filament\Actions\RestoreAction;
 use Filament\Forms;
-use Filament\Forms\Components\RichEditor;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
@@ -19,44 +19,44 @@ use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\ForceDeleteAction;
 use Filament\Tables\Actions\ViewAction;
-use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Columns\BooleanColumn;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class PageResource extends Resource
+class UserIpNumberResource extends Resource
 {
-    protected static ?string $model = Page::class;
+    protected static ?string $model = UserIpNumber::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-document-text';
-    protected static ?string $navigationGroup = 'CMS';
-
+    protected static ?string $navigationIcon = 'heroicon-o-list-bullet';
+    protected static ?string $navigationGroup = 'Settings';
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                TextInput::make('title')
-                    ->required()
-                    ->maxLength(255),
-
-                TextInput::make('slug')
-                    ->maxLength(255)
-                    ->unique(ignoreRecord: true)
-                    ->helperText('Editable slug. If left empty, it will be auto-generated from the title.'),
-
-
-                TinyEditor::make('body')
-                    ->fileAttachmentsDisk('public')
-                    ->fileAttachmentsVisibility('public')
-                    ->fileAttachmentsDirectory('uploads')
-                    ->profile('default|simple|full|minimal|none|custom')
-
-                    ->columnSpan('full')
+                Select::make('user_id')
+                    ->label('User')
+                    ->relationship('user', 'name')
+                    ->searchable()
                     ->required(),
 
+                Select::make('package_id')
+                    ->label('Package')
+                    ->relationship('package', 'name')
+                    ->searchable()
+                    ->required(),
+
+                TextInput::make('number')
+                    ->label('IP Number')
+                    ->numeric()
+                    ->required(),
+
+                Textarea::make('note')->nullable(),
+
                 Toggle::make('status')
-                    ->label('Published')
+                    ->label('Status')
                     ->default(true),
             ]);
     }
@@ -65,17 +65,15 @@ class PageResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('title')->searchable()->sortable(),
-                Tables\Columns\IconColumn::make('status')->boolean()->label('Published'),
-                Tables\Columns\TextColumn::make('created_at')->dateTime()->sortable(),
+                TextColumn::make('number')->label('IP Number')->sortable()->searchable(),
+                TextColumn::make('user.name')->label('User')->sortable()->searchable(),
+                TextColumn::make('package.name')->label('Package')->sortable()->searchable(),
+                BooleanColumn::make('status')->label('Status')->sortable(),
             ])
             ->filters([
-                SelectFilter::make('status')
+                Tables\Filters\Filter::make('status')
                     ->label('Status')
-                    ->options([
-                        1 => 'Active',
-                        0 => 'Inactive',
-                    ]),
+                    ->query(fn (Builder $query) => $query->where('status', true)),
                 TrashedFilter::make(),
             ])
             ->actions([
@@ -106,9 +104,9 @@ class PageResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListPages::route('/'),
-            'create' => Pages\CreatePage::route('/create'),
-            'edit' => Pages\EditPage::route('/{record}/edit'),
+            'index' => Pages\ListUserIpNumbers::route('/'),
+            'create' => Pages\CreateUserIpNumber::route('/create'),
+            'edit' => Pages\EditUserIpNumber::route('/{record}/edit'),
         ];
     }
 }
