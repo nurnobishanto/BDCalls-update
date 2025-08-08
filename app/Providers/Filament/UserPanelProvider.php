@@ -24,6 +24,8 @@ class UserPanelProvider extends PanelProvider
     {
         return $panel
             ->id('user')
+            ->authGuard('web')
+            ->profile()
             ->path('user')
             ->colors([
                 'primary' => Color::Amber,
