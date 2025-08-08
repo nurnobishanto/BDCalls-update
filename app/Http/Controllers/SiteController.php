@@ -41,6 +41,15 @@ class SiteController extends Controller
         SEOMeta::setTitle($page->title);
         return view('website.pages.page',compact('page'));
     }
+    public function billPay(Request $request)
+    {
+        SEOMeta::setTitle('Bill Pay');
+        SEOMeta::setDescription(getSetting('site_tagline'));
+        $data = [
+
+        ];
+        return view('website.pages.billPay',$data);
+    }
     public function minuteBundle()
     {
         SEOMeta::setTitle('Minute Bundle');
