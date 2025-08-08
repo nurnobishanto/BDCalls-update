@@ -7,6 +7,7 @@ use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Pages;
+use Filament\Pages\Auth\Login;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
@@ -24,13 +25,13 @@ class UserPanelProvider extends PanelProvider
     {
         return $panel
             ->id('user')
-            ->authGuard('web')
-            ->profile()
             ->path('user')
             ->colors([
                 'primary' => Color::Amber,
             ])
             ->sidebarCollapsibleOnDesktop()
+            ->login(Login::class)
+            ->passwordReset()
             ->discoverResources(in: app_path('Filament/User/Resources'), for: 'App\\Filament\\User\\Resources')
             ->discoverPages(in: app_path('Filament/User/Pages'), for: 'App\\Filament\\User\\Pages')
             ->pages([
