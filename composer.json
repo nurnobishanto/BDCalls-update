@@ -11,7 +11,9 @@
         "josespinal/filament-record-navigation": "^2.2",
         "laravel/framework": "^12.0",
         "laravel/tinker": "^2.10.1",
-        "livewire/livewire": "^3.6"
+        "livewire/livewire": "^3.6",
+        "stechstudio/filament-impersonate": "^3.16",
+        "tomatophp/filament-users": "^2.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
