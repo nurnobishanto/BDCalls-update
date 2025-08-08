@@ -22,9 +22,6 @@
             </div>
         </div>
     @endif
-    @include('website.partials.business-idea')
-
-    @include('website.partials.funfacts')
     <section class="animated-section">
         <div class="particle-canvas"></div>
 

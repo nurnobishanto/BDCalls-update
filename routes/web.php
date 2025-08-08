@@ -11,4 +11,6 @@ Route::get('/packages', [SiteController::class, 'package'])->name('package');
 Route::get('/recharge', [SiteController::class, 'recharge'])->name('recharge');
 Route::get('/bill-pay', [SiteController::class, 'billPay'])->name('bill_pay');
 Route::get('/minute-bundle', [SiteController::class, 'minuteBundle'])->name('minute_bundle');
+Route::get('/{slug}', [SiteController::class, 'slug'])->name('slug');
+
 require __DIR__.'/auth.php';
