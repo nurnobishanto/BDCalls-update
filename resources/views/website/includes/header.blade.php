@@ -41,7 +41,7 @@
                         </li>
                     </ul>
 
-                    <div class="others-option">
+                    <div class="others-option d-none">
                         <a href="{{route('apply_number')}}" type="button"  class="default-btn">Apply Number</a>
                         <a href="{{route('bill_pay')}}" type="button"  class="default-btn">Bill Pay</a>
                     </div>
