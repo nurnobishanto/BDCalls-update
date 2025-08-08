@@ -27,7 +27,7 @@ class PackageResource extends Resource
 {
     protected static ?string $model = Package::class;
 
-    //protected static ?string $navigationIcon = 'heroicon-o-cash';
+    protected static ?string $navigationIcon = 'heroicon-o-list-bullet';
     protected static ?string $navigationGroup = 'Settings';
 
 
@@ -206,7 +206,7 @@ class PackageResource extends Resource
                     ->default(0),
 
                 Toggle::make('status')
-                    ->label('Status')
+                    ->label('স্ট্যাটাস')
                     ->default(true),
             ]);
     }
@@ -218,11 +218,11 @@ class PackageResource extends Resource
                 Tables\Columns\TextColumn::make('name')->label('প্যাকেজ ')->sortable()->searchable(),
                 Tables\Columns\TextColumn::make('price')->label('মূল্য')->sortable(),
                 Tables\Columns\TextColumn::make('call_rate')->label('কল রেট')->sortable(),
-                Tables\Columns\IconColumn::make('status')->label('Status')->boolean(),
+                Tables\Columns\IconColumn::make('status')->label('স্ট্যাটাস')->boolean(),
             ])
             ->filters([
                 SelectFilter::make('status')
-                    ->label('Status')
+                    ->label('স্ট্যাটাস')
                     ->options([
                         1 => 'Active',
                         0 => 'Inactive',
