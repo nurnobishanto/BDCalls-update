@@ -13,11 +13,26 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
+
             $table->string('name');
-            $table->string('email')->unique();
+            $table->string('email')->nullable()->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
+
+            // Extra fields from your SELECT query
+            $table->string('phone')->nullable()->unique();
+            $table->string('phone_country_code')->nullable();
+            $table->string('whatsapp_number')->nullable();
+            $table->string('whatsapp_country_code')->nullable();
+            $table->string('nid_number')->nullable();
+            $table->string('nid_font_image')->nullable(); // Might be 'nid_front_image'
+            $table->string('nid_back_image')->nullable();
+            $table->string('image')->nullable();
+            $table->json('user_images')->nullable(); // Assuming multiple images (JSON or use MorphMany/files table)
+            $table->boolean('is_blocked')->default(false);
+
+
             $table->timestamps();
             $table->softDeletes();
         });
