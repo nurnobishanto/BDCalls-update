@@ -39,6 +39,19 @@ if (!function_exists('sliders')) {
             ->get();
     }
 }
+if (!function_exists('clients')) {
+    /**
+     * Get all active sliders ordered by sort_order.
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    function clients()
+    {
+        return \App\Models\Client::where('status', true)
+            ->orderBy('sort_order')
+            ->get();
+    }
+}
 if (!function_exists('bn_number')) {
     function bn_number($number): string
     {
