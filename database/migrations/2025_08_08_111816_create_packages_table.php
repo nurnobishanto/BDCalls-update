@@ -50,6 +50,7 @@ return new class extends Migration
             $table->decimal('call_rate', 10, 2)->default(0);
             $table->decimal('price', 10, 2)->default(0);
             $table->boolean('status')->default(true);
+            $table->boolean('is_hidden')->default(false);
 
             $table->timestamps();
             $table->softDeletes();

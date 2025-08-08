@@ -34,12 +34,16 @@ class User extends Authenticatable implements FilamentUser
         'image',
         'user_images',
         'is_blocked',
+        'whatsapp_sms',
+        'phone_sms',
     ];
 
     protected $casts = [
         'email_verified_at' => 'datetime',
         'user_images' => 'array',
         'is_blocked' => 'boolean',
+        'whatsapp_sms' => 'boolean',
+        'phone_sms' => 'boolean',
     ];
 
     /**

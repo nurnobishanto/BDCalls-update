@@ -208,6 +208,9 @@ class PackageResource extends Resource
                 Toggle::make('status')
                     ->label('স্ট্যাটাস')
                     ->default(true),
+                Toggle::make('is_hidden')
+                    ->label('Hidden')
+                    ->default(false),
             ]);
     }
 
@@ -219,6 +222,7 @@ class PackageResource extends Resource
                 Tables\Columns\TextColumn::make('price')->label('মূল্য')->sortable(),
                 Tables\Columns\TextColumn::make('call_rate')->label('কল রেট')->sortable(),
                 Tables\Columns\IconColumn::make('status')->label('স্ট্যাটাস')->boolean(),
+                Tables\Columns\IconColumn::make('is_hidden')->label('Hidden Package')->boolean(),
             ])
             ->filters([
                 SelectFilter::make('status')
@@ -226,6 +230,12 @@ class PackageResource extends Resource
                     ->options([
                         1 => 'Active',
                         0 => 'Inactive',
+                    ]),
+                SelectFilter::make('is_hidden')
+                    ->label('Hidden Package')
+                    ->options([
+                        1 => 'Hidden',
+                        0 => 'Public',
                     ]),
                 TrashedFilter::make(),
             ])

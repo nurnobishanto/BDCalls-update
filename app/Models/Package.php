@@ -51,5 +51,6 @@ class Package extends Model
         'call_rate' => 'decimal:2',
         'price' => 'decimal:2',
         'status' => 'boolean',
+        'is_hidden' => 'boolean',
     ];
 }

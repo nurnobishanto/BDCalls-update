@@ -32,6 +32,9 @@ return new class extends Migration
             $table->json('user_images')->nullable(); // Assuming multiple images (JSON or use MorphMany/files table)
             $table->boolean('is_blocked')->default(false);
 
+            $table->boolean('whatsapp_sms')->default(false);
+            $table->boolean('phone_sms')->default(false);
+
 
             $table->timestamps();
             $table->softDeletes();

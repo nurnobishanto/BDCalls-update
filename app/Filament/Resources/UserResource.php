@@ -2,15 +2,20 @@
 
 namespace App\Filament\Resources;
 
+
 use Filament\Actions\RestoreAction;
 use Filament\Forms;
 use App\Models\User;
 use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Toggle;
+use Filament\Notifications\Notification;
 use Filament\Tables;
 use Filament\Forms\Form;
+use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\ForceDeleteAction;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use Illuminate\Support\Facades\Hash;
@@ -123,35 +128,54 @@ class UserResource extends Resource
                 ->columns(5)
                 ->columnSpan(1),
 
-
+            Toggle::make('whatsapp_sms')
+                ->label('Whatsapp SMS')
+                ->default(true),
+            Toggle::make('phone_sms')
+                ->label('Phone SMS')
+                ->default(false),
             TextInput::make('password')
                 ->label(trans('filament-users::user.resource.password'))
                 ->password()
+                ->required(fn($livewire) => $livewire instanceof \Filament\Resources\Pages\CreateRecord)
+                ->nullable(fn($livewire) => $livewire instanceof \Filament\Resources\Pages\EditRecord)
                 ->maxLength(255)
+                ->same('password_confirmation')
                 ->dehydrateStateUsing(static function ($state, $record) use ($form) {
                     return !empty($state)
                         ? Hash::make($state)
                         : $record->password;
                 }),
-            TextInput::make('nid_number')->nullable(),
+            TextInput::make('password_confirmation')
+                ->label('Confirm Password')
+                ->password()
+                ->maxLength(255)
+                ->required(fn($livewire) => $livewire instanceof \Filament\Resources\Pages\CreateRecord)
+                ->dehydrated(false), // Don't save this field to database
+            Forms\Components\Section::make('NID Information')
+                ->collapsible()
+                ->collapsed()
+                ->schema([
+                    TextInput::make('nid_number')->nullable(),
+                    FileUpload::make('nid_font_image')
+                        ->label('NID Front Image')
+                        ->previewable()
+                        ->downloadable()
+                        ->image()
+                        ->imageEditor()
+                        ->imagePreviewHeight('150')
+                        ->nullable(),
 
-            FileUpload::make('nid_font_image')
-                ->label('NID Front Image')
-                ->previewable()
-                ->downloadable()
-                ->image()
-                ->imageEditor()
-                ->imagePreviewHeight('150')
-                ->nullable(),
+                    FileUpload::make('nid_back_image')
+                        ->label('NID Back Image')
+                        ->image()
+                        ->previewable()
+                        ->downloadable()
+                        ->imageEditor()
+                        ->imagePreviewHeight('150')
+                        ->nullable(),
+                ]),
 
-            FileUpload::make('nid_back_image')
-                ->label('NID Back Image')
-                ->image()
-                ->previewable()
-                ->downloadable()
-                ->imageEditor()
-                ->imagePreviewHeight('150')
-                ->nullable(),
 
             FileUpload::make('image')
                 ->label('Profile Image')
@@ -171,12 +195,10 @@ class UserResource extends Resource
 //                ->imagePreviewHeight('150')
 //                ->nullable(),
 
-            Select::make('is_blocked')
+
+            Toggle::make('is_blocked')
                 ->label('Blocked')
-                ->options([
-                    false => 'No',
-                    true => 'Yes',
-                ])->default(false),
+                ->default(false),
         ];
 
 
@@ -195,14 +217,11 @@ class UserResource extends Resource
 
     public static function table(Table $table): Table
     {
-        if(class_exists( STS\FilamentImpersonate\Tables\Actions\Impersonate::class) && config('filament-users.impersonate')){
+        if (class_exists(STS\FilamentImpersonate\Tables\Actions\Impersonate::class) && config('filament-users.impersonate')) {
             $table->actions([Impersonate::make('impersonate')]);
         }
         $table
             ->columns([
-                TextColumn::make('id')
-                    ->sortable()
-                    ->label(trans('filament-users::user.resource.id')),
                 TextColumn::make('name')
                     ->sortable()
                     ->searchable()
@@ -211,21 +230,36 @@ class UserResource extends Resource
                     ->sortable()
                     ->searchable()
                     ->label(trans('filament-users::user.resource.email')),
-                IconColumn::make('email_verified_at')
-                    ->boolean()
-                    ->sortable()
-                    ->searchable()
-                    ->label(trans('filament-users::user.resource.email_verified_at')),
+
+                Tables\Columns\IconColumn::make('whatsapp_sms')->label('Whatsapp SMS')->boolean(),
+                Tables\Columns\IconColumn::make('phone_sms')->label('Phone SMS')->boolean(),
+
                 TextColumn::make('created_at')
-                    ->label(trans('filament-users::user.resource.created_at'))
                     ->dateTime('M j, Y')
                     ->sortable(),
                 TextColumn::make('updated_at')
-                    ->label(trans('filament-users::user.resource.updated_at'))
                     ->dateTime('M j, Y')
                     ->sortable(),
             ])
             ->filters([
+                SelectFilter::make('whatsapp_sms')
+                    ->label('Whatsapp SMS')
+                    ->options([
+                        1 => 'Yes',
+                        0 => 'No',
+                    ]),
+                SelectFilter::make('phone_sms')
+                    ->label('Phone SMS')
+                    ->options([
+                        1 => 'Yes',
+                        0 => 'No',
+                    ]),
+                SelectFilter::make('is_blocked')
+                    ->label('Blocked User')
+                    ->options([
+                        1 => 'Blocked',
+                        0 => 'Unblocked',
+                    ]),
                 Tables\Filters\Filter::make('verified')
                     ->label(trans('filament-users::user.resource.verified'))
                     ->query(fn(Builder $query): Builder => $query->whereNotNull('email_verified_at')),
@@ -238,16 +272,122 @@ class UserResource extends Resource
                     ->guard('web')
                     ->redirectTo(url('/user')),
                 ActionGroup::make([
+                    // Enable Phone SMS
+                    Action::make('enablePhoneSms')
+                        ->label('Enable Phone SMS')
+                        ->icon('heroicon-o-chat-bubble-left-right')
+                        ->color('success')
+                        ->visible(fn ($record) => !$record->phone_sms)
+                        ->requiresConfirmation()
+                        ->action(function ($record, $action) {
+                            $record->update(['phone_sms' => true]);
+
+                            Notification::make()
+                                ->title('Phone SMS Enabled')
+                                ->success()
+                                ->body("Phone SMS has been enabled for {$record->name}.")
+                                ->send();
+
+                            $action->success();
+                        }),
+
+                    // Disable Phone SMS
+                    Action::make('disablePhoneSms')
+                        ->label('Disable Phone SMS')
+                        ->icon('heroicon-o-no-symbol')
+                        ->color('danger')
+                        ->visible(fn ($record) => $record->phone_sms)
+                        ->requiresConfirmation()
+                        ->action(function ($record, $action) {
+                            $record->update(['phone_sms' => false]);
+
+                            Notification::make()
+                                ->title('Phone SMS Disabled')
+                                ->warning()
+                                ->body("Phone SMS has been disabled for {$record->name}.")
+                                ->send();
+
+                            $action->success();
+                        }),
+
+                    // Enable WhatsApp SMS
+                    Action::make('enableWhatsapp')
+                        ->label('Enable WhatsApp')
+                        ->icon('heroicon-o-phone')
+                        ->color('success')
+                        ->visible(fn ($record) => !$record->whatsapp_sms)
+                        ->requiresConfirmation()
+                        ->action(function ($record, $action) {
+                            $record->update(['whatsapp_sms' => true]);
+
+                            Notification::make()
+                                ->title('WhatsApp Enabled')
+                                ->success()
+                                ->body("WhatsApp has been enabled for {$record->name}.")
+                                ->send();
+
+                            $action->success();
+                        }),
+
+                    // Disable WhatsApp SMS
+                    Action::make('disableWhatsapp')
+                        ->label('Disable WhatsApp')
+                        ->icon('heroicon-o-no-symbol')
+                        ->color('danger')
+                        ->visible(fn ($record) => $record->whatsapp_sms)
+                        ->requiresConfirmation()
+
+                        ->action(function ($record, $action) {
+                            $record->update(['whatsapp_sms' => false]);
+
+                            Notification::make()
+                                ->title('WhatsApp Disabled')
+                                ->warning()
+                                ->body("WhatsApp has been disabled for {$record->name}.")
+                                ->send();
+
+                            $action->success();
+                        }),
 
                     ViewAction::make(),
                     EditAction::make(),
                     DeleteAction::make(),
                     RestoreAction::make(),
                     ForceDeleteAction::make(),
-                ]),
+                ])
+
             ])
             ->bulkActions([
+                Tables\Actions\BulkAction::make('enableWhatsappSms')
+                    ->label('Enable WhatsApp SMS')
+                    ->icon('heroicon-o-check')
+                    ->action(fn($records) => $records->each->update(['whatsapp_sms' => true]))
+                    ->requiresConfirmation()
+                    ->color('success'),
+
+                Tables\Actions\BulkAction::make('disableWhatsappSms')
+                    ->label('Disable WhatsApp SMS')
+                    ->icon('heroicon-o-x-circle')
+                    ->action(fn($records) => $records->each->update(['whatsapp_sms' => false]))
+                    ->requiresConfirmation()
+                    ->color('danger'),
+                // Phone SMS toggles
+                Tables\Actions\BulkAction::make('enablePhoneSms')
+                    ->label('Enable Phone SMS')
+                    ->icon('heroicon-o-check-circle')
+                    ->action(fn($records) => $records->each->update(['phone_sms' => true]))
+                    ->requiresConfirmation()
+                    ->color('success'),
+
+                Tables\Actions\BulkAction::make('disablePhoneSms')
+                    ->label('Disable Phone SMS')
+                    ->icon('heroicon-o-minus-circle')
+                    ->action(fn($records) => $records->each->update(['phone_sms' => false]))
+                    ->requiresConfirmation()
+                    ->color('danger'),
                 Tables\Actions\BulkActionGroup::make([
+
+
                     Tables\Actions\DeleteBulkAction::make(),
                     Tables\Actions\RestoreBulkAction::make(),
                     Tables\Actions\ForceDeleteBulkAction::make(),
