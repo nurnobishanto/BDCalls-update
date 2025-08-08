@@ -8,6 +8,7 @@
     "require": {
         "php": "^8.2",
         "amidesfahani/filament-tinyeditor": "^2.1",
+        "artesaos/seotools": "^1.3",
         "filament/filament": "^3.3",
         "jeffgreco13/filament-breezy": "^2.6",
         "josespinal/filament-record-navigation": "^2.2",
@@ -15,6 +16,7 @@
         "laravel/tinker": "^2.10.1",
         "laravel/ui": "*",
         "livewire/livewire": "^3.6",
+        "realrashid/sweet-alert": "^7.3",
         "stechstudio/filament-impersonate": "^3.16",
         "tomatophp/filament-users": "^2.0"
     },

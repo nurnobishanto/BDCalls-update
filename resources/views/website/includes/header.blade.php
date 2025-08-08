@@ -19,28 +19,31 @@
                 <div class="collapse navbar-collapse mean-menu">
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a href="{{route('home')}}" class="nav-link">Home</a>
+                            <a href="{{ route('home') }}" class="nav-link @if(request()->routeIs('home')) active @endif">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{route('business_idea')}}" class="nav-link @if(request()->routeIs('business_idea')) active @endif">Business Idea</a>
+                            <a href="{{ route('search_number') }}" class="nav-link @if(request()->routeIs('search.number')) active @endif">Search Number</a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{route('apply')}}" class="nav-link @if(request()->routeIs('apply')) active @endif">Apply Now</a>
+                            <a href="{{ route('apply_number') }}" class="nav-link @if(request()->routeIs('apply.number')) active @endif">Apply Number</a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{route('tutorial')}}" class="nav-link @if(request()->routeIs('tutorial')) active @endif">Tutorial</a>
+                            <a href="{{ route('package') }}" class="nav-link @if(request()->routeIs('package')) active @endif">Package</a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{route('support')}}" class="nav-link @if(request()->routeIs('support')) active @endif">Support</a>
+                            <a href="{{ route('recharge') }}" class="nav-link @if(request()->routeIs('recharge')) active @endif">Recharge</a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{route('contact')}}" class="nav-link @if(request()->routeIs('contact')) active @endif">Contact</a>
+                            <a href="{{ route('bill_pay') }}" class="nav-link @if(request()->routeIs('bill.pay')) active @endif">Bill Pay</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('minute_bundle') }}" class="nav-link @if(request()->routeIs('minute.bundle')) active @endif">Minute Bundle</a>
                         </li>
                     </ul>
-                    <div class="others-option">
-                        <a href="{{route('apply')}}" type="button"  class="default-btn">Apply Now</a>
-                        <a href="{{route('support')}}" type="button"  class="default-btn">Support</a>
 
+                    <div class="others-option">
+                        <a href="{{route('apply_number')}}" type="button"  class="default-btn">Apply Number</a>
+                        <a href="{{route('bill_pay')}}" type="button"  class="default-btn">Bill Pay</a>
                     </div>
                 </div>
             </nav>
