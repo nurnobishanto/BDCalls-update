@@ -2,300 +2,59 @@
 
 @section('content')
     <!-- End Page Title Area -->
-    <section >
+    <section>
         <div class="text-center mb-3 mt-4 px-3">
             <p class="h3 fw-bold">Choose Your Best Bundle </p>
         </div>
 
         <div class="row m-0 p-0 col-10 mx-auto">
-            <div class="col-12 col-sm-6 col-md-3 d-flex justify-content-center">
-                <div class="card-custom mb-4 pb-1">
-                    <div class="p-1"
-                         style="background-color: #4747F8; border-top-left-radius: 5px; border-top-right-radius: 5px;">
-                        <h5 class="text-center text-white mb-2 fw-bold mt-3"> ব্যান্ডেল- ১ (3000 মিনিট)</h5>
-                    </div>
-                    <ul class="feature-list px-3 pt-3">
-                        <li class="checked"><span class="icon"><i class="fas fa-check"></i></span>ইনকামিং চার্জ: ফ্রি
-                        </li>
-                        <li class="checked"><span class="icon"><i class="fas fa-check"></i></span>কল চার্জ আইপি নাম্বার:
-                            ফ্রি
-                        </li>
-                        <li class="checked"><span class="icon"><i class="fas fa-check"></i></span>কল চার্জ এক্সটেনশন:
-                            ফ্রি
-                        </li>
-                        <li class="checked"><span class="icon"><i class="fas fa-check"></i></span>আউটগোয়িং কল চার্জ : ৩৩
-                            পয়সা
-                        </li>
-                        <li class="checked"><span class="icon"><i class="fas fa-check"></i></span>পান্স : সেকেন্ড</li>
-                        <li class="checked"><span class="icon"><i class="fas fa-check"></i></span>মিনিট : <span
-                                style="font-size: 17px;">3000</span></li>
-                        <li class="checked"><span class="icon"><i class="fas fa-check"></i></span>মেয়াদ :<span
-                                style="font-size: 17px;"> 30 days</span></li>
-                        <li class="checked"><span class="icon"><i class="fas fa-check"></i></span><span
-                                style="font-size: 17px; margin-right: 3px;">1350 </span> টাকা
-                        </li>
-                    </ul>
+            @foreach($bundles as $bundle)
+                <div class="col-12 col-sm-6 col-md-3 d-flex justify-content-center">
+                    <div class="card-custom mb-4 pb-1">
+                        <div class="p-1"
+                             style="background-color: #4747F8; border-top-left-radius: 5px; border-top-right-radius: 5px;">
+                            <h5 class="text-center text-white mb-2 fw-bold mt-3"> {{$bundle->title}}
+                                ({{bn_number($bundle->minutes)}} মিনিট)</h5>
+                        </div>
+                        <ul class="feature-list px-3 pt-3">
+                            <li class="checked"><span class="icon"><i class="fas fa-check"></i></span>ইনকামিং
+                                চার্জ: {{$bundle->incoming_charge}}
+                            </li>
+                            <li class="checked"><span class="icon"><i class="fas fa-check"></i></span>কল চার্জ আইপি
+                                নাম্বার: {{$bundle->ip_number_charge}}
+                                ফ্রি
+                            </li>
+                            <li class="checked"><span class="icon"><i class="fas fa-check"></i></span>কল চার্জ
+                                এক্সটেনশন: {{$bundle->extension_charge}}
+                                ফ্রি
+                            </li>
+                            <li class="checked"><span class="icon"><i class="fas fa-check"></i></span>আউটগোয়িং কল চার্জ
+                                : {{$bundle->outgoing_call_charge}}
+                                পয়সা
+                            </li>
+                            <li class="checked"><span class="icon"><i class="fas fa-check"></i></span>পান্স
+                                : {{$bundle->pulse}}</li>
+                            <li class="checked"><span class="icon"><i class="fas fa-check"></i></span>মিনিট
+                                : {{bn_number($bundle->minutes)}}<span
+                                    style="font-size: 17px;">3000</span></li>
+                            <li class="checked"><span class="icon"><i class="fas fa-check"></i></span>মেয়াদ
+                                : {{$bundle->validity}}<span
+                                    style="font-size: 17px;"> 30 days</span></li>
+                            <li class="checked"><span class="icon"><i class="fas fa-check"></i></span><span
+                                    style="font-size: 17px; margin-right: 3px;">{{bn_number($bundle->price)}} </span>
+                                টাকা
+                            </li>
+                        </ul>
 
-                    <div class="d-flex justify-content-center mb-3">
-                        <button type="button" class="btn-cancel fw-bold order-btn" data-bs-toggle="modal"
-                                data-bs-target="#exampleModal" data-id="8">অর্ডার করুন
-                        </button>
-                    </div>
+                        <div class="d-flex justify-content-center mb-3">
+                            <button type="button" class="btn-cancel fw-bold order-btn" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModal" data-id="{{$bundle->id}}">অর্ডার করুন
+                            </button>
+                        </div>
 
+                    </div>
                 </div>
-            </div>
-            <div class="col-12 col-sm-6 col-md-3 d-flex justify-content-center">
-                <div class="card-custom mb-4 pb-1">
-                    <div class="p-1"
-                         style="background-color: #4747F8; border-top-left-radius: 5px; border-top-right-radius: 5px;">
-                        <h5 class="text-center text-white mb-2 fw-bold mt-3"> ব্যান্ডেল- ২ (5000 মিনিট)</h5>
-                    </div>
-                    <ul class="feature-list px-3 pt-3">
-                        <li class="checked"><span class="icon"><i class="fas fa-check"></i></span>ইনকামিং চার্জ: ফ্রি
-                        </li>
-                        <li class="checked"><span class="icon"><i class="fas fa-check"></i></span>কল চার্জ আইপি নাম্বার:
-                            ফ্রি
-                        </li>
-                        <li class="checked"><span class="icon"><i class="fas fa-check"></i></span>কল চার্জ এক্সটেনশন:
-                            ফ্রি
-                        </li>
-                        <li class="checked"><span class="icon"><i class="fas fa-check"></i></span>আউটগোয়িং কল চার্জ : ৩৩
-                            পয়সা
-                        </li>
-                        <li class="checked"><span class="icon"><i class="fas fa-check"></i></span>পান্স : সেকেন্ড</li>
-                        <li class="checked"><span class="icon"><i class="fas fa-check"></i></span>মিনিট : <span
-                                style="font-size: 17px;">5000</span></li>
-                        <li class="checked"><span class="icon"><i class="fas fa-check"></i></span>মেয়াদ :<span
-                                style="font-size: 17px;"> 30 days</span></li>
-                        <li class="checked"><span class="icon"><i class="fas fa-check"></i></span><span
-                                style="font-size: 17px; margin-right: 3px;">21000 </span> টাকা
-                        </li>
-                    </ul>
-
-                    <div class="d-flex justify-content-center mb-3">
-                        <button type="button" class="btn-cancel fw-bold order-btn" data-bs-toggle="modal"
-                                data-bs-target="#exampleModal" data-id="9">অর্ডার করুন
-                        </button>
-                    </div>
-
-                </div>
-            </div>
-            <div class="col-12 col-sm-6 col-md-3 d-flex justify-content-center">
-                <div class="card-custom mb-4 pb-1">
-                    <div class="p-1"
-                         style="background-color: #4747F8; border-top-left-radius: 5px; border-top-right-radius: 5px;">
-                        <h5 class="text-center text-white mb-2 fw-bold mt-3"> ব্যান্ডেল- ৩ (10000 মিনিট)</h5>
-                    </div>
-                    <ul class="feature-list px-3 pt-3">
-                        <li class="checked"><span class="icon"><i class="fas fa-check"></i></span>ইনকামিং চার্জ: ফ্রি
-                        </li>
-                        <li class="checked"><span class="icon"><i class="fas fa-check"></i></span>কল চার্জ আইপি নাম্বার:
-                            ফ্রি
-                        </li>
-                        <li class="checked"><span class="icon"><i class="fas fa-check"></i></span>কল চার্জ এক্সটেনশন:
-                            ফ্রি
-                        </li>
-                        <li class="checked"><span class="icon"><i class="fas fa-check"></i></span>আউটগোয়িং কল চার্জ : ৩৩
-                            পয়সা
-                        </li>
-                        <li class="checked"><span class="icon"><i class="fas fa-check"></i></span>পান্স : সেকেন্ড</li>
-                        <li class="checked"><span class="icon"><i class="fas fa-check"></i></span>মিনিট : <span
-                                style="font-size: 17px;">10000</span></li>
-                        <li class="checked"><span class="icon"><i class="fas fa-check"></i></span>মেয়াদ :<span
-                                style="font-size: 17px;"> 30 days</span></li>
-                        <li class="checked"><span class="icon"><i class="fas fa-check"></i></span><span
-                                style="font-size: 17px; margin-right: 3px;">3800 </span> টাকা
-                        </li>
-                    </ul>
-
-                    <div class="d-flex justify-content-center mb-3">
-                        <button type="button" class="btn-cancel fw-bold order-btn" data-bs-toggle="modal"
-                                data-bs-target="#exampleModal" data-id="10">অর্ডার করুন
-                        </button>
-                    </div>
-
-                </div>
-            </div>
-            <div class="col-12 col-sm-6 col-md-3 d-flex justify-content-center">
-                <div class="card-custom mb-4 pb-1">
-                    <div class="p-1"
-                         style="background-color: #4747F8; border-top-left-radius: 5px; border-top-right-radius: 5px;">
-                        <h5 class="text-center text-white mb-2 fw-bold mt-3"> ব্যান্ডেল- ৪ (15000 মিনিট)</h5>
-                    </div>
-                    <ul class="feature-list px-3 pt-3">
-                        <li class="checked"><span class="icon"><i class="fas fa-check"></i></span>ইনকামিং চার্জ: ফ্রি
-                        </li>
-                        <li class="checked"><span class="icon"><i class="fas fa-check"></i></span>কল চার্জ আইপি নাম্বার:
-                            ফ্রি
-                        </li>
-                        <li class="checked"><span class="icon"><i class="fas fa-check"></i></span>কল চার্জ এক্সটেনশন:
-                            ফ্রি
-                        </li>
-                        <li class="checked"><span class="icon"><i class="fas fa-check"></i></span>আউটগোয়িং কল চার্জ : ৩৩
-                            পয়সা
-                        </li>
-                        <li class="checked"><span class="icon"><i class="fas fa-check"></i></span>পান্স : সেকেন্ড</li>
-                        <li class="checked"><span class="icon"><i class="fas fa-check"></i></span>মিনিট : <span
-                                style="font-size: 17px;">15000</span></li>
-                        <li class="checked"><span class="icon"><i class="fas fa-check"></i></span>মেয়াদ :<span
-                                style="font-size: 17px;"> 30 days</span></li>
-                        <li class="checked"><span class="icon"><i class="fas fa-check"></i></span><span
-                                style="font-size: 17px; margin-right: 3px;">6000 </span> টাকা
-                        </li>
-                    </ul>
-
-                    <div class="d-flex justify-content-center mb-3">
-                        <button type="button" class="btn-cancel fw-bold order-btn" data-bs-toggle="modal"
-                                data-bs-target="#exampleModal" data-id="11">অর্ডার করুন
-                        </button>
-                    </div>
-
-                </div>
-            </div>
-            <div class="col-12 col-sm-6 col-md-3 d-flex justify-content-center">
-                <div class="card-custom mb-4 pb-1">
-                    <div class="p-1"
-                         style="background-color: #4747F8; border-top-left-radius: 5px; border-top-right-radius: 5px;">
-                        <h5 class="text-center text-white mb-2 fw-bold mt-3"> ব্যান্ডেল- ৫ (20000 মিনিট)</h5>
-                    </div>
-                    <ul class="feature-list px-3 pt-3">
-                        <li class="checked"><span class="icon"><i class="fas fa-check"></i></span>ইনকামিং চার্জ: ফ্রি
-                        </li>
-                        <li class="checked"><span class="icon"><i class="fas fa-check"></i></span>কল চার্জ আইপি নাম্বার:
-                            ফ্রি
-                        </li>
-                        <li class="checked"><span class="icon"><i class="fas fa-check"></i></span>কল চার্জ এক্সটেনশন:
-                            ফ্রি
-                        </li>
-                        <li class="checked"><span class="icon"><i class="fas fa-check"></i></span>আউটগোয়িং কল চার্জ : ৩৩
-                            পয়সা
-                        </li>
-                        <li class="checked"><span class="icon"><i class="fas fa-check"></i></span>পান্স : সেকেন্ড</li>
-                        <li class="checked"><span class="icon"><i class="fas fa-check"></i></span>মিনিট : <span
-                                style="font-size: 17px;">20000</span></li>
-                        <li class="checked"><span class="icon"><i class="fas fa-check"></i></span>মেয়াদ :<span
-                                style="font-size: 17px;"> 30 days</span></li>
-                        <li class="checked"><span class="icon"><i class="fas fa-check"></i></span><span
-                                style="font-size: 17px; margin-right: 3px;">7600 </span> টাকা
-                        </li>
-                    </ul>
-
-                    <div class="d-flex justify-content-center mb-3">
-                        <button type="button" class="btn-cancel fw-bold order-btn" data-bs-toggle="modal"
-                                data-bs-target="#exampleModal" data-id="12">অর্ডার করুন
-                        </button>
-                    </div>
-
-                </div>
-            </div>
-            <div class="col-12 col-sm-6 col-md-3 d-flex justify-content-center">
-                <div class="card-custom mb-4 pb-1">
-                    <div class="p-1"
-                         style="background-color: #4747F8; border-top-left-radius: 5px; border-top-right-radius: 5px;">
-                        <h5 class="text-center text-white mb-2 fw-bold mt-3"> ব্যান্ডেল- ৬ (25000 মিনিট)</h5>
-                    </div>
-                    <ul class="feature-list px-3 pt-3">
-                        <li class="checked"><span class="icon"><i class="fas fa-check"></i></span>ইনকামিং চার্জ: ফ্রি
-                        </li>
-                        <li class="checked"><span class="icon"><i class="fas fa-check"></i></span>কল চার্জ আইপি নাম্বার:
-                            ফ্রি
-                        </li>
-                        <li class="checked"><span class="icon"><i class="fas fa-check"></i></span>কল চার্জ এক্সটেনশন:
-                            ফ্রি
-                        </li>
-                        <li class="checked"><span class="icon"><i class="fas fa-check"></i></span>আউটগোয়িং কল চার্জ : ৩৩
-                            পয়সা
-                        </li>
-                        <li class="checked"><span class="icon"><i class="fas fa-check"></i></span>পান্স : সেকেন্ড</li>
-                        <li class="checked"><span class="icon"><i class="fas fa-check"></i></span>মিনিট : <span
-                                style="font-size: 17px;">25000</span></li>
-                        <li class="checked"><span class="icon"><i class="fas fa-check"></i></span>মেয়াদ :<span
-                                style="font-size: 17px;"> 30 days</span></li>
-                        <li class="checked"><span class="icon"><i class="fas fa-check"></i></span><span
-                                style="font-size: 17px; margin-right: 3px;">8750 </span> টাকা
-                        </li>
-                    </ul>
-
-                    <div class="d-flex justify-content-center mb-3">
-                        <button type="button" class="btn-cancel fw-bold order-btn" data-bs-toggle="modal"
-                                data-bs-target="#exampleModal" data-id="13">অর্ডার করুন
-                        </button>
-                    </div>
-
-                </div>
-            </div>
-            <div class="col-12 col-sm-6 col-md-3 d-flex justify-content-center">
-                <div class="card-custom mb-4 pb-1">
-                    <div class="p-1"
-                         style="background-color: #4747F8; border-top-left-radius: 5px; border-top-right-radius: 5px;">
-                        <h5 class="text-center text-white mb-2 fw-bold mt-3"> ব্যান্ডেল- ৭ (30000 মিনিট)</h5>
-                    </div>
-                    <ul class="feature-list px-3 pt-3">
-                        <li class="checked"><span class="icon"><i class="fas fa-check"></i></span>ইনকামিং চার্জ: ফ্রি
-                        </li>
-                        <li class="checked"><span class="icon"><i class="fas fa-check"></i></span>কল চার্জ আইপি নাম্বার:
-                            ফ্রি
-                        </li>
-                        <li class="checked"><span class="icon"><i class="fas fa-check"></i></span>কল চার্জ এক্সটেনশন:
-                            ফ্রি
-                        </li>
-                        <li class="checked"><span class="icon"><i class="fas fa-check"></i></span>আউটগোয়িং কল চার্জ : ৩৩
-                            পয়সা
-                        </li>
-                        <li class="checked"><span class="icon"><i class="fas fa-check"></i></span>পান্স : সেকেন্ড</li>
-                        <li class="checked"><span class="icon"><i class="fas fa-check"></i></span>মিনিট : <span
-                                style="font-size: 17px;">30000</span></li>
-                        <li class="checked"><span class="icon"><i class="fas fa-check"></i></span>মেয়াদ :<span
-                                style="font-size: 17px;"> 30 days</span></li>
-                        <li class="checked"><span class="icon"><i class="fas fa-check"></i></span><span
-                                style="font-size: 17px; margin-right: 3px;">9600 </span> টাকা
-                        </li>
-                    </ul>
-
-                    <div class="d-flex justify-content-center mb-3">
-                        <button type="button" class="btn-cancel fw-bold order-btn" data-bs-toggle="modal"
-                                data-bs-target="#exampleModal" data-id="14">অর্ডার করুন
-                        </button>
-                    </div>
-
-                </div>
-            </div>
-            <div class="col-12 col-sm-6 col-md-3 d-flex justify-content-center">
-                <div class="card-custom mb-4 pb-1">
-                    <div class="p-1"
-                         style="background-color: #4747F8; border-top-left-radius: 5px; border-top-right-radius: 5px;">
-                        <h5 class="text-center text-white mb-2 fw-bold mt-3"> ব্যান্ডেল- ৮ (50000 মিনিট)</h5>
-                    </div>
-                    <ul class="feature-list px-3 pt-3">
-                        <li class="checked"><span class="icon"><i class="fas fa-check"></i></span>ইনকামিং চার্জ: ফ্রি
-                        </li>
-                        <li class="checked"><span class="icon"><i class="fas fa-check"></i></span>কল চার্জ আইপি নাম্বার:
-                            ফ্রি
-                        </li>
-                        <li class="checked"><span class="icon"><i class="fas fa-check"></i></span>কল চার্জ এক্সটেনশন:
-                            ফ্রি
-                        </li>
-                        <li class="checked"><span class="icon"><i class="fas fa-check"></i></span>আউটগোয়িং কল চার্জ : ৩৩
-                            পয়সা
-                        </li>
-                        <li class="checked"><span class="icon"><i class="fas fa-check"></i></span>পান্স : সেকেন্ড</li>
-                        <li class="checked"><span class="icon"><i class="fas fa-check"></i></span>মিনিট : <span
-                                style="font-size: 17px;">50000</span></li>
-                        <li class="checked"><span class="icon"><i class="fas fa-check"></i></span>মেয়াদ :<span
-                                style="font-size: 17px;"> 30 days</span></li>
-                        <li class="checked"><span class="icon"><i class="fas fa-check"></i></span><span
-                                style="font-size: 17px; margin-right: 3px;">14500 </span> টাকা
-                        </li>
-                    </ul>
-
-                    <div class="d-flex justify-content-center mb-3">
-                        <button type="button" class="btn-cancel fw-bold order-btn" data-bs-toggle="modal"
-                                data-bs-target="#exampleModal" data-id="15">অর্ডার করুন
-                        </button>
-                    </div>
-
-                </div>
-            </div>
+            @endforeach
         </div>
     </section>
     <!-- Modal -->
@@ -325,22 +84,32 @@
 
                             <p class="m-0 p-0 mt-3 mb-2 fw-bold"><i class="fa-solid fa-building-columns"></i> Banks</p>
                             <div class="payment-options d-flex flex-wrap">
-                                <img class="payment-img" src="https://bdcalls.com/images/brac_bank.png" data-method="Brac bank"
+                                <img class="payment-img" src="https://bdcalls.com/images/brac_bank.png"
+                                     data-method="Brac bank"
                                      alt="Brac bank">
-                                <img class="payment-img" src="https://bdcalls.com/images/DBBL.jpg" data-method="DBBL Bank" alt="DBBL Bank">
-                                <img class="payment-img" src="https://bdcalls.com/images/city.jpg" data-method="City Bank" alt="City Bank">
-                                <img class="payment-img" src="https://bdcalls.com/images/ibbl.jpg" data-method="Ibbl Bank" alt="Ibbl Bank">
-                                <img class="payment-img" src="https://bdcalls.com/images/trustbank.jpg" data-method="Trust bank"
+                                <img class="payment-img" src="https://bdcalls.com/images/DBBL.jpg"
+                                     data-method="DBBL Bank" alt="DBBL Bank">
+                                <img class="payment-img" src="https://bdcalls.com/images/city.jpg"
+                                     data-method="City Bank" alt="City Bank">
+                                <img class="payment-img" src="https://bdcalls.com/images/ibbl.jpg"
+                                     data-method="Ibbl Bank" alt="Ibbl Bank">
+                                <img class="payment-img" src="https://bdcalls.com/images/trustbank.jpg"
+                                     data-method="Trust bank"
                                      alt="Trust bank">
-                                <img class="payment-img mt-2" src="https://bdcalls.com/images/asiabank.jpg" data-method="Asia Bank"
+                                <img class="payment-img mt-2" src="https://bdcalls.com/images/asiabank.jpg"
+                                     data-method="Asia Bank"
                                      alt="Asia Bank">
-                                <img class="payment-img mt-2" src="https://bdcalls.com/images/ebl.jpg" data-method="Ebl Bank"
+                                <img class="payment-img mt-2" src="https://bdcalls.com/images/ebl.jpg"
+                                     data-method="Ebl Bank"
                                      alt="Ebl Bank">
-                                <img class="payment-img mt-2" src="https://bdcalls.com/images/onebank.jpg" data-method="One Bank"
+                                <img class="payment-img mt-2" src="https://bdcalls.com/images/onebank.jpg"
+                                     data-method="One Bank"
                                      alt="One Bank">
-                                <img class="payment-img mt-2" src="https://bdcalls.com/images/ucbbank.jpg" data-method="Ucb Bank"
+                                <img class="payment-img mt-2" src="https://bdcalls.com/images/ucbbank.jpg"
+                                     data-method="Ucb Bank"
                                      alt="Ucb Bank">
-                                <img class="payment-img mt-2" src="https://bdcalls.com/images/mtbbank.jpg" data-method="Mtb Bank"
+                                <img class="payment-img mt-2" src="https://bdcalls.com/images/mtbbank.jpg"
+                                     data-method="Mtb Bank"
                                      alt="Mtb Bank">
                             </div>
 
@@ -365,7 +134,6 @@
                                         class="h4 fw-bold"> মূল্য: <span id="priceBox"></span></b> টাকা</p>
 
                             </div>
-
 
 
                             <div class="d-flex justify-content-between">
@@ -483,6 +251,7 @@
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
             overflow: hidden;
         }
+
         .card-custom::before {
             content: "";
             position: absolute;
@@ -498,6 +267,7 @@
             mask-composite: exclude;
             pointer-events: none;
         }
+
         .active-label {
             position: absolute;
             top: 1rem;
@@ -509,6 +279,7 @@
             align-items: center;
             gap: 0.25rem;
         }
+
         .active-label .dot {
             width: 0.5rem;
             height: 0.5rem;
@@ -516,15 +287,18 @@
             border-radius: 50%;
             display: inline-block;
         }
+
         .price {
             font-size: 14px;
             font-weight: 600;
             color: #4a4a4a;
         }
+
         .price-sub {
             font-size: 14px;
             color: #6b6b6b;
         }
+
         .description {
             font-size: 14px;
             color: #4a4a4a;
@@ -532,22 +306,26 @@
             text-align: center;
             line-height: 1.2;
         }
+
         .feature-list {
             font-size: 14px;
             padding-left: 0;
             list-style: none;
             margin-bottom: 2rem;
         }
+
         .feature-list li {
             display: flex;
             align-items: center;
             margin-bottom: 0.75rem;
             color: #4a4a4a;
         }
+
         .feature-list li.unchecked {
             color: #a3a3a3;
             text-decoration: line-through;
         }
+
         .feature-list li .icon {
             width: 1rem;
             height: 1rem;
@@ -558,16 +336,19 @@
             margin-right: 0.5rem;
             font-size: 14px;
         }
+
         .feature-list li.checked .icon {
             background-color: #a3c85a;
             color: white;
             border: none;
         }
+
         .feature-list li.unchecked .icon {
             border: 1px solid #a3a3a3;
             color: #a3a3a3;
             background: transparent;
         }
+
         .btn-cancel {
             background-color: #045630 !important;
             color: white;
@@ -579,9 +360,11 @@
             box-shadow: 0 1px 3px rgb(0 0 0 / 0.1);
             transition: background-color 0.3s ease;
         }
+
         .btn-cancel:hover {
             background-color: #4747F8 !important;
         }
+
         .right-border {
             position: absolute;
             top: 0;
@@ -762,7 +545,87 @@
     </script>
     <script>
         $(document).ready(function () {
-            const banks = [{"id":1,"bank_name":"Brac Bank","account_name":"GREENSHOP","account_no":"2401204829782001","brance_name":"JASHORE","created_at":null,"updated_at":"2025-08-02T11:05:35.000000Z"},{"id":2,"bank_name":"DUTCH BANGLA BANK","account_name":"NAZIM UDDIN","account_no":"1631570004758","brance_name":"JASHORE","created_at":null,"updated_at":"2025-08-02T10:57:48.000000Z"},{"id":3,"bank_name":"THE CITY BANK","account_name":"NAZIM UDDIN","account_no":"2303143124001","brance_name":"JASHORE","created_at":null,"updated_at":"2025-08-02T10:56:10.000000Z"},{"id":4,"bank_name":"ibbl","account_name":"NAZIM UDDIN","account_no":"20501250204219315","brance_name":"JASHORE","created_at":null,"updated_at":"2025-08-02T11:11:23.000000Z"},{"id":5,"bank_name":"TRUST BANK","account_name":"NAZIM UDDIN","account_no":"0002-0310902144","brance_name":"PRINCIPAL BRANCH","created_at":null,"updated_at":"2025-08-02T10:59:56.000000Z"},{"id":6,"bank_name":"BANK ASIA","account_name":"NAZIM UDDIN","account_no":"1083441245099","brance_name":"JASHORE","created_at":null,"updated_at":"2025-08-02T10:55:31.000000Z"},{"id":7,"bank_name":"Eastern Bank (EBL)","account_name":"NAZIM UDDIN","account_no":"1951440154586","brance_name":"JASHORE","created_at":null,"updated_at":"2025-08-02T10:57:16.000000Z"},{"id":8,"bank_name":"One Bank Limited (OBL)","account_name":"NAZIM UDDIN","account_no":"0122050037994","brance_name":"Kawran Bazar branch","created_at":null,"updated_at":"2025-08-02T11:00:42.000000Z"},{"id":9,"bank_name":"UCB BANK","account_name":"NAZIM UDDIN","account_no":"0373222000000155","brance_name":"JASHORE","created_at":null,"updated_at":"2025-08-02T11:01:17.000000Z"},{"id":10,"bank_name":"Mtb Bank","account_name":"UPCOMING","account_no":"UPCOMING","brance_name":"UPCOMING","created_at":null,"updated_at":"2025-08-02T11:01:40.000000Z"}];
+            const banks = [{
+                "id": 1,
+                "bank_name": "Brac Bank",
+                "account_name": "GREENSHOP",
+                "account_no": "2401204829782001",
+                "brance_name": "JASHORE",
+                "created_at": null,
+                "updated_at": "2025-08-02T11:05:35.000000Z"
+            }, {
+                "id": 2,
+                "bank_name": "DUTCH BANGLA BANK",
+                "account_name": "NAZIM UDDIN",
+                "account_no": "1631570004758",
+                "brance_name": "JASHORE",
+                "created_at": null,
+                "updated_at": "2025-08-02T10:57:48.000000Z"
+            }, {
+                "id": 3,
+                "bank_name": "THE CITY BANK",
+                "account_name": "NAZIM UDDIN",
+                "account_no": "2303143124001",
+                "brance_name": "JASHORE",
+                "created_at": null,
+                "updated_at": "2025-08-02T10:56:10.000000Z"
+            }, {
+                "id": 4,
+                "bank_name": "ibbl",
+                "account_name": "NAZIM UDDIN",
+                "account_no": "20501250204219315",
+                "brance_name": "JASHORE",
+                "created_at": null,
+                "updated_at": "2025-08-02T11:11:23.000000Z"
+            }, {
+                "id": 5,
+                "bank_name": "TRUST BANK",
+                "account_name": "NAZIM UDDIN",
+                "account_no": "0002-0310902144",
+                "brance_name": "PRINCIPAL BRANCH",
+                "created_at": null,
+                "updated_at": "2025-08-02T10:59:56.000000Z"
+            }, {
+                "id": 6,
+                "bank_name": "BANK ASIA",
+                "account_name": "NAZIM UDDIN",
+                "account_no": "1083441245099",
+                "brance_name": "JASHORE",
+                "created_at": null,
+                "updated_at": "2025-08-02T10:55:31.000000Z"
+            }, {
+                "id": 7,
+                "bank_name": "Eastern Bank (EBL)",
+                "account_name": "NAZIM UDDIN",
+                "account_no": "1951440154586",
+                "brance_name": "JASHORE",
+                "created_at": null,
+                "updated_at": "2025-08-02T10:57:16.000000Z"
+            }, {
+                "id": 8,
+                "bank_name": "One Bank Limited (OBL)",
+                "account_name": "NAZIM UDDIN",
+                "account_no": "0122050037994",
+                "brance_name": "Kawran Bazar branch",
+                "created_at": null,
+                "updated_at": "2025-08-02T11:00:42.000000Z"
+            }, {
+                "id": 9,
+                "bank_name": "UCB BANK",
+                "account_name": "NAZIM UDDIN",
+                "account_no": "0373222000000155",
+                "brance_name": "JASHORE",
+                "created_at": null,
+                "updated_at": "2025-08-02T11:01:17.000000Z"
+            }, {
+                "id": 10,
+                "bank_name": "Mtb Bank",
+                "account_name": "UPCOMING",
+                "account_no": "UPCOMING",
+                "brance_name": "UPCOMING",
+                "created_at": null,
+                "updated_at": "2025-08-02T11:01:40.000000Z"
+            }];
 
             const paymentImageDivs = {
                 'bKash': $('#bkashImage')[0],
@@ -840,7 +703,6 @@
                     alert("অনুগ্রহ করে একটি পেমেন্ট মেথড নির্বাচন করুন।");
                     return;
                 }
-
 
 
                 const bankMethods = Object.keys(paymentImageDivs).filter(name => name.toLowerCase().includes("bank"));

@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\MinuteBundle;
 use Artesaos\SEOTools\Facades\SEOMeta;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 class SiteController extends Controller
 {
@@ -43,8 +45,13 @@ class SiteController extends Controller
     {
         SEOMeta::setTitle('Minute Bundle');
         SEOMeta::setDescription(getSetting('site_tagline'));
+        $bundles = MinuteBundle::where('status',true)
+            ->orderBy('minutes','asc')
+            ->orderBy('validity','asc')
+            ->orderBy('price','asc')
+            ->get();
         $data = [
-            'firstHalf' => null,
+            'bundles' => $bundles,
 
         ];
         return view('website.pages.minuteBundle',$data);
