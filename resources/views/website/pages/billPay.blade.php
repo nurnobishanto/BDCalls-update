@@ -8,9 +8,25 @@
         <div class="container">
             <div class="row justify-content-center align-items-center">
                 <div class="col-12 col-md-6">
-                    <form class="number-search-form" action="" method="GET">
-                        <input type="text" name="number" value="" placeholder="096XXXXXXXX">
-                        <button type="submit">Search</button>
+                    <form action="" method="GET" class="p-4 shadow rounded bg-white">
+                        <div class="mb-3 text-center">
+                            <h5 class="fw-bold mb-0">Search Number</h5>
+                            <small class="text-muted">Enter the number in the format: 096XXXXXXXX</small>
+                        </div>
+
+                        <div class="input-group">
+                            <input
+                                type="text"
+                                name="number"
+                                value="{{ request('number') }}"
+                                class="form-control form-control-lg"
+                                placeholder="096XXXXXXXX"
+                                required
+                            >
+                            <button type="submit" class="btn btn-primary btn-lg px-4">
+                                <i class="bi bi-search"></i> Search
+                            </button>
+                        </div>
                     </form>
                 </div>
             </div>
