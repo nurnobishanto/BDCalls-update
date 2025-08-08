@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 
+use App\Filament\Resources\UserResource\RelationManagers\IpNumbersRelationManager;
 use Filament\Actions\RestoreAction;
 use Filament\Forms;
 use App\Models\User;
@@ -395,6 +396,13 @@ class UserResource extends Resource
             ]);
         return $table;
     }
+    public static function getRelations(): array
+    {
+        return [
+            IpNumbersRelationManager::class
+        ];
+    }
+
 
     public static function getPages(): array
     {

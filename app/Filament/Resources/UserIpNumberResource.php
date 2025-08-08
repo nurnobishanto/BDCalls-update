@@ -21,6 +21,7 @@ use Filament\Tables\Actions\ForceDeleteAction;
 use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\BooleanColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -40,12 +41,14 @@ class UserIpNumberResource extends Resource
                     ->label('User')
                     ->relationship('user', 'name')
                     ->searchable()
+                    ->preload()
                     ->required(),
 
                 Select::make('package_id')
                     ->label('Package')
                     ->relationship('package', 'name')
                     ->searchable()
+                    ->preload()
                     ->required(),
 
                 TextInput::make('number')
@@ -71,9 +74,12 @@ class UserIpNumberResource extends Resource
                 BooleanColumn::make('status')->label('Status')->sortable(),
             ])
             ->filters([
-                Tables\Filters\Filter::make('status')
+                SelectFilter::make('status')
                     ->label('Status')
-                    ->query(fn (Builder $query) => $query->where('status', true)),
+                    ->options([
+                        1 => 'Active',
+                        0 => 'Inactive',
+                    ]),
                 TrashedFilter::make(),
             ])
             ->actions([

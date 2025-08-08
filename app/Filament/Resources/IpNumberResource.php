@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\IpNumberResource\Pages;
 use App\Filament\Resources\IpNumberResource\RelationManagers;
 use App\Models\IpNumber;
+use App\Services\IpNumberService;
 use Filament\Actions\RestoreAction;
 use Filament\Forms;
 use Filament\Forms\Components\Select;
@@ -22,6 +23,7 @@ use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Artisan;
 
 class IpNumberResource extends Resource
 {
@@ -32,6 +34,7 @@ class IpNumberResource extends Resource
 
     public static function form(Form $form): Form
     {
+
         return $form
             ->schema([
                 TextInput::make('number')
@@ -102,6 +105,7 @@ class IpNumberResource extends Resource
                 ]),
             ]);
     }
+
 
     public static function getRelations(): array
     {

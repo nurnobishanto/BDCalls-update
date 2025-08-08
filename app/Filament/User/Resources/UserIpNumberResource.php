@@ -11,6 +11,7 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\BooleanColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -43,9 +44,12 @@ class UserIpNumberResource extends Resource
                 BooleanColumn::make('status')->label('Status')->sortable(),
             ])
             ->filters([
-                Tables\Filters\Filter::make('status')
+                SelectFilter::make('status')
                     ->label('Status')
-                    ->query(fn (Builder $query) => $query->where('status', true)),
+                    ->options([
+                        1 => 'Active',
+                        0 => 'Inactive',
+                    ]),
             ])
 
             ->actions([
