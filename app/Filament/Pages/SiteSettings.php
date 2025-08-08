@@ -27,6 +27,7 @@ class SiteSettings extends Page
     public $site_favicon;
     public $site_phone;
     public $site_email;
+    public $site_whatsapp;
 
     public function mount()
     {
@@ -41,6 +42,7 @@ class SiteSettings extends Page
             'site_favicon' => getSetting('site_favicon'),
             'site_phone' => getSetting('site_phone'),
             'site_email' => getSetting('site_email'),
+            'site_whatsapp' => getSetting('site_whatsapp'),
 
         ]);
     }
@@ -61,6 +63,7 @@ class SiteSettings extends Page
         setSetting('site_favicon',$site_favicon);
         setSetting('site_phone',$this->site_phone);
         setSetting('site_email',$this->site_email);
+        setSetting('site_whatsapp',$this->site_whatsapp);
 
 
         Notification::make()
@@ -121,6 +124,11 @@ class SiteSettings extends Page
                     TextInput::make('site_phone')
                         ->label('Site phone (site_phone)')
                         ->placeholder('Enter Site phone'),
+
+                    TextInput::make('site_whatsapp')
+                        ->label('Site Whatsapp (site_whatsapp)')
+                        ->placeholder('Enter Site Whatsapp'),
+
                     TextInput::make('site_email')
                         ->email()
                         ->label('Site email (site_email)')
