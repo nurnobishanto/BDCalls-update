@@ -30,4 +30,14 @@ class SiteController extends Controller
         ];
         return view('website.pages.home',$data);
     }
+    public function minuteBundle()
+    {
+        SEOMeta::setTitle('Minute Bundle');
+        SEOMeta::setDescription(getSetting('site_tagline'));
+        $data = [
+            'firstHalf' => null,
+
+        ];
+        return view('website.pages.minuteBundle',$data);
+    }
 }

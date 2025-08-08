@@ -10,6 +10,7 @@ class Bank extends Model
     use SoftDeletes;
 
     protected $fillable = [
+        'image',
         'bank_name',
         'account_name',
         'account_no',
