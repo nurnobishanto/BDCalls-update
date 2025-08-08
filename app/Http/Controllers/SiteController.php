@@ -30,6 +30,15 @@ class SiteController extends Controller
         ];
         return view('website.pages.home',$data);
     }
+    public function slug($slug)
+    {
+        $page = \App\Models\Page::where('slug',$slug)->first();
+        if (!$page){
+            abort(404);
+        }
+        SEOMeta::setTitle($page->title);
+        return view('website.pages.page',compact('page'));
+    }
     public function minuteBundle()
     {
         SEOMeta::setTitle('Minute Bundle');
