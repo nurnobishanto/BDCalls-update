@@ -1,4 +1,4 @@
-<div class="footer-wrap-area pt-100">
+<div class="footer-wrap-area pt-4">
     <div class="container">
         <div class="row">
             <div class="col-lg-3 col-md-12 col-sm-12">

@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('content')
-    @if(sliders()->count())
+    @if(sliders()->count() > 1)
         <div class="splide slider" role="group" aria-label="Homepage banners">
             <div class="splide__track">
                 <ul class="splide__list">
@@ -21,6 +21,18 @@
                 </ul>
             </div>
         </div>
+    @else
+        @foreach (sliders() as $slide)
+            @if ($slide->link)
+                <a href="{{ $slide->link }}" class="d-block w-100 h-100">
+                    @endif
+                    {{-- Fallback when no SD image exists --}}
+                    <img class="img-fluid w-100" loading="lazy" style="max-height: 450px"
+                         src="{{ asset('uploads/'.$slide->image)}}" alt="Slide image">
+                    @if ($slide->link)
+                </a>
+            @endif
+        @endforeach
     @endif
     <section class="pt-4 pb-3 text-center bg-light">
         <div class="container">

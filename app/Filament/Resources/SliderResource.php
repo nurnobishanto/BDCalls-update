@@ -36,13 +36,13 @@ class SliderResource extends Resource
         return $form
             ->schema([
                 FileUpload::make('image')
-                    ->label('Slider Image (1800x600px)') // 👈 Custom label with size
+                    ->label('Slider Image (1800x700px)') // 👈 Custom label with size
                     ->required()
                     ->image()
                     ->previewable()
                     ->downloadable()
                     ->imageEditor()
-                    ->imageCropAspectRatio('3:1')
+                    ->imageCropAspectRatio('18:7')
                     ->columnSpanFull()
                     ->directory('sliders'),
 
