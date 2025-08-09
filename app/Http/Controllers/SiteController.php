@@ -183,6 +183,15 @@ class SiteController extends Controller
 
         return redirect(route('thank_you'));
     }
+    public function recharge(Request $request)
+    {
+        SEOMeta::setTitle('Recharge');
+        SEOMeta::setDescription(getSetting('site_tagline'));
+        $data = [
+
+        ];
+        return view('website.pages.recharge',$data);
+    }
     public function thankYou()
     {
         SEOMeta::setTitle('Thank you');

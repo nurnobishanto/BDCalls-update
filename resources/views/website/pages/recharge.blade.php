@@ -5,7 +5,7 @@
     <!-- End Page Title Area -->
     <section class="py-4">
         <div class="container">
-            <h2 class="text-center">Pay Your IP Number Due Bill</h2>
+            <h2 class="text-center">Recharge Your IP Number</h2>
             <div class="row justify-content-center align-items-center">
                 <div class="col-12 col-md-6">
                     <form action="" method="GET" class="p-4 shadow rounded bg-white">

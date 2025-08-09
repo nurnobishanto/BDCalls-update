@@ -42,7 +42,7 @@
                     </ul>
 
                     <div class="others-option">
-                        <a href="{{route('apply_number')}}" type="button"  class="default-btn py-1 px-3 d-inline-block d-lg-none">Apply Number</a>
+                        <a href="{{route('recharge')}}" type="button"  class="default-btn py-1 px-3 d-inline-block d-lg-none">Recharge</a>
                         <a href="{{route('bill_pay')}}" type="button"  class="default-btn py-1 px-3 d-inline-block d-lg-none">Bill Pay</a>
                         <a href="{{url('user')}}" type="button"  class="default-btn py-1 px-3 d-none d-sm-inline-block">{{auth()->check() ? "Profile":"Login"}}</a>
                     </div>
