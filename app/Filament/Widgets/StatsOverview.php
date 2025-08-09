@@ -21,9 +21,9 @@ class StatsOverview extends BaseWidget
         [$ipDesc, $ipIcon, $ipColor] = $this->getTrendData($ipNumbersCount, $ipNumbersLastMonth);
 
         // APPLY NUMBERS
-//        $applyNumbersCount = \App\Models\ApplyNumber::count();
-//        $applyNumbersLastMonth = \App\Models\ApplyNumber::where('created_at', '>=', now()->subMonth())->count();
-//        [$applyDesc, $applyIcon, $applyColor] = $this->getTrendData($applyNumbersCount, $applyNumbersLastMonth);
+        $applyNumbersCount = \App\Models\ApplyNumber::count();
+        $applyNumbersLastMonth = \App\Models\ApplyNumber::where('created_at', '>=', now()->subMonth())->count();
+        [$applyDesc, $applyIcon, $applyColor] = $this->getTrendData($applyNumbersCount, $applyNumbersLastMonth);
 
         // RECHARGE TOTAL (sum amount)
 //        $rechargeSum = \App\Models\Recharge::sum('amount');
@@ -60,13 +60,13 @@ class StatsOverview extends BaseWidget
                 ->url(url('admin/ip-numbers'))
                 ->extraAttributes(['class' => 'cursor-pointer']),
 
-//            Stat::make('Apply Numbers', $applyNumbersCount)
-//                ->description($applyDesc)
-//                ->descriptionIcon($applyIcon)
-//                ->color($applyColor)
-//                ->url(url('admin/apply-numbers'))
-//                ->extraAttributes(['class' => 'cursor-pointer']),
-//
+            Stat::make('Apply Numbers', $applyNumbersCount)
+                ->description($applyDesc)
+                ->descriptionIcon($applyIcon)
+                ->color($applyColor)
+                ->url(url('admin/apply-numbers'))
+                ->extraAttributes(['class' => 'cursor-pointer']),
+
 //            Stat::make('Recharge Total', '$' . number_format($rechargeSum, 2))
 //                ->description($rechargeDesc)
 //                ->descriptionIcon($rechargeIcon)
