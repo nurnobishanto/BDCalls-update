@@ -21,6 +21,11 @@
                                 Unavailable
                             </option>
                         </select>
+                        <select name="price" id="priceFilter" class="form-select">
+                            <option value="all" {{ request('price') == 'all' ? 'selected' : '' }}>All</option>
+                            <option value="free" {{ request('price') == 'free' ? 'selected' : '' }}>Free</option>
+                            <option value="paid" {{ request('price') == 'paid' ? 'selected' : '' }}>Paid</option>
+                        </select>
                     </div>
                 </div>
                 <div class="col-sm-6 col-12 ms-auto d-flex">
@@ -55,6 +60,7 @@
         document.addEventListener('DOMContentLoaded', function () {
             const filterForm = document.getElementById('filterForm');
             const statusFilter = document.getElementById('statusFilter');
+            const priceFilter = document.getElementById('priceFilter');
             const searchBtn = document.getElementById('searchBtn');
             const searchInput = document.getElementById('searchInput');
             const tableContainer = document.getElementById('tableContainer');
@@ -78,6 +84,9 @@
 
             // Change filter triggers AJAX
             statusFilter.addEventListener('change', function () {
+                submitFormAjax();
+            });
+            priceFilter.addEventListener('change', function () {
                 submitFormAjax();
             });
 

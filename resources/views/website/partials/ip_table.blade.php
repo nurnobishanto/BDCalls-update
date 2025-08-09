@@ -1,5 +1,5 @@
-<table class="table table-bordered table-hover align-middle">
-    <thead class="table-light">
+<table class="table table-sm table-bordered table-hover align-middle">
+    <thead class="table-success text-center">
     <tr>
         <th>S/N	</th>
         <th>Ip Number</th>
@@ -17,7 +17,7 @@
                 @if ($ip->price == 0)
                     <span class="badge bg-success">Free</span>
                 @else
-                    {{ number_format($ip->price, 2) }}
+                    {{ number_format($ip->price) }}৳
                 @endif
             </td>
             <td>

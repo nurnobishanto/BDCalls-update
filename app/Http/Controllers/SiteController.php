@@ -77,6 +77,13 @@ class SiteController extends Controller
         if ($request->filled('status') && $request->status !== 'all') {
             $query->where('status', $request->status);
         }
+        if ($request->filled('price') && $request->price !== 'all') {
+            if ($request->price === 'free') {
+                $query->where('price', 0);
+            } elseif ($request->price === 'paid') {
+                $query->where('price', '>', 0);
+            }
+        }
 
         // Search by number
         if ($request->filled('search')) {
