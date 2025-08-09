@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\IpNumber;
 use App\Models\MinuteBundle;
 use App\Models\Package;
 use Artesaos\SEOTools\Facades\SEOMeta;
@@ -64,6 +65,37 @@ class SiteController extends Controller
 
         ];
         return view('website.pages.packages',$data);
+    }
+    public function searchNumber(Request $request)
+    {
+        SEOMeta::setTitle('Search Number');
+        SEOMeta::setDescription(getSetting('site_tagline'));
+
+        $query = IpNumber::query();
+
+        // Filter by status
+        if ($request->filled('status') && $request->status !== 'all') {
+            $query->where('status', $request->status);
+        }
+
+        // Search by number
+        if ($request->filled('search')) {
+            $query->where('number', 'like', '%' . $request->search . '%');
+        }
+
+        $ipNumbers = $query
+            ->orderByRaw("CASE WHEN status = 'available' THEN 0 ELSE 1 END")
+            ->orderBy('price', 'asc')
+            ->get();
+        $data = [
+            'ipNumbers' => $ipNumbers,
+
+        ];
+        // If AJAX request, return only the table partial
+        if ($request->ajax()) {
+            return view('website.partials.ip_table', compact('ipNumbers'))->render();
+        }
+        return view('website.pages.searchNumber',$data);
     }
     public function minuteBundle()
     {
