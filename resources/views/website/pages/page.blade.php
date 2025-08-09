@@ -5,8 +5,9 @@
 
     <!-- End Page Title Area -->
     <section class="ptb-100">
-        <h2 class="text-center">{!! $page->title !!}</h2>
+
         <div class="container">
+            <h2 class="text-center">{!! $page->title !!}</h2>
             {!! $page->body !!}
         </div>
     </section>
