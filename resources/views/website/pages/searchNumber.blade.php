@@ -8,14 +8,24 @@
             <!-- Filter & Search -->
             <form id="filterForm" method="GET" class="row mb-3">
                 <div class="col-sm-4 col-6">
-                    <select name="status" id="statusFilter" class="form-select">
-                        <option value="all" {{ request('status') == 'all' ? 'selected' : '' }}>All Status</option>
-                        <option value="available" {{ request('status') == 'available' ? 'selected' : '' }}>Available</option>
-                        <option value="unavailable" {{ request('status') == 'unavailable' ? 'selected' : '' }}>Unavailable</option>
-                    </select>
+                    <div class="input-group">
+                        <span class="input-group-text bg-light">
+                           <i class="fas fa-filter"></i>
+                        </span>
+                        <select name="status" id="statusFilter" class="form-select">
+                            <option value="all" {{ request('status') == 'all' ? 'selected' : '' }}>All Status</option>
+                            <option value="available" {{ request('status') == 'available' ? 'selected' : '' }}>
+                                Available
+                            </option>
+                            <option value="unavailable" {{ request('status') == 'unavailable' ? 'selected' : '' }}>
+                                Unavailable
+                            </option>
+                        </select>
+                    </div>
                 </div>
                 <div class="col-sm-6 col-12 ms-auto d-flex">
-                    <input type="text" name="search" id="searchInput" class="form-control me-2" placeholder="Search by Number" value="{{ request('search') }}">
+                    <input type="text" name="search" id="searchInput" class="form-control me-2"
+                           placeholder="Search by Number" value="{{ request('search') }}">
                     <button type="submit" class="btn btn-primary" id="searchBtn">Search</button>
                 </div>
             </form>
@@ -23,7 +33,9 @@
             <!-- Responsive Table -->
             <div id="tableContainerWrapper" class="position-relative">
                 <!-- Loader overlay -->
-                <div id="tableLoader" class="d-none position-absolute top-0 start-0 w-100 h-100 bg-white bg-opacity-75 d-flex justify-content-center align-items-center" style="z-index: 10;">
+                <div id="tableLoader"
+                     class="d-none position-absolute top-0 start-0 w-100 h-100 bg-white bg-opacity-75 d-flex justify-content-center align-items-center"
+                     style="z-index: 10;">
                     <div class="spinner-border text-primary" role="status"></div>
                 </div>
 
@@ -40,7 +52,7 @@
 @endsection
 @section('custom_js')
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const filterForm = document.getElementById('filterForm');
             const statusFilter = document.getElementById('statusFilter');
             const searchBtn = document.getElementById('searchBtn');
@@ -54,7 +66,7 @@
                 const params = new URLSearchParams(formData).toString();
 
                 fetch("{{ route('search_number') }}?" + params, {
-                    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                    headers: {'X-Requested-With': 'XMLHttpRequest'}
                 })
                     .then(response => response.text())
                     .then(html => {
@@ -65,18 +77,18 @@
             }
 
             // Change filter triggers AJAX
-            statusFilter.addEventListener('change', function() {
+            statusFilter.addEventListener('change', function () {
                 submitFormAjax();
             });
 
             // Search button click
-            searchBtn.addEventListener('click', function(e) {
+            searchBtn.addEventListener('click', function (e) {
                 e.preventDefault();
                 submitFormAjax();
             });
 
             // Press Enter in search input triggers search
-            searchInput.addEventListener('keypress', function(e) {
+            searchInput.addEventListener('keypress', function (e) {
                 if (e.key === 'Enter') {
                     e.preventDefault();
                     submitFormAjax();
