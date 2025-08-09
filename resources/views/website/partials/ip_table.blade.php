@@ -9,9 +9,9 @@
     </tr>
     </thead>
     <tbody>
-    @forelse ($ipNumbers as $index => $ip)
+    @forelse ($ipNumbers as $ip)
         <tr>
-            <td>{{ $loop->iteration() }}</td>
+            <td>{{ $loop->iteration }}</td>
             <td>{{ $ip->number }}</td>
             <td>
                 @if ($ip->price == 0)
