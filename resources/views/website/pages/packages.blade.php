@@ -4,7 +4,7 @@
     <!-- Start Page Title Area -->
 
     <!-- End Page Title Area -->
-    <section class="ptb-100">
+    <section class="py-4 py-lg-5">
 
         <div class="container">
             <h2 class="text-center">উদ্যোক্তা এবং ছোট কোম্পানির জন্য সাশ্রয়ী প্যাকেজ</h2>
@@ -71,7 +71,6 @@
         .card-custom {
             background-color: white;
             border-radius: 5px;
-            max-width: 22rem;
             position: relative;
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
             overflow: hidden;

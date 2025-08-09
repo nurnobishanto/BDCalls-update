@@ -22,10 +22,10 @@
                             <a href="{{ route('home') }}" class="nav-link @if(request()->routeIs('home')) active @endif"><i class="fa fa-home me-2 d-inline-block d-lg-none"></i> Home</a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('search_number') }}" class="nav-link @if(request()->routeIs('search.number')) active @endif"><i class="fa fa-search me-2 d-inline-block d-lg-none"></i> Search Number</a>
+                            <a href="{{ route('search_number') }}" class="nav-link @if(request()->routeIs('search_number')) active @endif"><i class="fa fa-search me-2 d-inline-block d-lg-none"></i> Search Number</a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('apply_number') }}" class="nav-link @if(request()->routeIs('apply.number')) active @endif"><i class="fa fa-edit me-2 d-inline-block d-lg-none"></i> Apply Number</a>
+                            <a href="{{ route('apply_number') }}" class="nav-link @if(request()->routeIs('apply_number')) active @endif"><i class="fa fa-edit me-2 d-inline-block d-lg-none"></i> Apply Number</a>
                         </li>
                         <li class="nav-item">
                             <a href="{{ route('package') }}" class="nav-link @if(request()->routeIs('package')) active @endif"><i class="fa fa-boxes-packing me-2 d-inline-block d-lg-none"></i> Package</a>
@@ -34,10 +34,10 @@
                             <a href="{{ route('recharge') }}" class="nav-link @if(request()->routeIs('recharge')) active @endif"><i class="fa fa-bolt me-2 d-inline-block d-lg-none"></i> Recharge</a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('bill_pay') }}" class="nav-link @if(request()->routeIs('bill.pay')) active @endif"><i class="fa fa-file-invoice-dollar me-2 d-inline-block d-lg-none"></i> Bill Pay</a>
+                            <a href="{{ route('bill_pay') }}" class="nav-link @if(request()->routeIs('bill_pay')) active @endif"><i class="fa fa-file-invoice-dollar me-2 d-inline-block d-lg-none"></i> Bill Pay</a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('minute_bundle') }}" class="nav-link @if(request()->routeIs('minute.bundle')) active @endif"><i class="fa fa-phone-volume me-2 d-inline-block d-lg-none"></i> Minute Bundle</a>
+                            <a href="{{ route('minute_bundle') }}" class="nav-link @if(request()->routeIs('minute_bundle')) active @endif"><i class="fa fa-phone-volume me-2 d-inline-block d-lg-none"></i> Minute Bundle</a>
                         </li>
                     </ul>
 
