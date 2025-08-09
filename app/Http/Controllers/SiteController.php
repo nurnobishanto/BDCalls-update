@@ -87,10 +87,12 @@ class SiteController extends Controller
 
         // Search by number
         if ($request->filled('search')) {
-            $query->where('number', 'like', '%' . $request->search . '%');
+            $query->where('number', '=', $request->search);
+            //$query->where('number', 'like', '%' . $request->search . '%');
         }
 
         $ipNumbers = $query
+
             ->orderByRaw("CASE WHEN status = 'available' THEN 0 ELSE 1 END")
             ->orderBy('price', 'asc')
             ->get();

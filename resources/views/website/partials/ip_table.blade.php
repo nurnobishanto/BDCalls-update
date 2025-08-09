@@ -8,7 +8,7 @@
         <th>Action</th>
     </tr>
     </thead>
-    <tbody>
+    <tbody class="text-center">
     @forelse ($ipNumbers as $ip)
         <tr>
             <td>{{ $loop->iteration }}</td>
@@ -21,12 +21,12 @@
                 @endif
             </td>
             <td>
-                <span class="badge {{ $ip->status == 'available' ? 'bg-success' : 'bg-danger' }}">
+                <span class="fw-bold {{ $ip->status == 'available' ? 'text-success' : 'text-danger' }}">
                     {{ ucfirst($ip->status) }}
                 </span>
             </td>
             <td>
-
+                <a href="" class="btn btn-success btn-sm">Apply Now</a>
             </td>
         </tr>
     @empty

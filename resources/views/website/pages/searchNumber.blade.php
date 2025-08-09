@@ -30,7 +30,7 @@
                 </div>
                 <div class="col-sm-6 col-12 ms-auto d-flex">
                     <input type="text" name="search" id="searchInput" class="form-control me-2"
-                           placeholder="Search by Number" value="{{ request('search') }}">
+                           placeholder="Search by IP Number" value="{{ request('search') }}">
                     <button type="submit" class="btn btn-primary" id="searchBtn">Search</button>
                 </div>
             </form>
