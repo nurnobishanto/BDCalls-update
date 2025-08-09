@@ -72,6 +72,20 @@ class User extends Authenticatable implements FilamentUser
     {
         return $this->hasMany(UserIpNumber::class);
     }
+    public function getIpNumberListAttribute(): string
+    {
+        return $this->ipNumbers->pluck('number')->implode("<br>");
+    }
+    public function getContactAttribute(): string
+    {
+        return ($this->phone_country_code ?? '') . ($this->phone ?? '');
+    }
+    public function getWhatsappFullAttribute(): string
+    {
+        return ($this->whatsapp_country_code ?? '') . ($this->whatsapp_number ?? '');
+    }
+
+
     public function packages()
     {
         return $this->hasManyThrough(

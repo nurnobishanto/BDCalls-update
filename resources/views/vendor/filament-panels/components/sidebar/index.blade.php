@@ -97,8 +97,8 @@
     </div>
 
     <nav
-        class="fi-sidebar-nav shadow flex-grow flex flex-col gap-y-1 overflow-y-auto overflow-x-hidden px-4 py-4"
-        style="scrollbar-gutter: stable"
+        class="fi-sidebar-nav  shadow flex-grow flex flex-col gap-y-1 overflow-y-auto overflow-x-hidden px-4 py-4"
+        style="scrollbar-gutter: stable;background-color: #343A40"
     >
         {{ \Filament\Support\Facades\FilamentView::renderHook(\Filament\View\PanelsRenderHook::SIDEBAR_NAV_START) }}
 

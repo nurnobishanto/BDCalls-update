@@ -29,8 +29,9 @@ class AdminPanelProvider extends PanelProvider
             ->profile()
             ->path('admin')
             ->login()
+            ->brandLogo(asset('uploads/'.getSetting('site_logo')))
             ->colors([
-                'primary' => Color::Amber,
+                'primary' => Color::Blue,
             ])
             ->sidebarCollapsibleOnDesktop()
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')

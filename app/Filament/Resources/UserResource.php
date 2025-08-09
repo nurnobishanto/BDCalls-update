@@ -227,20 +227,36 @@ class UserResource extends Resource
                     ->sortable()
                     ->searchable()
                     ->label(trans('filament-users::user.resource.name')),
-                TextColumn::make('email')
+                TextColumn::make('ip_number_list')
+                    ->label('IP Numbers')
                     ->sortable()
-                    ->searchable()
-                    ->label(trans('filament-users::user.resource.email')),
+                    ->searchable(query: function ($query, $search) {
+                        $query->whereHas('ipNumbers', function ($q) use ($search) {
+                            $q->where('number', 'like', "%{$search}%");
+                        });
+                    })->html(),
 
-                Tables\Columns\IconColumn::make('whatsapp_sms')->label('Whatsapp SMS')->boolean(),
-                Tables\Columns\IconColumn::make('phone_sms')->label('Phone SMS')->boolean(),
+                TextColumn::make('contact')
+                    ->label('Contact')
 
-                TextColumn::make('created_at')
-                    ->dateTime('M j, Y')
-                    ->sortable(),
-                TextColumn::make('updated_at')
-                    ->dateTime('M j, Y')
-                    ->sortable(),
+                    ->searchable(query: function ($query, $search) {
+                        $query->where(function ($q) use ($search) {
+                            $q->where('phone_country_code', 'like', "%{$search}%")
+                                ->orWhere('phone', 'like', "%{$search}%");
+                        });
+                    }),
+
+                TextColumn::make('whatsapp_full')
+                    ->label('WhatsApp')
+                    ->searchable(query: function ($query, $search) {
+                        $query->where(function ($q) use ($search) {
+                            $q->where('whatsapp_country_code', 'like', "%{$search}%")
+                                ->orWhere('whatsapp_number', 'like', "%{$search}%");
+                        });
+                    }),
+
+
+
             ])
             ->filters([
                 SelectFilter::make('whatsapp_sms')

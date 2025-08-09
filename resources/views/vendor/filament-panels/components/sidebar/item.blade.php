@@ -102,7 +102,7 @@
             @endif
             @class([
                 'fi-sidebar-item-label flex-1 truncate text-sm font-medium',
-                'text-gray-700' => ! $active,
+                'text-gray-400' => ! $active,
                 'text-primary-600' => $active,
             ])
         >
