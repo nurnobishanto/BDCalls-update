@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\MinuteBundle;
+use App\Models\Package;
 use Artesaos\SEOTools\Facades\SEOMeta;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
@@ -49,6 +50,20 @@ class SiteController extends Controller
 
         ];
         return view('website.pages.billPay',$data);
+    }
+    public function package()
+    {
+        SEOMeta::setTitle('Packages');
+        SEOMeta::setDescription(getSetting('site_tagline'));
+        $packages = Package::where('status',true)->where('is_hidden',false)
+            ->orderBy('call_rate','asc')
+            ->orderBy('price','asc')
+            ->get();
+        $data = [
+            'packages' => $packages,
+
+        ];
+        return view('website.pages.packages',$data);
     }
     public function minuteBundle()
     {
