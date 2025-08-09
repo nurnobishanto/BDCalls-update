@@ -32,7 +32,7 @@
             wire:poll.{{ $pollingInterval }}
         @endif
         @class([
-            'fi-wi-stats-overview-stats-ctn grid gap-6',
+            'fi-wi-stats-overview-stats-ctn grid gap-4',
             'md:grid-cols-1' => $columns === 1,
             'md:grid-cols-2' => $columns === 2,
             'md:grid-cols-3' => $columns === 3,

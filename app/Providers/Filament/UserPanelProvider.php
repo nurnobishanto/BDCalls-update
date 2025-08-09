@@ -29,6 +29,7 @@ class UserPanelProvider extends PanelProvider
             ->colors([
                 'primary' => Color::Amber,
             ])
+            ->brandLogo(asset('uploads/'.getSetting('site_logo')))
             ->sidebarCollapsibleOnDesktop()
             ->login(Login::class)
             ->passwordReset()

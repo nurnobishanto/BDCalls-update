@@ -16,6 +16,7 @@ use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\ForceDeleteAction;
+use Filament\Tables\Actions\ReplicateAction;
 use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TrashedFilter;
@@ -243,6 +244,19 @@ class PackageResource extends Resource
                 ActionGroup::make([
                     ViewAction::make(),
                     EditAction::make(),
+                    ReplicateAction::make()
+                        ->using(function ($record) {
+                            $copy = $record->replicate();
+
+                            // Modify the name attribute by appending " copy"
+                            if ($copy->name) {
+                                $copy->name = $copy->name . ' copy';
+                            }
+
+                            $copy->save();
+
+                            return $copy;
+                        }),
                     DeleteAction::make(),
                     RestoreAction::make(),
                     ForceDeleteAction::make(),
