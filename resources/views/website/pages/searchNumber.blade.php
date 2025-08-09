@@ -21,9 +21,18 @@
             </form>
 
             <!-- Responsive Table -->
-            <div id="tableContainer" class="table-responsive">
-                @include('website.partials.ip_table', ['ipNumbers' => $ipNumbers])
+            <div id="tableContainerWrapper" class="position-relative">
+                <!-- Loader overlay -->
+                <div id="tableLoader" class="d-none position-absolute top-0 start-0 w-100 h-100 bg-white bg-opacity-75 d-flex justify-content-center align-items-center" style="z-index: 10;">
+                    <div class="spinner-border text-primary" role="status"></div>
+                </div>
+
+                <!-- Table -->
+                <div id="tableContainer" class="table-responsive">
+                    @include('website.partials.ip_table', ['ipNumbers' => $ipNumbers])
+                </div>
             </div>
+
         </div>
     </section>
 @endsection
@@ -40,6 +49,7 @@
 
             // AJAX form submit function
             function submitFormAjax() {
+                document.getElementById('tableLoader').classList.remove('d-none');
                 const formData = new FormData(filterForm);
                 const params = new URLSearchParams(formData).toString();
 
@@ -49,6 +59,7 @@
                     .then(response => response.text())
                     .then(html => {
                         tableContainer.innerHTML = html;
+                        document.getElementById('tableLoader').classList.add('d-none');
                     })
                     .catch(err => console.error(err));
             }
