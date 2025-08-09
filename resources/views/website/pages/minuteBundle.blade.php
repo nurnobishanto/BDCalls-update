@@ -22,26 +22,21 @@
                             </li>
                             <li class="checked"><span class="icon"><i class="fas fa-check"></i></span>কল চার্জ আইপি
                                 নাম্বার: {{$bundle->ip_number_charge}}
-                                ফ্রি
                             </li>
                             <li class="checked"><span class="icon"><i class="fas fa-check"></i></span>কল চার্জ
                                 এক্সটেনশন: {{$bundle->extension_charge}}
-                                ফ্রি
                             </li>
                             <li class="checked"><span class="icon"><i class="fas fa-check"></i></span>আউটগোয়িং কল চার্জ
                                 : {{$bundle->outgoing_call_charge}}
-                                পয়সা
                             </li>
                             <li class="checked"><span class="icon"><i class="fas fa-check"></i></span>পান্স
                                 : {{$bundle->pulse}}</li>
                             <li class="checked"><span class="icon"><i class="fas fa-check"></i></span>মিনিট
-                                : {{bn_number($bundle->minutes)}}<span
-                                    style="font-size: 17px;">3000</span></li>
+                                : {{bn_number($bundle->minutes)}}</li>
                             <li class="checked"><span class="icon"><i class="fas fa-check"></i></span>মেয়াদ
-                                : {{$bundle->validity}}<span
-                                    style="font-size: 17px;"> 30 days</span></li>
+                                : {{$bundle->validity}}</li>
                             <li class="checked"><span class="icon"><i class="fas fa-check"></i></span><span
-                                    style="font-size: 17px; margin-right: 3px;">{{bn_number($bundle->price)}} </span>
+                                    style="font-size: 17px; margin-right: 3px;">{{bn_number(number_format($bundle->price))}} </span>
                                 টাকা
                             </li>
                         </ul>

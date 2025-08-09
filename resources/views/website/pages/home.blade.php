@@ -27,7 +27,7 @@
                 <a href="{{ $slide->link }}" class="d-block w-100 h-100">
                     @endif
                     {{-- Fallback when no SD image exists --}}
-                    <img class="img-fluid w-100" loading="lazy" style="max-height: 450px"
+                    <img class="img-fluid w-100" loading="lazy" style="max-height: 350px"
                          src="{{ asset('uploads/'.$slide->image)}}" alt="Slide image">
                     @if ($slide->link)
                 </a>
