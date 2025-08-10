@@ -241,7 +241,6 @@
         .card-custom {
             background-color: white;
             border-radius: 5px;
-            max-width: 22rem;
             position: relative;
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
             overflow: hidden;
