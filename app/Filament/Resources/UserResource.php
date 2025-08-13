@@ -55,7 +55,6 @@ class UserResource extends Resource
     }
 
 
-
     public function getTitle(): string
     {
         return trans('filament-users::user.resource.title.resource');
@@ -243,7 +242,6 @@ class UserResource extends Resource
 
                 TextColumn::make('contact')
                     ->label('Contact')
-
                     ->searchable(query: function ($query, $search) {
                         $query->where(function ($q) use ($search) {
                             $q->where('phone_country_code', 'like', "%{$search}%")
@@ -259,7 +257,6 @@ class UserResource extends Resource
                                 ->orWhere('whatsapp_number', 'like', "%{$search}%");
                         });
                     }),
-
 
 
             ])
@@ -288,6 +285,7 @@ class UserResource extends Resource
                 Tables\Filters\Filter::make('unverified')
                     ->label(trans('filament-users::user.resource.unverified'))
                     ->query(fn(Builder $query): Builder => $query->whereNull('email_verified_at')),
+                Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
                 Impersonate::make('impersonate')
@@ -299,7 +297,7 @@ class UserResource extends Resource
                         ->label('Enable Phone SMS')
                         ->icon('heroicon-o-chat-bubble-left-right')
                         ->color('success')
-                        ->visible(fn ($record) => !$record->phone_sms)
+                        ->visible(fn($record) => !$record->phone_sms)
                         ->requiresConfirmation()
                         ->action(function ($record, $action) {
                             $record->update(['phone_sms' => true]);
@@ -318,7 +316,7 @@ class UserResource extends Resource
                         ->label('Disable Phone SMS')
                         ->icon('heroicon-o-no-symbol')
                         ->color('danger')
-                        ->visible(fn ($record) => $record->phone_sms)
+                        ->visible(fn($record) => $record->phone_sms)
                         ->requiresConfirmation()
                         ->action(function ($record, $action) {
                             $record->update(['phone_sms' => false]);
@@ -337,7 +335,7 @@ class UserResource extends Resource
                         ->label('Enable WhatsApp')
                         ->icon('heroicon-o-phone')
                         ->color('success')
-                        ->visible(fn ($record) => !$record->whatsapp_sms)
+                        ->visible(fn($record) => !$record->whatsapp_sms)
                         ->requiresConfirmation()
                         ->action(function ($record, $action) {
                             $record->update(['whatsapp_sms' => true]);
@@ -356,9 +354,8 @@ class UserResource extends Resource
                         ->label('Disable WhatsApp')
                         ->icon('heroicon-o-no-symbol')
                         ->color('danger')
-                        ->visible(fn ($record) => $record->whatsapp_sms)
+                        ->visible(fn($record) => $record->whatsapp_sms)
                         ->requiresConfirmation()
-
                         ->action(function ($record, $action) {
                             $record->update(['whatsapp_sms' => false]);
 
@@ -417,6 +414,7 @@ class UserResource extends Resource
             ]);
         return $table;
     }
+
     public static function getRelations(): array
     {
         return [
