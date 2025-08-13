@@ -29,6 +29,18 @@
                         </div>
                     </form>
                 </div>
+                <div class="col-md-6">
+                    @foreach($numbers as $number)
+                        <div class="card mb-2">
+                            <div class="card-body">
+                                <p><strong>IP Number : </strong> {{$number->number}}</p>
+                                <p><strong>User : </strong> {{$number->user?->name}}</p>
+                                <p><strong>Package : </strong> {{$number->package?->name}}</p>
+                                <a href="#" class="btn btn-sm btn-success ms-auto">Recharge</a>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
             </div>
         </div>
     </section>

@@ -7,6 +7,7 @@ use App\Models\IpNumber;
 use App\Models\MinuteBundle;
 use App\Models\Package;
 use App\Models\User;
+use App\Models\UserIpNumber;
 use Artesaos\SEOTools\Facades\SEOMeta;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -187,8 +188,10 @@ class SiteController extends Controller
     {
         SEOMeta::setTitle('Recharge');
         SEOMeta::setDescription(getSetting('site_tagline'));
-        $data = [
 
+        $numbers = UserIpNumber::where('number',$request->number)->where('status',true)->get();
+        $data = [
+            'numbers' => $numbers,
         ];
         return view('website.pages.recharge',$data);
     }
