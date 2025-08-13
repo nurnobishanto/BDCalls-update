@@ -29,7 +29,8 @@ class BankResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-credit-card';
 
-    protected static ?string $navigationGroup = 'Settings';
+    protected static ?string $navigationGroup = 'Payments';
+    protected static ?int $navigationSort = 2;
 
     public static function form(Form $form): Form
     {
