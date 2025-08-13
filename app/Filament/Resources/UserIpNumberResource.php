@@ -37,7 +37,7 @@ class UserIpNumberResource extends Resource
     protected static ?string $model = UserIpNumber::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-list-bullet';
-    protected static ?string $navigationGroup = 'Settings';
+    protected static ?int $navigationSort = 2;
 
     protected static function calculateTotal(callable $get)
     {
