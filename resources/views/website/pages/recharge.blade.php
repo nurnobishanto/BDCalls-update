@@ -3,11 +3,11 @@
 @section('content')
 
     <!-- End Page Title Area -->
-    <section class="py-4">
+    <section class="py-md-5 py-3 bg-light">
         <div class="container">
             <h2 class="text-center">Recharge Your IP Number</h2>
-            <div class="row justify-content-center align-items-center">
-                <div class="col-12 col-md-6">
+            <div class="row  gy-4 justify-content-center align-items-center">
+                <div class="col-12 col-md-7">
                     <form action="" method="GET" class="p-4 shadow rounded bg-white">
                         <div class="mb-3 text-center">
                             <h5 class="fw-bold mb-0">Search Number</h5>
@@ -29,18 +29,27 @@
                         </div>
                     </form>
                 </div>
-                <div class="col-md-6">
-                    @foreach($numbers as $number)
-                        <div class="card mb-2">
+                <div class="col-md-7">
+                    @forelse($numbers as $number)
+                        <div class="card shadow border-0 h-100 mb-3">
                             <div class="card-body">
-                                <p><strong>IP Number : </strong> {{$number->number}}</p>
-                                <p><strong>User : </strong> {{$number->user?->name}}</p>
-                                <p><strong>Package : </strong> {{$number->package?->name}}</p>
-                                <a href="#" class="btn btn-sm btn-success ms-auto">Recharge</a>
+                                <h6 class="card-title mb-2 text-primary fw-bold">
+                                    IP Number: <span class="text-dark">{{ $number->number }}</span>
+                                </h6>
+                                <p class="mb-1"><strong>User:</strong> {{ $number->user?->name ?? '-' }}</p>
+                                <p class="mb-3"><strong>Package:</strong> {{ $number->package?->name ?? '-' }}</p>
+                                <a href="#" class="btn btn-sm btn-success w-100">Recharge</a>
                             </div>
                         </div>
-                    @endforeach
+                    @empty
+                        @if(request('number'))
+                            <div class="alert alert-warning text-center">
+                                No numbers found for "{{ request('number') }}".
+                            </div>
+                        @endif
+                    @endforelse
                 </div>
+
             </div>
         </div>
     </section>

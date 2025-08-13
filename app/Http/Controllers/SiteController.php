@@ -51,8 +51,9 @@ class SiteController extends Controller
     {
         SEOMeta::setTitle('Bill Pay');
         SEOMeta::setDescription(getSetting('site_tagline'));
+        $numbers = UserIpNumber::where('number',$request->number)->where('status',true)->get();
         $data = [
-
+            'numbers' => $numbers,
         ];
         return view('website.pages.billPay',$data);
     }
