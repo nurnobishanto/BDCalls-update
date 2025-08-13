@@ -4,9 +4,12 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\UserIpNumberResource\Pages;
 use App\Filament\Resources\UserIpNumberResource\RelationManagers;
+use App\Models\DueBill;
+use App\Models\User;
 use App\Models\UserIpNumber;
 use Filament\Actions\RestoreAction;
 use Filament\Forms;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -15,6 +18,7 @@ use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\EditAction;
@@ -34,6 +38,16 @@ class UserIpNumberResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-list-bullet';
     protected static ?string $navigationGroup = 'Settings';
+
+    protected static function calculateTotal(callable $get)
+    {
+        $callRate = (float)$get('call_rate');
+        $minutes = (float)$get('minutes');
+        $serviceCharge = (float)$get('service_charge');
+
+        return $serviceCharge + (($callRate / 100) * $minutes);
+    }
+
     public static function form(Form $form): Form
     {
         return $form
@@ -101,6 +115,105 @@ class UserIpNumberResource extends Resource
                 TrashedFilter::make(),
             ])
             ->actions([
+                Action::make('Add Due Bill')
+                    ->button()
+                    ->color('success')
+                    ->modalHeading('Add Due Bill')
+                    ->form([
+                            Section::make()
+                                ->columns(2)
+                                ->schema([
+                                    // Hidden fields auto-filled
+                                    Forms\Components\Hidden::make('user_id')
+                                        ->default(fn($get, $record) => $record->user_id),
+
+                                    Forms\Components\Hidden::make('user_ip_number_id')
+                                        ->default(fn($get, $record) => $record->id),
+
+                                    Forms\Components\TextInput::make('call_rate')
+                                        ->numeric()
+                                        ->readOnly()
+                                        ->reactive()
+                                        ->required()
+                                        ->default(fn($get, $record) => $record->package->call_rate ?? 0)
+                                        ->visible(fn(callable $get) => $get('call_rate') != 0)
+                                        ->afterStateUpdated(function ($state, callable $get, callable $set) {
+                                            $set('total', self::calculateTotal($get));
+                                        }),
+
+                                    Forms\Components\TextInput::make('minutes')
+                                        ->numeric()
+                                        ->required()
+                                        ->default(0)
+                                        ->reactive()
+                                        ->visible(fn(callable $get) => $get('call_rate') != 0)
+                                        ->afterStateUpdated(function ($state, callable $get, callable $set) {
+                                            $set('total', self::calculateTotal($get));
+                                        }),
+
+                                    Forms\Components\TextInput::make('service_charge')
+                                        ->numeric()
+                                        ->reactive()
+                                        ->readOnly()
+                                        ->required()
+                                        ->default(fn($get, $record) => $record->package->price ?? 0)
+                                        ->visible(fn(callable $get) => $get('service_charge') != 0)
+                                        ->afterStateUpdated(function ($state, callable $get, callable $set) {
+                                            $set('total', self::calculateTotal($get));
+                                        }),
+
+                                    Forms\Components\TextInput::make('month')
+                                        ->type('month')
+                                        ->required()
+                                        ->reactive()
+                                        ->afterStateUpdated(function ($state, callable $get, callable $set, $livewire, $record) {
+                                            $set('total', self::calculateTotal($get));
+                                            $ipId = $get('user_ip_number_id') ?? $record->id;
+                                            if ($state && $ipId) {
+                                                $exists = DueBill::where('user_ip_number_id', $ipId)
+                                                    ->where('month', $state)
+                                                    ->exists();
+
+                                                if ($exists) {
+                                                    Notification::make()
+                                                        ->title('Duplicate Due Bill')
+                                                        ->body('A due bill already exists for this IP number and month.')
+                                                        ->warning()
+                                                        ->send();
+
+                                                    $set('month', null);
+                                                }
+                                            }
+                                        }),
+
+                                    Forms\Components\TextInput::make('total')
+                                        ->numeric()
+                                        ->reactive()
+                                        ->readOnly()
+                                        ->required(),
+
+                                    Forms\Components\Select::make('payment_status')
+                                        ->options([
+                                            'unpaid' => 'Unpaid',
+                                            'paid' => 'Paid',
+                                        ])
+                                        ->default('unpaid')
+                                        ->required(),
+                                ]),
+
+                        ]
+                    )
+                    ->action(function (array $data) {
+                        // Save the due bill
+                        DueBill::create($data);
+
+                        // Success notification
+                        Notification::make()
+                            ->title('Due Bill Added')
+                            ->body('The due bill has been successfully created.')
+                            ->success()
+                            ->send();
+                    }),
                 ActionGroup::make([
                     ViewAction::make(),
                     EditAction::make(),

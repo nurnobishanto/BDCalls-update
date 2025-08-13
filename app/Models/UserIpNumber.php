@@ -26,4 +26,9 @@ class UserIpNumber extends Model
     {
         return $this->belongsTo(Package::class);
     }
+    // Relation to DueBills
+    public function dueBills(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(DueBill::class);
+    }
 }
