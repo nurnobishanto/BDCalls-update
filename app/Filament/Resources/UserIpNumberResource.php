@@ -12,6 +12,7 @@ use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
+use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Actions\ActionGroup;
@@ -52,9 +53,26 @@ class UserIpNumberResource extends Resource
                     ->required(),
 
                 TextInput::make('number')
+                    ->unique(ignoreRecord: true)
                     ->label('IP Number')
                     ->numeric()
-                    ->required(),
+                    ->required()
+                    ->reactive()
+                    ->afterStateUpdated(function ($state, callable $get) {
+                        if ($state) {
+                            $assigned = UserIpNumber::where('number', $state)
+                                ->where('id', '!=', $get('id') ?? 0) // ignore current record
+                                ->first();
+
+                            if ($assigned) {
+                                Notification::make()
+                                    ->title('IP Already Assigned')
+                                    ->body("This IP number is already assigned to {$assigned->user->name}.")
+                                    ->warning()
+                                    ->send();
+                            }
+                        }
+                    }),
 
                 Textarea::make('note')->nullable(),
 
