@@ -54,10 +54,7 @@ class UserResource extends Resource
         return trans('filament-users::user.resource.single');
     }
 
-    public static function getNavigationGroup(): ?string
-    {
-        return config('filament-users.group');
-    }
+
 
     public function getTitle(): string
     {
@@ -88,7 +85,11 @@ class UserResource extends Resource
                                     return [$country->phone_code => "{$country->phone_code} ({$country->name})"];
                                 });
                         })
-                        ->searchable()
+                        ->default(function () {
+                            return \App\Models\Country::query()
+                                ->orderBy('id')
+                                ->value('phone_code'); // gets the first phone_code directly
+                        })
                         ->preload()
                         ->required()
                         ->columnSpan(2),
@@ -114,7 +115,11 @@ class UserResource extends Resource
                                     return [$country->phone_code => "{$country->phone_code} ({$country->name})"];
                                 });
                         })
-                        ->searchable()
+                        ->default(function () {
+                            return \App\Models\Country::query()
+                                ->orderBy('id')
+                                ->value('phone_code'); // gets the first phone_code directly
+                        })
                         ->preload()
                         ->native(false)
                         ->required()
