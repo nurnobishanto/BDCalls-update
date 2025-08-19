@@ -84,7 +84,8 @@ class OrderController extends Controller
                             $recharge->payment_method = $order->payment_method;
                             $recharge->status = 'in-progress';
                             $recharge->payment_status = 'paid';
-                            $recharge->payment_response = json_encode($payment);
+                            $recharge->payment_request = json_encode($payment->request);
+                            $recharge->payment_response = json_encode($payment->response);
                             $recharge->update();
                         }
                     }

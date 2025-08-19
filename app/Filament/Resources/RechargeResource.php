@@ -90,7 +90,7 @@ class RechargeResource extends Resource
                             $component->state(json_decode($state, true));
                         }
                     }),
-              
+
 
                 Forms\Components\Textarea::make('note')
                     ->label('Note'),
