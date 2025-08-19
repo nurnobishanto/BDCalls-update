@@ -7,7 +7,7 @@
         <div class="container">
             <h2 class="text-center">Recharge Your IP Number</h2>
             <div class="row  gy-4 justify-content-center align-items-center">
-                <div class="col-12 col-md-7">
+                <div class="col-12 col-md-5">
                     <form action="" method="GET" class="p-4 shadow rounded bg-white">
                         <div class="mb-3 text-center">
                             <h5 class="fw-bold mb-0">Search Number</h5>
@@ -28,10 +28,8 @@
                             </button>
                         </div>
                     </form>
-                </div>
-                <div class="col-md-7">
                     @forelse($numbers as $number)
-                        <div class="card shadow border-0 h-100 mb-3">
+                        <div class="card shadow border-0 h-100 mt-3">
                             <div class="card-body">
                                 <h6 class="card-title mb-2 text-primary fw-bold">
                                     IP Number: <span class="text-dark">{{ $number->number }}</span>
@@ -49,7 +47,6 @@
                         @endif
                     @endforelse
                 </div>
-
             </div>
         </div>
     </section>
