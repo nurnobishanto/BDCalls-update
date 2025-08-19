@@ -15,6 +15,11 @@ Route::post('/recharge-ip', [IpNumberController::class, 'recharge'])->name('rech
 Route::get('/bill-pay', [SiteController::class, 'billPay'])->name('bill_pay');
 Route::get('/minute-bundle', [SiteController::class, 'minuteBundle'])->name('minute_bundle');
 Route::get('/thank-you', [SiteController::class, 'thankYou'])->name('thank_you');
+
+Route::get('/manual-payment/{payment_id}',[\App\Http\Controllers\PaymentController::class,'manual_payment'])->name('manual_payment');
+Route::post('/manual-payment/{payment_id}', [\App\Http\Controllers\PaymentController::class, 'manual_payment_submit'])->name('manual_payment.submit');
+
+
 Route::get('/{slug}', [SiteController::class, 'slug'])->name('slug');
 
 require __DIR__.'/auth.php';
