@@ -88,7 +88,7 @@ class OrderController extends Controller
                             $recharge->update();
                         }
                     }
-                    $order->status = 'paid';
+                    $order->status = 'completed';
                     $order->update();
                 } else {
                     return true;
