@@ -70,8 +70,7 @@ class PaymentController extends Controller
         $payment->update();
         alert()->success('পেমেন্ট ইনফরমেশন সফলভাবে জমা দেওয়া হয়েছে। অপেক্ষা করুন অথবা সাপোর্টে যোগাযোগ করুন।');
 
-        return 'পেমেন্ট ইনফরমেশন সফলভাবে জমা দেওয়া হয়েছে। অপেক্ষা করুন অথবা সাপোর্টে যোগাযোগ করুন।';
-        //return redirect(route('order_details',['id'=>$payment->order_id]));
+        return redirect(route('order_details',['id'=>$payment->order_id]));
     }
 
 }
