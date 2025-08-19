@@ -127,7 +127,7 @@ class DueBillResource extends Resource
                         $ipId = $get('user_ip_number_id');
                         if ($state && $ipId) {
                             $exists = DueBill::where('user_ip_number_id', $ipId)
-                                ->where('id', '!=', $livewire->record->id)
+                                ->where('id', '!=', optional($livewire->record)->id)
                                 ->where('month', $state)
                                 ->exists();
 
