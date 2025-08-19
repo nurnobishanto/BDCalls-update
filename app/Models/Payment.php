@@ -24,6 +24,7 @@ class Payment extends Model
         'request' => 'array',
         'response' => 'array',
     ];
+
     protected static function booted()
     {
         static::created(function ($payment) {

@@ -69,13 +69,11 @@ class PaymentResource extends Resource
 
                 KeyValue::make('request')
                     ->label('Request Data')
-                    ->disabled()
-                    ->json(),
+                    ->disabled(),
 
                 KeyValue::make('response')
                     ->label('Response Data')
-                    ->disabled()
-                    ->json(),
+                    ->disabled(),
             ]);
     }
 
