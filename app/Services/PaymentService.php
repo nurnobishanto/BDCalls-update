@@ -30,7 +30,6 @@ class PaymentService
             Log::error("Payment handler not found for method: {$payment->payment_method}");
         }
         alert()->error('Invalid payment method');
-        return $payment;
-       // return redirect(route('order_details', ['id' => $payment->order_id]));
+        return redirect(route('order_details', ['id' => $payment->order_id]));
     }
 }

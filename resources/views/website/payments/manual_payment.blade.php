@@ -1,9 +1,8 @@
 @extends('layouts.master')
 
 @section('content')
-    @include('website.partials.page_header', ['title' => 'Manual Payment'])
 
-    <section class="ptb-75">
+    <section class="py-3 py-md-5">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-md-6">

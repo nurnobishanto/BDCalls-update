@@ -16,6 +16,8 @@ Route::get('/bill-pay', [SiteController::class, 'billPay'])->name('bill_pay');
 Route::get('/minute-bundle', [SiteController::class, 'minuteBundle'])->name('minute_bundle');
 Route::get('/thank-you', [SiteController::class, 'thankYou'])->name('thank_you');
 
+Route::get('order-details/{id}',[\App\Http\Controllers\OrderController::class,'order_details'])->name('order_details')->middleware(['check_user']);
+Route::post('order-pay/{id}',[\App\Http\Controllers\OrderController::class,'order_pay'])->name('order_pay')->middleware(['check_user']);
 Route::get('/manual-payment/{payment_id}',[\App\Http\Controllers\PaymentController::class,'manual_payment'])->name('manual_payment');
 Route::post('/manual-payment/{payment_id}', [\App\Http\Controllers\PaymentController::class, 'manual_payment_submit'])->name('manual_payment.submit');
 
