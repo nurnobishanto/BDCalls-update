@@ -71,16 +71,21 @@
                         title: `Recharge IP Number: ${numberText}`,
                         html: `
                     <input type="number" id="amount" class="swal2-input" placeholder="Enter Amount">
-                    <select id="payment_method" class="swal2-select" style="width:100%">
-                        <option value="manual">Manual</option>
-                        <option value="automatic">Automatic</option>
-                    </select>
+                    <div style="text-align:left; margin-top:10px;">
+                        <label>
+                            <input type="radio" name="payment_method" value="manual" checked> Manual
+                        </label>
+                        <label style="margin-left:15px;">
+                            <input type="radio" name="payment_method" value="automatic"> Automatic
+                        </label>
+                    </div>
                 `,
                         confirmButtonText: 'Submit',
                         showCancelButton: true,
                         preConfirm: () => {
                             const amount = Swal.getPopup().querySelector('#amount').value;
-                            const paymentMethod = Swal.getPopup().querySelector('#payment_method').value;
+                            const paymentMethod = Swal.getPopup().querySelector('input[name="payment_method"]:checked').value;
+
                             if (!amount || isNaN(amount) || Number(amount) <= 0) {
                                 Swal.showValidationMessage(`Please enter a valid amount`);
                                 return false;
@@ -88,7 +93,7 @@
                             return { amount: amount, payment_method: paymentMethod };
                         }
                     }).then((result) => {
-                        if (result.value) {
+                        if (result.isConfirmed) {
                             const form = document.createElement('form');
                             form.method = 'POST';
                             form.action = "{{ route('recharge.ipnumber') }}";
@@ -106,6 +111,7 @@
             });
         });
     </script>
+
 
 @endsection
 
