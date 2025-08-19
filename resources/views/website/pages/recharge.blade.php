@@ -103,7 +103,7 @@
                             return { amount: amount, payment_method: paymentMethod };
                         }
                     }).then((result) => {
-                        if (result.isConfirmed) {
+                        if (result.value) {
                             const form = document.createElement('form');
                             form.method = 'POST';
                             form.action = "{{ route('recharge.ipnumber') }}";
