@@ -103,20 +103,7 @@ class OrderResource extends Resource
             ->actions([
                 ActionGroup::make([
                     ViewAction::make(),
-                    EditAction::make(),
-                    ReplicateAction::make()
-                        ->using(function ($record) {
-                            $copy = $record->replicate();
-
-                            // Modify the name attribute by appending " copy"
-                            if ($copy->name) {
-                                $copy->name = $copy->name . ' copy';
-                            }
-
-                            $copy->save();
-
-                            return $copy;
-                        }),
+                    //EditAction::make(),
                     DeleteAction::make(),
                     RestoreAction::make(),
                     ForceDeleteAction::make(),
@@ -143,8 +130,8 @@ class OrderResource extends Resource
     {
         return [
             'index' => Pages\ListOrders::route('/'),
-            'create' => Pages\CreateOrder::route('/create'),
-            'edit' => Pages\EditOrder::route('/{record}/edit'),
+//            'create' => Pages\CreateOrder::route('/create'),
+//            'edit' => Pages\EditOrder::route('/{record}/edit'),
         ];
     }
 }
