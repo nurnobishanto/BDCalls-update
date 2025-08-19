@@ -82,12 +82,7 @@ class OrderResource extends Resource
                 Tables\Columns\TextColumn::make('invoice_no')->sortable()->searchable(),
                 Tables\Columns\TextColumn::make('user.name')->label('User')->sortable()->searchable(),
                 Tables\Columns\TextColumn::make('total')->money('usd', true),
-                Tables\Columns\TextColumn::make('status')->badge([
-                    'pending' => 'warning',
-                    'processing' => 'primary',
-                    'completed' => 'success',
-                    'cancelled' => 'danger',
-                ]),
+                Tables\Columns\TextColumn::make('status')->sortable(),
                 Tables\Columns\TextColumn::make('payment_method')->label('Payment Method'),
                 Tables\Columns\TextColumn::make('paid_at')->dateTime(),
                 Tables\Columns\TextColumn::make('created_at')->dateTime()->sortable(),
