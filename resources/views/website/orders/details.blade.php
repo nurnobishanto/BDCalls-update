@@ -18,12 +18,11 @@
                         <div class="col-md-6">
                             <h6><i class="ri-information-line me-1"></i> Order Items</h6>
                             @foreach($order->items as $item)
-
-                                <p class="m-0 p-0">
-                                    <strong>{{ $item->item_type  }}</strong>
-                                    - Quantity: {{ $item->quantity }}
-                                    - Price: ৳{{ number_format($item->price, 2) }}
-                                </p>
+                                <div class="mb-2">
+                                    <span class="fw-bold">{{ class_basename($item->item_type) }}</span>
+                                    <span class="text-muted">x {{ $item->quantity }}</span>
+                                    <span class="float-end text-success fw-bold">৳{{ number_format($item->price, 2) }}</span>
+                                </div>
                             @endforeach
                             <p class="mt-2"><strong>Total:</strong> ৳{{ number_format($order->total, 2) }}</p>
                         </div>
