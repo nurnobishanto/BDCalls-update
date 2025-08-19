@@ -9,6 +9,7 @@ use Filament\Actions\RestoreAction;
 use Filament\Forms;
 use Filament\Forms\Components\KeyValue;
 use Filament\Forms\Form;
+use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Actions\ActionGroup;
@@ -132,8 +133,10 @@ class PaymentResource extends Resource
                         app(\App\Http\Controllers\OrderController::class)
                             ->order_paid($record);
 
-                        // 3️⃣ Show success notification
-                        $action->successNotification('Payment marked as paid and order updated.');
+                        Notification::make()
+                            ->title('Payment approved and order updated.')
+                            ->success()
+                            ->send();
                     }),
 
                 ActionGroup::make([
