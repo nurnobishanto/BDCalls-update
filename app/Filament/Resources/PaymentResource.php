@@ -1,0 +1,147 @@
+<?php
+
+namespace App\Filament\Resources;
+
+use App\Filament\Resources\PaymentResource\Pages;
+use App\Filament\Resources\PaymentResource\RelationManagers;
+use App\Models\Payment;
+use Filament\Actions\RestoreAction;
+use Filament\Forms;
+use Filament\Forms\Components\KeyValue;
+use Filament\Forms\Form;
+use Filament\Resources\Resource;
+use Filament\Tables;
+use Filament\Tables\Actions\ActionGroup;
+use Filament\Tables\Actions\DeleteAction;
+use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Actions\ForceDeleteAction;
+use Filament\Tables\Actions\ViewAction;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
+
+class PaymentResource extends Resource
+{
+    protected static ?string $model = Payment::class;
+
+    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+
+    public static function form(Form $form): Form
+    {
+        return $form
+            ->schema([
+                Forms\Components\Select::make('user_id')
+                    ->relationship('user', 'name')
+                    ->required()
+                    ->label('User'),
+
+                Forms\Components\Select::make('order_id')
+                    ->relationship('order', 'invoice_no')
+                    ->required()
+                    ->label('Order'),
+
+                Forms\Components\TextInput::make('transaction_id')
+                    ->label('Transaction ID')
+                    ->disabled(),
+
+                Forms\Components\TextInput::make('amount')
+                    ->label('Amount')
+                    ->numeric()
+                    ->required(),
+
+                Forms\Components\Select::make('payment_method')
+                    ->options([
+                        'manual' => 'Manual',
+                        'automatic' => 'Automatic',
+                        'bkash' => 'Bkash',
+                        'sslcommerz' => 'SSLCommerz',
+                        'uddoktapay' => 'UddoktaPay',
+                    ])
+                    ->required(),
+
+                Forms\Components\Select::make('status')
+                    ->options([
+                        'pending' => 'Pending',
+                        'paid' => 'Paid',
+                        'failed' => 'Failed',
+                    ])
+                    ->required(),
+
+                KeyValue::make('request')
+                    ->label('Request Data')
+                    ->disabled()
+                    ->json(),
+
+                KeyValue::make('response')
+                    ->label('Response Data')
+                    ->disabled()
+                    ->json(),
+            ]);
+    }
+
+    public static function table(Table $table): Table
+    {
+        return $table
+            ->columns([
+                TextColumn::make('transaction_id')->label('Transaction')->sortable()->searchable(),
+                TextColumn::make('user.name')->label('User')->sortable()->searchable(),
+                TextColumn::make('order.invoice_no')->label('Order')->sortable(),
+                TextColumn::make('amount')->label('Amount')->money('BDT', true),
+                TextColumn::make('payment_method')->label('Method')->sortable(),
+                TextColumn::make('status')->label('Status')->sortable()->enum([
+                    'pending' => 'Pending',
+                    'paid' => 'Paid',
+                    'failed' => 'Failed',
+                ]),
+                TextColumn::make('created_at')->label('Created')->dateTime()->sortable(),
+            ])
+            ->filters([
+                SelectFilter::make('status')
+                    ->options([
+                        'pending' => 'Pending',
+                        'paid' => 'Paid',
+                        'failed' => 'Failed',
+                    ]),
+                SelectFilter::make('payment_method')
+                    ->options([
+                        'manual' => 'Manual',
+                        'pay_station' => 'PayStation',
+                        'eps' => 'EPS',
+
+                    ]),
+            ])->defaultSort('created_at', 'desc')
+            ->actions([
+                ActionGroup::make([
+                    ViewAction::make(),
+                    DeleteAction::make(),
+                    RestoreAction::make(),
+                    ForceDeleteAction::make(),
+                ]),
+            ])
+            ->bulkActions([
+                Tables\Actions\BulkActionGroup::make([
+                    Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\RestoreBulkAction::make(),
+                    Tables\Actions\ForceDeleteBulkAction::make(),
+                ]),
+            ]);
+    }
+
+    public static function getRelations(): array
+    {
+        return [
+            //
+        ];
+    }
+
+    public static function getPages(): array
+    {
+        return [
+            'index' => Pages\ListPayments::route('/'),
+            //'create' => Pages\CreatePayment::route('/create'),
+            //'edit' => Pages\EditPayment::route('/{record}/edit'),
+        ];
+    }
+}

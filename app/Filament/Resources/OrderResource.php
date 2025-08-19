@@ -32,6 +32,7 @@ class OrderResource extends Resource
             ->schema([
                 Forms\Components\Card::make([
                     Forms\Components\Section::make('Order Info')
+                        ->columns(2)
                         ->schema([
                             Forms\Components\TextInput::make('invoice_no')
                                 ->disabled()
@@ -53,6 +54,7 @@ class OrderResource extends Resource
                                 ->required(),
                         ]),
                     Forms\Components\Section::make('Payment Info')
+                        ->columns(2)
                         ->schema([
                             Forms\Components\Select::make('payment_method')
                                 ->options([
@@ -83,7 +85,7 @@ class OrderResource extends Resource
                 Tables\Columns\TextColumn::make('id')->sortable(),
                 Tables\Columns\TextColumn::make('invoice_no')->sortable()->searchable(),
                 Tables\Columns\TextColumn::make('user.name')->label('User')->sortable()->searchable(),
-                Tables\Columns\TextColumn::make('total')->money('usd', true),
+                Tables\Columns\TextColumn::make('total')->money('taka', true),
                 Tables\Columns\TextColumn::make('status')->sortable(),
                 Tables\Columns\TextColumn::make('payment_method')->label('Payment Method'),
                 Tables\Columns\TextColumn::make('paid_at')->dateTime(),
