@@ -77,7 +77,7 @@ class OrderController extends Controller
         if ($payment->status == 'completed') {
             $order = Order::find($payment->order_id);
             if ($order) {
-                if ($order->status != 'paid') {
+                if ($order->status != 'completed') {
                     foreach ($order->items as $item) {
                         if($item->item_type == 'App\Models\Recharge'){
                             $recharge = Recharge::find($item->item_id);
