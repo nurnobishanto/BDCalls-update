@@ -89,6 +89,7 @@ class OrderController extends Controller
                         }
                     }
                     $order->status = 'completed';
+                    $order->paid_at = now();
                     $order->update();
                 } else {
                     return true;
