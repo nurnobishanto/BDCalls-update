@@ -121,7 +121,7 @@ class PaymentResource extends Resource
                     ->icon('heroicon-o-check')
                     ->color('success')
                     ->requiresConfirmation()
-                    ->visible(fn(Payment $record) => $record->status !== 'completed')
+                    ->visible(fn(Payment $record) => $record->status !== 'completed' || $record->order->status !== 'completed')
                     ->action(function (Payment $record, \Filament\Tables\Actions\Action $action) {
                         // 1️⃣ Update payment status to 'paid'
                         $record->update([
