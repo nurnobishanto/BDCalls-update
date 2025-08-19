@@ -66,11 +66,13 @@ class OrderResource extends Resource
                         ]),
                     Forms\Components\Section::make('Billing Details')
                         ->schema([
-                            Forms\Components\Textarea::make('billing_details')
-                                ->json()
-                                ->label('Billing Details'),
-                        ]),
-                ])->columns(1),
+                            Forms\Components\KeyValue::make('billing_details')
+                                ->label('Billing Details')
+                                ->disabled()
+                                ->keyLabel('Field')
+                                ->valueLabel('Value'),
+                        ])->columnSpanFull()
+                ])->columns(2),
             ]);
     }
 
