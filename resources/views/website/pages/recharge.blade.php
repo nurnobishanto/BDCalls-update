@@ -35,7 +35,7 @@
                                 </h6>
                                 <p class="mb-1"><strong>User:</strong> {{ $number->user?->name ?? '-' }}</p>
                                 <p class="mb-3"><strong>Package:</strong> {{ $number->package?->name ?? '-' }}</p>
-                                <a href="#" class="btn btn-sm btn-success w-100"
+                                <a href="#" class="btn btn-sm btn-success w-100 btn-recharge"
                                    data-id="{{ $number->id }}"
                                    data-number="{{ $number->number }}"
                                 >Recharge</a>
