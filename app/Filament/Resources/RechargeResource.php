@@ -73,16 +73,24 @@ class RechargeResource extends Resource
                         'paid' => 'Paid',
                     ])
                     ->required(),
-
                 KeyValue::make('payment_request')
-                    ->label('Payment Request')
+                    ->label('Request Data')
                     ->disabled()
-                    ->json(),
+                    ->afterStateHydrated(function (KeyValue $component, $state) {
+                        if (is_string($state)) {
+                            $component->state(json_decode($state, true));
+                        }
+                    }),
 
                 KeyValue::make('payment_response')
-                    ->label('Payment Response')
+                    ->label('Response Data')
                     ->disabled()
-                    ->json(),
+                    ->afterStateHydrated(function (KeyValue $component, $state) {
+                        if (is_string($state)) {
+                            $component->state(json_decode($state, true));
+                        }
+                    }),
+              
 
                 Forms\Components\Textarea::make('note')
                     ->label('Note'),
