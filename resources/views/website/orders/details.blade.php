@@ -87,14 +87,14 @@
                                                 <i class="ri-bank-card-line me-1"></i>Bkash
                                             </button>
                                         @endif
-                                        @if(env('SSLCZ_PAYMENT'))
-                                            <button type="submit" name="payment_method" value="sslcommerz" class="btn btn-primary">
+                                        @if(env('EPS_PAYMENT'))
+                                            <button type="submit" name="payment_method" value="eps" class="btn btn-primary">
                                                 <i class="ri-global-line me-1"></i> Card/Mobile Banking
                                             </button>
                                         @endif
-                                        @if(env('UDDOKTAPAY_PAYMENT'))
-                                            <button type="submit" name="payment_method" value="uddoktapay" class="btn btn-primary">
-                                                <i class="ri-money-dollar-box-line me-1"></i> Mobile Banking
+                                        @if(env('PAY_STATION_PAYMENT'))
+                                            <button type="submit" name="payment_method" value="pay_station" class="btn btn-primary">
+                                                <i class="ri-money-dollar-box-line me-1"></i> Card/Mobile Banking
                                             </button>
                                         @endif
                                         @if(env('MANUAL_PAYMENT'))

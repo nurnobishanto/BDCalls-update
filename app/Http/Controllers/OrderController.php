@@ -18,9 +18,9 @@ class OrderController extends Controller
     public function order_pay($id, Request $request)
     {
         $defaultMethod = match (true) {
-//            env('BKASH_PAYMENT') => 'bkash',
-//            env('SSLCZ_PAYMENT') => 'sslcommerz',
-//            env('UDDOKTAPAY_PAYMENT') => 'uddoktapay',
+            env('BKASH_PAYMENT') => 'bkash',
+            env('EPS_PAYMENT') => 'eps',
+            env('PAY_STATION_PAYMENT') => 'pay_station',
             env('MANUAL_PAYMENT') => 'manual',
             default => null,
         };

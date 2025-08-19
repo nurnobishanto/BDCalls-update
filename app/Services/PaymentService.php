@@ -1,9 +1,10 @@
 <?php
 namespace App\Services;
-//use App\Http\Controllers\Website\BkashController;
+use App\Http\Controllers\Payment\BkashController;
+use App\Http\Controllers\Payment\EpsController;
+use App\Http\Controllers\Payment\PayStationController;
 use App\Http\Controllers\PaymentController;
-//use App\Http\Controllers\Website\SslCommerzController;
-//use App\Http\Controllers\Website\UddoktapayController;
+
 use App\Models\Payment;
 use Illuminate\Support\Facades\Log;
 
@@ -12,9 +13,9 @@ class PaymentService
     public static function handlePayment(Payment $payment)
     {
         $paymentHandlers = [
-//            'bkash' => [BkashController::class, 'PayWithBkash'],
-//            'sslcommerz' => [SslCommerzController::class, 'PayWithSSLCOMMERZ'],
-//            'uddoktapay' => [UddoktapayController::class, 'payWithUddoktapay'],
+            'bkash' => [BkashController::class, 'PayWithBkash'],
+            'eps' => [EpsController::class, 'PayWithEps'],
+            'pay_station' => [PayStationController::class, 'payWithPayStation'],
             'manual' => [PaymentController::class, 'manual_payment'],
         ];
 
