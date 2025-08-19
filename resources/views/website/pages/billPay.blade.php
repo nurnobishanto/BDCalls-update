@@ -7,7 +7,7 @@
         <div class="container">
             <h2 class="text-center">Pay Your IP Number Due Bill</h2>
             <div class="row gy-4 justify-content-center align-items-center">
-                <div class="col-12 col-md-7">
+                <div class="col-12 col-md-5">
                     <form action="" method="GET" class="p-4 shadow rounded bg-white">
                         <div class="mb-3 text-center">
                             <h5 class="fw-bold mb-0">Search Number</h5>
@@ -28,10 +28,8 @@
                             </button>
                         </div>
                     </form>
-                </div>
-                <div class="col-md-7">
                     @forelse($numbers as $number)
-                        <div class="card shadow border-0 mb-3">
+                        <div class="card shadow border-0 mt-3">
                             <div class="card-body">
                                 <div class="row gy-3">
                                     <!-- Left Side Info -->
@@ -93,6 +91,7 @@
                         @endif
                     @endforelse
                 </div>
+
             </div>
         </div>
     </section>
