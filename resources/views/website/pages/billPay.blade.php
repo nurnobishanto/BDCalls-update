@@ -31,56 +31,15 @@
                     @forelse($numbers as $number)
                         <div class="card shadow border-0 mt-3">
                             <div class="card-body">
-                                <div class="row gy-3">
-                                    <!-- Left Side Info -->
-                                    <div class="col-md-4 border-end">
-                                        <h6 class="card-title mb-2 text-primary fw-bold">
-                                            IP Number: <span class="text-dark">{{ $number->number }}</span>
-                                        </h6>
-                                        <p class="mb-0"><strong>User:</strong> {{ $number->user?->name ?? '-' }}</p>
-                                        <p class="mb-0"><strong>Package:</strong> {{ $number->package?->name ?? '-' }}
-                                        </p>
-                                        <p class="mb-0 fw-bold">Total
-                                            Due: {{ $number->dueBills->where('payment_status','unpaid')->sum('total') }}</p>
-                                        <a href="#" class="btn btn-sm btn-success w-100 mt-2">Pay Bill</a>
-                                    </div>
-
-                                    <!-- Right Side Breakdown -->
-                                    <div class="col-md-8">
-                                        <h6 class="text-secondary mb-2 fw-semibold">Due Bills Breakdown</h6>
-                                        <div class="table-responsive">
-                                            <table class="table table-sm table-bordered mb-0">
-                                                <thead class="table-light">
-                                                <tr>
-                                                    <th>Month</th>
-                                                    <th>Service Charge</th>
-                                                    <th>Minutes</th>
-                                                    <th>Call Rate</th>
-                                                    <th>Total</th>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                @forelse($number->dueBills->where('payment_status', 'unpaid')->sortBy(fn($bill) => $bill->month) as $bill)
-                                                    <tr>
-                                                        <td>{{ \Carbon\Carbon::parse($bill->month)->format('M Y') }}</td>
-                                                        <td>{{ $bill->service_charge }}</td>
-                                                        <td>{{ $bill->minutes }}</td>
-                                                        <td>{{ $bill->call_rate }}</td>
-                                                        <td>{{ $bill->total }}</td>
-                                                    </tr>
-                                                @empty
-                                                    <tr>
-                                                        <td colspan="5" class="text-center text-muted">No unpaid due
-                                                            bills available.
-                                                        </td>
-                                                    </tr>
-                                                @endforelse
-
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
+                                <h6 class="card-title mb-2 text-primary fw-bold">
+                                    IP Number: <span class="text-dark">{{ $number->number }}</span>
+                                </h6>
+                                <p class="mb-0"><strong>User:</strong> {{ $number->user?->name ?? '-' }}</p>
+                                <p class="mb-0"><strong>Package:</strong> {{ $number->package?->name ?? '-' }}
+                                </p>
+                                <p class="mb-0 fw-bold">Total
+                                    Due: {{ $number->dueBills->where('payment_status','unpaid')->sum('total') }}</p>
+                                <a href="#" class="btn btn-sm btn-success w-100 mt-2">Pay Bill</a>
                             </div>
                         </div>
                     @empty
