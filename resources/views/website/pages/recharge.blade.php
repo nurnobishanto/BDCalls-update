@@ -104,6 +104,7 @@
                         }
                     }).then((result) => {
                         if (result.value) {
+                            alert(numberId);
                             const form = document.createElement('form');
                             form.method = 'POST';
                             form.action = "{{ route('recharge.ipnumber') }}";
