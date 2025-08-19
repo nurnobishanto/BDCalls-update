@@ -22,11 +22,13 @@
             </td>
             <td>
                 <span class="fw-bold {{ $ip->status == 'available' ? 'text-success' : 'text-danger' }}">
-                    {{ ucfirst($ip->status) }}
+                    {{ $ip->status == 'available' ? 'Available' : 'Sold Out' }}
                 </span>
             </td>
             <td>
-                <a href="" class="btn btn-success btn-sm">Apply Now</a>
+                @if($ip->status == 'available')
+                    <a href="" class="btn btn-success btn-sm">Apply Now</a>
+                @endif
             </td>
         </tr>
     @empty

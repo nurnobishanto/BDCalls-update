@@ -35,7 +35,10 @@
                                 </h6>
                                 <p class="mb-1"><strong>User:</strong> {{ $number->user?->name ?? '-' }}</p>
                                 <p class="mb-3"><strong>Package:</strong> {{ $number->package?->name ?? '-' }}</p>
-                                <a href="#" class="btn btn-sm btn-success w-100">Recharge</a>
+                                <a href="#" class="btn btn-sm btn-success w-100"
+                                   data-id="{{ $number->id }}"
+                                   data-number="{{ $number->number }}"
+                                >Recharge</a>
                             </div>
                         </div>
                     @empty
@@ -53,5 +56,57 @@
 @section('custom_css')
 @endsection
 @section('custom_js')
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Attach click listener to all recharge buttons
+            document.querySelectorAll('.btn-recharge').forEach(function(button) {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+
+                    const numberId = this.dataset.id;
+                    const numberText = this.dataset.number;
+
+                    Swal.fire({
+                        title: `Recharge IP Number: ${numberText}`,
+                        html: `
+                    <input type="number" id="amount" class="swal2-input" placeholder="Enter Amount">
+                    <select id="payment_method" class="swal2-select">
+                        <option value="manual">Manual</option>
+                        <option value="automatic">Automatic</option>
+                    </select>
+                `,
+                        confirmButtonText: 'Submit',
+                        showCancelButton: true,
+                        preConfirm: () => {
+                            const amount = Swal.getPopup().querySelector('#amount').value;
+                            const paymentMethod = Swal.getPopup().querySelector('#payment_method').value;
+                            if (!amount) {
+                                Swal.showValidationMessage(`Please enter an amount`);
+                            }
+                            return { amount: amount, payment_method: paymentMethod };
+                        }
+                    }).then((result) => {
+                        if (result.value) {
+                            // Submit the data via form or AJAX
+                            const form = document.createElement('form');
+                            form.method = 'POST';
+                            form.action = "{{ route('recharge.ipnumber') }}"; // Set your route
+                            form.innerHTML = `
+                        @csrf
+                            <input type="hidden" name="id" value="${numberId}">
+                        <input type="hidden" name="amount" value="${result.value.amount}">
+                        <input type="hidden" name="payment_method" value="${result.value.payment_method}">
+                    `;
+                            document.body.appendChild(form);
+                            form.submit();
+                        }
+                    });
+                });
+            });
+        });
+    </script>
 @endsection
+
 
