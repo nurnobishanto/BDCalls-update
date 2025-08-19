@@ -62,7 +62,7 @@ class PaymentResource extends Resource
                 Forms\Components\Select::make('status')
                     ->options([
                         'pending' => 'Pending',
-                        'paid' => 'Paid',
+                        'completed' => 'Completed',
                         'failed' => 'Failed',
                     ])
                     ->required(),
@@ -103,7 +103,7 @@ class PaymentResource extends Resource
                 SelectFilter::make('status')
                     ->options([
                         'pending' => 'Pending',
-                        'paid' => 'Paid',
+                        'completed' => 'Completed',
                         'failed' => 'Failed',
                     ]),
                 SelectFilter::make('payment_method')
@@ -125,7 +125,7 @@ class PaymentResource extends Resource
                     ->action(function (Payment $record, \Filament\Tables\Actions\Action $action) {
                         // 1️⃣ Update payment status to 'paid'
                         $record->update([
-                            'status' => 'paid',
+                            'status' => 'completed',
                         ]);
 
                         // 2️⃣ Call your OrderController logic

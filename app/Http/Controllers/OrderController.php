@@ -74,7 +74,7 @@ class OrderController extends Controller
     }
     public function order_paid(Payment $payment): bool
     {
-        if ($payment->status == 'paid') {
+        if ($payment->status == 'completed') {
             $order = Order::find($payment->order_id);
             if ($order) {
                 if ($order->status != 'paid') {
