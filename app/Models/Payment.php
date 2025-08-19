@@ -51,7 +51,7 @@ class Payment extends Model
     /**
      * Payment belongs to a user.
      */
-    public function user(): BelongsTo
+    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(User::class);
     }
@@ -59,7 +59,7 @@ class Payment extends Model
     /**
      * Payment belongs to an order.
      */
-    public function order(): BelongsTo
+    public function order(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Order::class);
     }
