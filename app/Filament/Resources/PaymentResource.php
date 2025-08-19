@@ -70,12 +70,20 @@ class PaymentResource extends Resource
                 KeyValue::make('request')
                     ->label('Request Data')
                     ->disabled()
-                    ->getStateUsing(fn ($record) => json_decode($record->request, true)),
+                    ->afterStateHydrated(function (KeyValue $component, $state) {
+                        if (is_string($state)) {
+                            $component->state(json_decode($state, true));
+                        }
+                    }),
 
                 KeyValue::make('response')
                     ->label('Response Data')
                     ->disabled()
-                    ->getStateUsing(fn ($record) => json_decode($record->response, true)),
+                    ->afterStateHydrated(function (KeyValue $component, $state) {
+                        if (is_string($state)) {
+                            $component->state(json_decode($state, true));
+                        }
+                    }),
             ]);
     }
 
