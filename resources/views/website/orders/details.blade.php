@@ -18,9 +18,9 @@
                         <div class="col-md-6">
                             <h6><i class="ri-information-line me-1"></i> Order Items</h6>
                             @foreach($order->items as $item)
-                                @php $product = $item->item; @endphp
+
                                 <p class="m-0 p-0">
-                                    <strong>{{ $product->name ?? $product->title ?? 'Item' }}</strong>
+                                    <strong>{{ $item->item_type  }}</strong>
                                     - Quantity: {{ $item->quantity }}
                                     - Price: ৳{{ number_format($item->price, 2) }}
                                 </p>
