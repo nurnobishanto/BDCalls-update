@@ -17,15 +17,34 @@
                     <div class="row mb-4">
                         <div class="col-md-6">
                             <h6><i class="ri-information-line me-1"></i> Order Items</h6>
-                            @foreach($order->items as $item)
-                                <div class="mb-2">
-                                    <span class="fw-bold">{{ class_basename($item->item_type) }}</span>
-                                    <span class="text-muted">x {{ $item->quantity }}</span>
-                                    <span class="float-end text-success fw-bold">৳{{ number_format($item->price, 2) }}</span>
-                                </div>
-                            @endforeach
-                            <p class="mt-2"><strong>Total:</strong> ৳{{ number_format($order->total, 2) }}</p>
+                            <div class="table-responsive">
+                                <table class="table table-bordered align-middle">
+                                    <thead class="table-light">
+                                    <tr>
+                                        <th>Item</th>
+                                        <th class="text-center">Quantity</th>
+                                        <th class="text-end">Price</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach($order->items as $item)
+                                        <tr>
+                                            <td>{{ class_basename($item->item_type) }}</td>
+                                            <td class="text-center">{{ $item->quantity }}</td>
+                                            <td class="text-end text-success">৳{{ number_format($item->price, 2) }}</td>
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                    <tfoot>
+                                    <tr>
+                                        <th colspan="2" class="text-end">Total:</th>
+                                        <th class="text-end text-success fw-bold">৳{{ number_format($order->total, 2) }}</th>
+                                    </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
                         </div>
+
 
                         <div class="col-md-6">
                             <h6><i class="ri-user-line me-1"></i> Billing Details</h6>
