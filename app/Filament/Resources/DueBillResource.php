@@ -70,7 +70,7 @@ class DueBillResource extends Resource
                             $month = $get('month');
                             if ($month) {
                                 $exists = DueBill::where('user_ip_number_id', $state)
-                                    ->where('id', '!=', $livewire->record->id)
+                                    ->where('id', '!=', optional($livewire->record)->id)
                                     ->where('month', $month)
                                     ->exists();
 

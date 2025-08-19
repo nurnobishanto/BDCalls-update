@@ -11,7 +11,6 @@
                     <form action="" method="GET" class="p-4 shadow rounded bg-white">
                         <div class="mb-3 text-center">
                             <h5 class="fw-bold mb-0">Search Number</h5>
-                            <small class="text-muted">Enter the number in the format: 096XXXXXXXX</small>
                         </div>
 
                         <div class="input-group">

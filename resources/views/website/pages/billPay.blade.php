@@ -11,7 +11,6 @@
                     <form action="" method="GET" class="p-4 shadow rounded bg-white">
                         <div class="mb-3 text-center">
                             <h5 class="fw-bold mb-0">Search Number</h5>
-                            <small class="text-muted">Enter the number in the format: 096XXXXXXXX</small>
                         </div>
 
                         <div class="input-group">
@@ -37,7 +36,7 @@
                                 <p class="mb-0"><strong>User:</strong> {{ $number->user?->name ?? '-' }}</p>
                                 <p class="mb-0"><strong>Package:</strong> {{ $number->package?->name ?? '-' }}
                                 </p>
-                                <p class="mb-0 fw-bold">Total
+                                <p class="mb-0 fw-bold fs-4 text-danger">Total
                                     Due: {{ $number->dueBills->where('payment_status','unpaid')->sum('total') }}</p>
                                 <a href="#" class="btn btn-sm btn-success w-100 mt-2">Pay Bill</a>
                             </div>
