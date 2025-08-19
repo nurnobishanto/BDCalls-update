@@ -84,9 +84,8 @@ class RechargeResource extends Resource
                     ->disabled()
                     ->json(),
 
-                TextInput::make('note')
-                    ->label('Note')
-                    ->textarea(),
+                Forms\Components\Textarea::make('note')
+                    ->label('Note'),
             ]);
     }
 
