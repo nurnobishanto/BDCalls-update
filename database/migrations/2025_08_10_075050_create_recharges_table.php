@@ -21,7 +21,7 @@ return new class extends Migration
             $table->foreignId('minute_bundle_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignId('package_id')->nullable()->constrained()->nullOnDelete();
             $table->enum('status', ['pending', 'in-progress', 'complete', 'reject'])->default('pending');
-            $table->enum('payment_status', ['pending', 'cancel', 'failed'])->default('pending');
+            $table->enum('payment_status', ['pending', 'cancel', 'failed','paid'])->default('pending');
             $table->json('payment_request')->nullable();
             $table->json('payment_response')->nullable();
             $table->text('note')->nullable();

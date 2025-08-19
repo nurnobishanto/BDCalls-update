@@ -115,6 +115,27 @@ class PaymentResource extends Resource
                     ]),
             ])->defaultSort('created_at', 'desc')
             ->actions([
+                // ✅ Approve Payment Button
+                Tables\Actions\Action::make('approve')
+                    ->label('Approve')
+                    ->icon('heroicon-o-check')
+                    ->color('success')
+                    ->requiresConfirmation()
+                    ->visible(fn(Payment $record) => $record->status !== 'paid')
+                    ->action(function (Payment $record, \Filament\Tables\Actions\Action $action) {
+                        // 1️⃣ Update payment status to 'paid'
+                        $record->update([
+                            'status' => 'paid',
+                        ]);
+
+                        // 2️⃣ Call your OrderController logic
+                        app(\App\Http\Controllers\OrderController::class)
+                            ->order_paid($record);
+
+                        // 3️⃣ Show success notification
+                        $action->successNotification('Payment marked as paid and order updated.');
+                    }),
+
                 ActionGroup::make([
                     ViewAction::make(),
                     DeleteAction::make(),

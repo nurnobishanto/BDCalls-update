@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Models\Order;
 use App\Models\Payment;
+use App\Models\Recharge;
 use App\Services\PaymentService;
 use Artesaos\SEOTools\Facades\SEOTools;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class OrderController extends Controller
 {
@@ -67,5 +71,45 @@ class OrderController extends Controller
             return view('website.orders.details', compact(['order']));
         }
         abort(404);
+    }
+    public function order_paid(Payment $payment): bool
+    {
+        if ($payment->status == 'paid') {
+            $order = Order::find($payment->order_id);
+            if ($order) {
+                if ($order->status != 'paid') {
+                    foreach ($order->items as $item) {
+                        if($item->item_type == 'App\Models\Recharge'){
+                            $recharge = Recharge::find($item->item_id);
+                            $recharge->payment_method = $order->payment_method;
+                            $recharge->status = 'in-progress';
+                            $recharge->payment_status = 'paid';
+                            $recharge->payment_response = json_encode($payment);
+                            $recharge->update();
+                        }
+                    }
+                    $order->status = 'paid';
+                    $order->update();
+                } else {
+                    return true;
+                }
+            } else {
+                Log::warning('Order not found for payment', [
+                    'payment_id' => $payment->id
+                ]);
+                return false;
+            }
+        } else {
+            Log::warning('Payment status is not paid', [
+                'payment_id' => $payment->id,
+                'status' => $payment->status
+            ]);
+            return false;
+        }
+
+        Log::error('Unreachable fallback reached in order_paid', [
+            'payment_id' => $payment->id
+        ]);
+        return false;
     }
 }
