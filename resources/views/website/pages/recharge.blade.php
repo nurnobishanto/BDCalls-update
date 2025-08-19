@@ -60,7 +60,6 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // Attach click listener to all recharge buttons
             document.querySelectorAll('.btn-recharge').forEach(function(button) {
                 button.addEventListener('click', function(e) {
                     e.preventDefault();
@@ -72,7 +71,7 @@
                         title: `Recharge IP Number: ${numberText}`,
                         html: `
                     <input type="number" id="amount" class="swal2-input" placeholder="Enter Amount">
-                    <select id="payment_method" class="swal2-select">
+                    <select id="payment_method" class="swal2-select" style="width:100%">
                         <option value="manual">Manual</option>
                         <option value="automatic">Automatic</option>
                     </select>
@@ -82,20 +81,20 @@
                         preConfirm: () => {
                             const amount = Swal.getPopup().querySelector('#amount').value;
                             const paymentMethod = Swal.getPopup().querySelector('#payment_method').value;
-                            if (!amount) {
-                                Swal.showValidationMessage(`Please enter an amount`);
+                            if (!amount || isNaN(amount) || Number(amount) <= 0) {
+                                Swal.showValidationMessage(`Please enter a valid amount`);
+                                return false;
                             }
                             return { amount: amount, payment_method: paymentMethod };
                         }
                     }).then((result) => {
                         if (result.value) {
-                            // Submit the data via form or AJAX
                             const form = document.createElement('form');
                             form.method = 'POST';
-                            form.action = "{{ route('recharge.ipnumber') }}"; // Set your route
+                            form.action = "{{ route('recharge.ipnumber') }}";
                             form.innerHTML = `
-                        @csrf
-                            <input type="hidden" name="id" value="${numberId}">
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                        <input type="hidden" name="id" value="${numberId}">
                         <input type="hidden" name="amount" value="${result.value.amount}">
                         <input type="hidden" name="payment_method" value="${result.value.payment_method}">
                     `;
@@ -107,6 +106,7 @@
             });
         });
     </script>
+
 @endsection
 
 
