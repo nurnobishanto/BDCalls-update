@@ -71,11 +71,11 @@
                         title: `Recharge IP Number: ${numberText}`,
                         html: `
                     <input type="number" id="amount" class="swal2-input" placeholder="Enter Amount">
-                    <div style="text-align:center; margin-top:10px;">
-                        <label>
+                    <div style="text-align:center; margin-top:15px;">
+                        <label style="margin-right:15px;">
                             <input type="radio" name="payment_method" value="manual" checked> Manual
                         </label>
-                        <label style="margin-left:15px;">
+                        <label>
                             <input type="radio" name="payment_method" value="automatic"> Automatic
                         </label>
                     </div>
@@ -111,6 +111,7 @@
             });
         });
     </script>
+
 
 
 @endsection
