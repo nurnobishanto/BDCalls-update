@@ -54,10 +54,8 @@ class PaymentResource extends Resource
                 Forms\Components\Select::make('payment_method')
                     ->options([
                         'manual' => 'Manual',
-                        'automatic' => 'Automatic',
-                        'bkash' => 'Bkash',
-                        'sslcommerz' => 'SSLCommerz',
-                        'uddoktapay' => 'UddoktaPay',
+                        'pay_station' => 'PayStation',
+                        'eps' => 'EPS',
                     ])
                     ->required(),
 
@@ -90,11 +88,7 @@ class PaymentResource extends Resource
                 TextColumn::make('order.invoice_no')->label('Order')->sortable(),
                 TextColumn::make('amount')->label('Amount')->money('BDT', true),
                 TextColumn::make('payment_method')->label('Method')->sortable(),
-                TextColumn::make('status')->label('Status')->sortable()->enum([
-                    'pending' => 'Pending',
-                    'paid' => 'Paid',
-                    'failed' => 'Failed',
-                ]),
+                TextColumn::make('status')->label('Status')->sortable(),
                 TextColumn::make('created_at')->label('Created')->dateTime()->sortable(),
             ])
             ->filters([
