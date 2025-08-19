@@ -80,7 +80,7 @@
                         </label>
                     </div>
                 `,
-                        confirmButtonText: 'Submit',
+                        confirmButtonText: 'Recharge',
                         showCancelButton: true,
                         preConfirm: () => {
                             const amount = Swal.getPopup().querySelector('#amount').value;

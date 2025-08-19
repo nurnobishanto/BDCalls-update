@@ -18,7 +18,6 @@ class Recharge extends Model
         'package_id',
         'status',
         'payment_status',
-        'payment_request',
         'payment_response',
         'note',
     ];
