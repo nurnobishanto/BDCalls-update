@@ -65,7 +65,7 @@ class IpNumberController extends Controller
         $payment = Payment::create([
             'user_id' => $user->id,
             'order_id' => $order->id,
-            'amount' => $request->amount,
+            'amount' => $recharge->amount,
             'payment_method' => $request->payment_method,
             'status' => 'pending',
         ]);
