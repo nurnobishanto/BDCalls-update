@@ -21,7 +21,7 @@ class IpNumber extends Model
     public function getStatusAttribute()
     {
         // If has any NumberPurchase that is not rejected
-        if (UserIpNumber::where('nummber',$this->attributes['number'])->exists()) {
+        if (UserIpNumber::where('number',$this->attributes['number'])->exists()) {
             return 'sold_out';
         }
         elseif ($this->numberPurchases()
