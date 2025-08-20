@@ -6,9 +6,12 @@
             <canvas style="display: block; background: rgba(255,255,255,0);" width="100%" height="100%"></canvas>
         </div>
         <div class="form_container bg-white shadow rounded my-5 py-3 position-relative" style="z-index: 1;">
-            <form action="{{route('number_purchase_submit',['id'=>$ipNumber->id])}}" method="post" enctype="multipart/form-data" id="ipForm">
+            <form action="{{route('number_purchase_submit',['id'=>$ipNumber->id])}}" method="post"
+                  enctype="multipart/form-data" id="ipForm">
                 @csrf
-                <p class="h3 fw-bold text-center mt-3">Apply For IP Number ({{$ipNumber->number}})</p>
+                <p class="h3 fw-bold text-center mt-3">Apply For IP Number <br>
+                    ({{$ipNumber->number}})
+                </p>
                 @if ($errors->any())
                     <div class="alert alert-danger">
                         <strong>There were some problems with your input:</strong>
@@ -84,7 +87,8 @@
 
                             <div class="input-group">
                                 <label for="ip_number"> IP Number</label>
-                                <input type="text" value="{{$ipNumber->number}}" readonly name="ip_number" id="ip_number" placeholder="096XXXXXXXX"/>
+                                <input type="text" value="{{$ipNumber->number}}" readonly name="ip_number"
+                                       id="ip_number" placeholder="096XXXXXXXX"/>
                             </div>
 
                             <div class="input-group" id="enather_ip_number">
