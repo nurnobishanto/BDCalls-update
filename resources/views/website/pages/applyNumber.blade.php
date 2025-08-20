@@ -56,7 +56,9 @@
                                     <select class="form-control" name="phone_country_code" required
                                             style="max-width: 55px;">
                                         @foreach($countries as $country)
-                                            <option value="{{$country->phone_code}}">{{$country->phone_code}} ({{$country->name}})</option>
+                                            <option value="{{$country->phone_code}}">{{$country->phone_code}}
+                                                ({{$country->name}})
+                                            </option>
                                         @endforeach
                                     </select>
                                     <input class="form-control" type="text" name="phone" id="phone"
@@ -70,7 +72,9 @@
                                     <select class="form-control" name="whatsapp_country_code" required
                                             style="max-width: 55px;">
                                         @foreach($countries as $country)
-                                            <option value="{{$country->phone_code}}">{{$country->phone_code}} ({{$country->name}})</option>
+                                            <option value="{{$country->phone_code}}">{{$country->phone_code}}
+                                                ({{$country->name}})
+                                            </option>
                                         @endforeach
                                     </select>
                                     <input class="form-control" type="text" name="whatsapp_number" id="whatsapp_number"
@@ -151,32 +155,85 @@
 @endsection
 @section('custom_css')
     <style>
-        .form_container { max-width: 500px; margin: auto; }
+        .form_container {
+            max-width: 500px;
+            margin: auto;
+        }
+
         .radio-group {
-            display: flex; justify-content: center; align-items: center;
-            gap: 50px; margin: 20px auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 50px;
+            margin: 20px auto;
         }
-        .radio-group label { display: flex; align-items: center; gap: 6px; font-weight: 500; cursor: pointer; }
+
+        .radio-group label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
         input[type="radio"] {
-            appearance: none; width: 18px; height: 18px;
-            border: 1.5px solid #00875A; border-radius: 50%; position: relative; cursor: pointer;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border: 1.5px solid #00875A;
+            border-radius: 50%;
+            position: relative;
+            cursor: pointer;
         }
-        input[type="radio"]:checked { background-color: #0B4D2E; }
+
+        input[type="radio"]:checked {
+            background-color: #0B4D2E;
+        }
+
         input[type="radio"]:checked::after {
-            content: ""; position: absolute; top: 4px; left: 4px;
-            width: 8px; height: 8px; background: white; border-radius: 50%;
+            content: "";
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            width: 8px;
+            height: 8px;
+            background: white;
+            border-radius: 50%;
         }
-        label[for="business"] { font-weight: 600; }
 
-        .input-group { margin-bottom: 15px; border-radius: 8px; }
-        label { display: block; margin-bottom: 6px; color: #333; font-weight: 500; }
+        label[for="business"] {
+            font-weight: 600;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+            border-radius: 8px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            color: #333;
+            font-weight: 500;
+        }
+
         input[type="text"], input[type="email"], input[type="date"] {
-            width: 100%; padding: 8px 10px; border: 1px solid rgb(169, 172, 171);
-            border-radius: 6px; outline: none; font-size: 14px; color: #0B4D2E;
+            width: 100%;
+            padding: 8px 10px;
+            border: 1px solid rgb(0, 0, 0);
+            border-radius: 6px;
+            outline: none;
+            font-size: 14px;
+            color: #0B4D2E;
         }
-        input::placeholder { color: rgb(169, 172, 171); }
 
-        .upload-section { margin: 0; }
+        input::placeholder {
+            color: rgb(169, 172, 171);
+        }
+
+        .upload-section {
+            margin: 0;
+        }
 
 
         .upload-label {
@@ -191,32 +248,70 @@
 
 
         .upload-box {
-            background: #ccc; border-radius: 8px; height: 100px; width: 200px;
-            display: flex; align-items: center; justify-content: center;
-            cursor: pointer; margin-bottom: 15px; position: relative;
+            background: #ccc;
+            border-radius: 8px;
+            height: 100px;
+            width: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            position: relative;
         }
+
         .upload-box input[type="file"] {
-            opacity: 0; width: 200px; height: 100px; position: absolute; cursor: pointer;
+            opacity: 0;
+            width: 200px;
+            height: 100px;
+            position: absolute;
+            cursor: pointer;
         }
-        .upload-icon { font-size: 48px; color: black; pointer-events: none; }
+
+        .upload-icon {
+            font-size: 48px;
+            color: black;
+            pointer-events: none;
+        }
 
         .submit-btn {
-            background-color: #0B4D2E; color: white; border: none;
-            padding: 8px 0; width: 100%; font-size: 18px;
-            border-radius: 8px; cursor: pointer;
+            background-color: #0B4D2E;
+            color: white;
+            border: none;
+            padding: 8px 0;
+            width: 100%;
+            font-size: 18px;
+            border-radius: 8px;
+            cursor: pointer;
         }
-        .submit-btn:disabled { background-color: gray; cursor: not-allowed; }
 
-        #show_hidden, #trade_license, #enather_ip_number { display: none; }
+        .submit-btn:disabled {
+            background-color: gray;
+            cursor: not-allowed;
+        }
+
+        #show_hidden, #trade_license, #enather_ip_number {
+            display: none;
+        }
 
         .camera-icon {
-            position: absolute; bottom: 6px; right: 6px;
-            background: white; color: red; border-radius: 50%;
-            padding: 6px; font-size: 18px; z-index: 2; cursor: pointer;
+            position: absolute;
+            bottom: 6px;
+            right: 6px;
+            background: white;
+            color: red;
+            border-radius: 50%;
+            padding: 6px;
+            font-size: 18px;
+            z-index: 2;
+            cursor: pointer;
         }
 
         @media screen and (max-width: 767px) {
-            .upload-section { margin:0 auto !important; justify-content: center !important; text-align: center }
+            .upload-section {
+                margin: 0 auto !important;
+                justify-content: center !important;
+                text-align: center
+            }
         }
     </style>
 @endsection
@@ -237,6 +332,7 @@
                 // Re-check form validity after toggling fields
                 setTimeout(checkFormValidity, 100);
             }
+
             function previewImage(inputId, imgId) {
                 const input = document.getElementById(inputId);
                 const preview = document.getElementById(imgId);
@@ -272,7 +368,7 @@
                 });
 
                 // Special check for file inputs
-                $('input[type="file"][required]').each(function() {
+                $('input[type="file"][required]').each(function () {
                     if (!$(this).val()) {
                         isValid = false;
                         return false;
@@ -283,7 +379,7 @@
             }
 
             // Initialize event listeners
-            $('input[name="account_type"]').change(function() {
+            $('input[name="account_type"]').change(function () {
                 toggleBusinessFields();
                 checkFormValidity();
             });
@@ -295,16 +391,15 @@
             previewImage('trade-license', 'trade-license-preview');
 
             // Set up camera icon click handlers
-            $('.camera-icon').on('click', function() {
+            $('.camera-icon').on('click', function () {
                 const targetInput = $(this).data('target');
                 $(targetInput).trigger('click');
             });
 
             // Check form validity on any input change
-            $(document).on('input change', 'input, select', function() {
+            $(document).on('input change', 'input, select', function () {
                 checkFormValidity();
             });
-
 
 
             // Initial check
