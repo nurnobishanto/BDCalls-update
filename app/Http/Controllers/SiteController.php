@@ -196,7 +196,7 @@ class SiteController extends Controller
             'payment_method' => $request->payment_method,
         ]);
         // 2️⃣ Check if an Order exists for this pending recharge
-        $order = Order::whereJsonContains('billing_details->purchase_number_id',  $purchaseNumber->id->id)
+        $order = Order::whereJsonContains('billing_details->purchase_number_id',  $purchaseNumber->id)
             ->whereJsonContains('billing_details->user_id', $user->id)
             ->where('status', 'pending')
             ->first();
