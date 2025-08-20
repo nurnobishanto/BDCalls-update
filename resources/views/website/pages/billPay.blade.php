@@ -81,7 +81,7 @@
                     Swal.fire({
                         title: 'Pay Your Due Bill',
                         html: `
-                    <p><strong>IP Number:</strong> ${number}</p>
+                    <p class="fs-6"><strong>IP Number:</strong> ${number}</p>
                     <p class="text-center text-danger fs-4 fw-bold"><strong>Total Due:</strong> ${amount} BDT</p>
                     <label for="payment-method">Select Payment Method:</label>
                     <div style="text-align:center; margin-top:15px;">
@@ -97,11 +97,11 @@
                         cancelButtonText: 'Cancel',
                         focusConfirm: false,
                         preConfirm: () => {
-                            const method = Swal.getPopup().querySelector('#payment-method').value;
+                            const method = Swal.getPopup().querySelector('input[name="payment_method"]:checked').value;
                             return { method };
                         }
                     }).then((result) => {
-                        if (result.value) {
+                        if (result.isConfirmed) {
                             // Fill hidden form and submit
                             document.getElementById('bill-number').value = number;
                             document.getElementById('bill-amount').value = amount;
@@ -114,6 +114,7 @@
             });
         });
     </script>
+
 @endsection
 
 
