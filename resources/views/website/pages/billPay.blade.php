@@ -36,8 +36,9 @@
                                 <p class="mb-0"><strong>User:</strong> {{ $number->user?->name ?? '-' }}</p>
                                 <p class="mb-0"><strong>Package:</strong> {{ $number->package?->name ?? '-' }}
                                 </p>
-                                <p class="mb-0 fw-bold fs-4 text-danger">Total
-                                    Due: {{ $number->dueBills->where('payment_status','unpaid')->sum('total') }}</p>
+                                <p class="mb-0 fw-bold fs-4 text-danger text-center">Total
+                                    Due: {{ round($number->dueBills->where('payment_status', 'unpaid')->sum('total')) }}
+                                </p>
                                 <a href="#" class="btn btn-sm btn-success w-100 mt-2">Pay Bill</a>
                             </div>
                         </div>

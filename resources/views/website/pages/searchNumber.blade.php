@@ -7,7 +7,7 @@
 
             <!-- Filter & Search -->
             <form id="filterForm" method="GET" class="row mb-3">
-                <div class="col-sm-4 col-6">
+                <div class="col-sm-4 col-12">
                     <div class="input-group">
                         <span class="input-group-text bg-light">
                            <i class="fas fa-filter"></i>
