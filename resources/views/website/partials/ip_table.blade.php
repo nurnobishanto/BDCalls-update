@@ -27,7 +27,7 @@
             </td>
             <td>
                 @if($ip->status == 'available')
-                    <a href="" class="badge bg-success hover:text-warning">Apply Now</a>
+                    <a href="" class="badge bg-success text-light">Apply Now</a>
                 @endif
             </td>
         </tr>

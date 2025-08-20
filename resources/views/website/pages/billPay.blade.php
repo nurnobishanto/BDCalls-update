@@ -39,7 +39,10 @@
                                 <p class="mb-0 fw-bold fs-4 text-danger text-center">Total
                                     Due: {{ round($number->dueBills->where('payment_status', 'unpaid')->sum('total')) }}
                                 </p>
-                                <a href="#" class="btn btn-sm btn-success w-100 mt-2">Pay Bill</a>
+                                <a href="#"
+                                   data-number="{{ $number->number }}"
+                                   data-amount="{{ round($number->dueBills->where('payment_status', 'unpaid')->sum('total')) }}"
+                                   class="btn btn-sm btn-success w-100 mt-2 pay-bill-btn">Pay Bill</a>
                             </div>
                         </div>
                     @empty
@@ -58,5 +61,50 @@
 @section('custom_css')
 @endsection
 @section('custom_js')
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.pay-bill-btn').forEach(function(button) {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+
+                    let number = this.dataset.number;
+                    let amount = this.dataset.amount;
+
+                    Swal.fire({
+                        title: 'Pay Your Due Bill',
+                        html: `
+                    <p><strong>IP Number:</strong> ${number}</p>
+                    <p><strong>Total Due:</strong> ${amount} BDT</p>
+                    <label for="payment-method">Select Payment Method:</label>
+                    <select id="payment-method" class="swal2-select">
+                        <option value="automatic">Automatic</option>
+                        <option value="manual">Manual</option>
+                    </select>
+                `,
+                        showCancelButton: true,
+                        confirmButtonText: 'Pay Now',
+                        cancelButtonText: 'Cancel',
+                        focusConfirm: false,
+                        preConfirm: () => {
+                            const method = Swal.getPopup().querySelector('#payment-method').value;
+                            return { method };
+                        }
+                    }).then((result) => {
+                        if (result.value) {
+                            // Fill hidden form and submit
+                            document.getElementById('bill-number').value = number;
+                            document.getElementById('bill-amount').value = amount;
+                            document.getElementById('bill-method').value = result.value.method;
+
+                            document.getElementById('billPaymentForm').submit();
+                        }
+                    });
+                });
+            });
+        });
+    </script>
 @endsection
+
 
