@@ -147,7 +147,7 @@
                                 </div>
                             </div>
                         </div>
-                        <h6 class="text-center text-primary mb-3">Select Payment Method</h6>
+                        <h6 class="text-center text-primary my-1">Select Payment Method</h6>
                         <div class="radio-group">
                             <label>
                                 <input type="radio"  name="payment_method" value="automatic" checked/>
@@ -159,7 +159,7 @@
                             </label>
                         </div>
                         <div class="text-center">
-                            <button type="submit" class="submit-btn w-50 my-4" id="submitBtn" disabled>Submit</button>
+                            <button type="submit" class="submit-btn w-50 my-1" id="submitBtn" disabled>Submit</button>
                         </div>
                     </div>
                 </div>
