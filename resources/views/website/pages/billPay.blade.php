@@ -57,6 +57,12 @@
             </div>
         </div>
     </section>
+    <form id="billPaymentForm" action="{{ route('bill_payment') }}" method="POST" style="display: none;">
+        @csrf
+        <input type="hidden" name="number" id="bill-number">
+        <input type="hidden" name="amount" id="bill-amount">
+        <input type="hidden" name="payment_method" id="bill-method">
+    </form>
 @endsection
 @section('custom_css')
 @endsection
