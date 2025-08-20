@@ -21,15 +21,24 @@
                 @endif
             </td>
             <td>
-                <span class="fw-bold {{ $ip->status == 'available' ? 'text-success' : 'text-danger' }}">
-                    {{ $ip->status == 'available' ? 'Available' : 'Sold Out' }}
-                </span>
-            </td>
-            <td>
-                @if($ip->status == 'available')
-                    <a href="{{route('number_purchase',['id'=>$ip->id])}}" class="badge bg-success text-light">Apply Now</a>
+                @if($ip->status === 'available')
+                    <span class="fw-bold text-success">Available</span>
+                @elseif($ip->status === 'in_process')
+                    <span class="fw-bold text-warning">In Process</span>
+                @else
+                    <span class="fw-bold text-danger">Sold Out</span>
                 @endif
             </td>
+
+            <td>
+                @if($ip->status === 'available')
+                    <a href="{{ route('number_purchase', ['id' => $ip->id]) }}"
+                       class="badge bg-success text-light">Apply Now</a>
+                @elseif($ip->status === 'in_process')
+                    <span class="badge bg-warning text-dark">Pending</span>
+                @endif
+            </td>
+
         </tr>
     @empty
         <tr>
