@@ -22,7 +22,7 @@
                                     <thead class="table-light">
                                     <tr>
                                         <th>Item</th>
-                                        <th class="text-center">Quantity</th>
+                                        <th class="text-center">Info</th>
                                         <th class="text-end">Price</th>
                                     </tr>
                                     </thead>
@@ -30,7 +30,14 @@
                                     @foreach($order->items as $item)
                                         <tr>
                                             <td>{{ class_basename($item->item_type) }}</td>
-                                            <td class="text-center">{{ $item->quantity }}</td>
+                                            <td class="text-center">
+                                                @if(class_basename($item->item_type) == 'DueBill')
+                                                    {{$item->item?->month}}
+                                                @else
+                                                    {{ $item->quantity }}
+                                                @endif
+
+                                            </td>
                                             <td class="text-end text-success">৳{{ number_format($item->price, 2) }}</td>
                                         </tr>
                                     @endforeach
