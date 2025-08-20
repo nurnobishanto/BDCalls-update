@@ -39,14 +39,7 @@ class UserIpNumberResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-list-bullet';
     protected static ?int $navigationSort = 2;
 
-    protected static function calculateTotal(callable $get)
-    {
-        $callRate = (float)$get('call_rate');
-        $minutes = (float)$get('minutes');
-        $serviceCharge = (float)$get('service_charge');
 
-        return $serviceCharge + (($callRate / 100) * $minutes);
-    }
 
     public static function form(Form $form): Form
     {
@@ -136,20 +129,14 @@ class UserIpNumberResource extends Resource
                                         ->reactive()
                                         ->required()
                                         ->default(fn($get, $record) => $record->package->call_rate ?? 0)
-                                        ->visible(fn(callable $get) => $get('call_rate') != 0)
-                                        ->afterStateUpdated(function ($state, callable $get, callable $set) {
-                                            $set('total', self::calculateTotal($get));
-                                        }),
+                                        ->visible(fn(callable $get) => $get('call_rate') != 0),
 
                                     Forms\Components\TextInput::make('minutes')
                                         ->numeric()
                                         ->required()
                                         ->default(0)
                                         ->reactive()
-                                        ->visible(fn(callable $get) => $get('call_rate') != 0)
-                                        ->afterStateUpdated(function ($state, callable $get, callable $set) {
-                                            $set('total', self::calculateTotal($get));
-                                        }),
+                                        ->visible(fn(callable $get) => $get('call_rate') != 0),
 
                                     Forms\Components\TextInput::make('service_charge')
                                         ->numeric()
@@ -157,17 +144,14 @@ class UserIpNumberResource extends Resource
                                         ->readOnly()
                                         ->required()
                                         ->default(fn($get, $record) => $record->package->price ?? 0)
-                                        ->visible(fn(callable $get) => $get('service_charge') != 0)
-                                        ->afterStateUpdated(function ($state, callable $get, callable $set) {
-                                            $set('total', self::calculateTotal($get));
-                                        }),
+                                        ->visible(fn(callable $get) => $get('service_charge') != 0),
 
                                     Forms\Components\TextInput::make('month')
                                         ->type('month')
                                         ->required()
                                         ->reactive()
                                         ->afterStateUpdated(function ($state, callable $get, callable $set, $livewire, $record) {
-                                            $set('total', self::calculateTotal($get));
+
                                             $ipId = $get('user_ip_number_id') ?? $record->id;
                                             if ($state && $ipId) {
                                                 $exists = DueBill::where('user_ip_number_id', $ipId)
@@ -186,12 +170,7 @@ class UserIpNumberResource extends Resource
                                             }
                                         }),
 
-                                    Forms\Components\TextInput::make('total')
-                                        ->numeric()
-                                        ->reactive()
-                                        ->readOnly()
-                                        ->required(),
-
+                                    
                                     Forms\Components\Select::make('payment_status')
                                         ->options([
                                             'unpaid' => 'Unpaid',

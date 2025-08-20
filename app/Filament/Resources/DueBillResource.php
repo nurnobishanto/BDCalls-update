@@ -27,14 +27,7 @@ class DueBillResource extends Resource
     protected static ?string $model = DueBill::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
-    protected static function calculateTotal(callable $get)
-    {
-        $callRate = (float) $get('call_rate');
-        $minutes = (float) $get('minutes');
-        $serviceCharge = (float) $get('service_charge');
 
-        return $serviceCharge + (($callRate/100) * $minutes);
-    }
     public static function form(Form $form): Form
     {
         return $form
@@ -59,12 +52,7 @@ class DueBillResource extends Resource
                     ->reactive()
                     ->afterStateUpdated(function ($state, callable $get, callable $set, $livewire) {
                         if ($state) {
-                            $ipNumber = UserIpNumber::with('package')->find($state);
-                            if ($ipNumber && $ipNumber->package) {
-                                $set('call_rate', $ipNumber->package->call_rate);
-                                $set('service_charge', $ipNumber->package->price);
-                                $set('total', self::calculateTotal($get));
-                            }
+
 
                             // Live duplicate check
                             $month = $get('month');
@@ -88,24 +76,19 @@ class DueBillResource extends Resource
                     ->required(),
 
 
-        Forms\Components\TextInput::make('call_rate')
+                Forms\Components\TextInput::make('call_rate')
                     ->numeric()
                     ->readOnly()
                     ->reactive()
                     ->required()
-                    ->visible(fn (callable $get) => $get('call_rate') != 0)
-                    ->afterStateUpdated(function ($state, callable $get, callable $set) {
-                        $set('total', self::calculateTotal($get));
-                    }),
+                    ->visible(fn (callable $get) => $get('call_rate') != 0),
 
                 Forms\Components\TextInput::make('minutes')
                     ->numeric()
                     ->required()
                     ->reactive()
-                    ->visible(fn (callable $get) => $get('call_rate') != 0)
-                    ->afterStateUpdated(function ($state, callable $get, callable $set) {
-                        $set('total', self::calculateTotal($get));
-                    }),
+                    ->visible(fn (callable $get) => $get('call_rate') != 0),
+
 
                 Forms\Components\TextInput::make('service_charge')
                     ->numeric()
@@ -113,10 +96,7 @@ class DueBillResource extends Resource
                     ->required()
                     ->readOnly()
                     ->default(0)
-                    ->visible(fn (callable $get) => $get('service_charge') != 0)
-                    ->afterStateUpdated(function ($state, callable $get, callable $set) {
-                        $set('total', self::calculateTotal($get));
-                    }),
+                    ->visible(fn (callable $get) => $get('service_charge') != 0),
 
                 Forms\Components\TextInput::make('month')
                     ->type('month')
@@ -142,13 +122,6 @@ class DueBillResource extends Resource
                             }
                         }
                     }),
-
-                Forms\Components\TextInput::make('total')
-                    ->numeric()
-                    ->reactive()
-                    ->readOnly()
-                    ->required(),
-
                 Forms\Components\Select::make('payment_status')
                     ->options([
                         'unpaid' => 'Unpaid',
