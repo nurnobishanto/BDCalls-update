@@ -223,8 +223,8 @@ class SiteController extends Controller
             // Create OrderItem
             OrderItem::create([
                 'order_id' => $order->id,
-                'item_id' => $ipNumber->id,
-                'item_type' => get_class($ipNumber),
+                'item_id' => $purchaseNumber->id,
+                'item_type' => get_class($purchaseNumber),
                 'quantity' => 1,
                 'price' => $ipNumber->price,
             ]);

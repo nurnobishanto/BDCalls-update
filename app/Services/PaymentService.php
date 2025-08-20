@@ -1,5 +1,6 @@
 <?php
 namespace App\Services;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\Payment\BkashController;
 use App\Http\Controllers\Payment\EpsController;
 use App\Http\Controllers\Payment\PayStationController;
@@ -12,6 +13,14 @@ class PaymentService
 {
     public static function handlePayment(Payment $payment)
     {
+        if ($payment->amount == 0){
+            $payment->status = 'paid';
+            $payment->update();
+            $orderController = new OrderController();
+            $orderController->order_paid($payment);
+            alert()->success('Payment has been successfully processed', 'Success');
+            return redirect(route('order_details', ['id' => $payment->order_id]));
+        }
         $paymentHandlers = [
             'bkash' => [BkashController::class, 'PayWithBkash'],
             'eps' => [EpsController::class, 'PayWithEps'],

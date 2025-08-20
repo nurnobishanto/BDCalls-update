@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 
 use App\Models\DueBill;
+use App\Models\NumberPurchase;
 use App\Models\Order;
 use App\Models\Payment;
 use App\Models\Recharge;
@@ -92,6 +93,12 @@ class OrderController extends Controller
                             $deuBill = DueBill::find($item->item_id);
                             $deuBill->payment_status = 'paid';
                             $deuBill->update();
+                        }elseif ($item->item_type == 'App\Models\NumberPurchase'){
+                            $numberPurchase = NumberPurchase::find($item->item_id);
+                            $numberPurchase->status = 'progress';
+                            $numberPurchase->payment_status = 'paid';
+                            $numberPurchase->payment_method = $order->payment_method;
+                            $numberPurchase->update();
                         }
                     }
                     $order->status = 'completed';
