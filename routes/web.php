@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/',[SiteController::class,'home'])->name('home');
 Route::get('/search-number', [SiteController::class, 'searchNumber'])->name('search_number');
 Route::get('/number-purchase/{id}', [SiteController::class, 'numberPurchase'])->name('number_purchase');
+Route::post('/number-purchase-submit/{id}', [SiteController::class, 'numberPurchaseSubmit'])->name('number_purchase_submit');
 Route::get('/apply-number', [SiteController::class, 'applyNumber'])->name('apply_number');
 Route::post('/apply-number-submit', [SiteController::class, 'applyNumberSubmit'])->name('apply_number_submit');
 Route::get('/packages', [SiteController::class, 'package'])->name('package');

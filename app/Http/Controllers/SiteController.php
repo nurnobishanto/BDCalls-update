@@ -114,7 +114,14 @@ class SiteController extends Controller
     }
     public function numberPurchase($id)
     {
-
+        $ipNumber = IpNumber::findOrFail($id);
+        SEOMeta::setTitle('Purchase Number');
+        SEOMeta::setDescription(getSetting('site_tagline'));
+        $data = [
+            'ipNumber' => $ipNumber,
+            'countries' => \App\Models\Country::where('status',true)->get(),
+        ];
+        return view('website.pages.numberPurchase',$data);
     }
     public function applyNumber()
     {
