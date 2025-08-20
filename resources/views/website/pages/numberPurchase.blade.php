@@ -153,6 +153,17 @@
                         </div>
                     </div>
                 </div>
+                <h4 class="text-center text-primary mb-3">Select Payment Method</h4>
+                <div class="radio-group">
+                    <label>
+                        <input type="radio"  name="payment_method" value="automatic" checked/>
+                        Automatic
+                    </label>
+                    <label for="business">
+                        <input type="radio" name="payment_method" value="manual"/>
+                        <span>Manual</span>
+                    </label>
+                </div>
             </form>
         </div>
     </section>

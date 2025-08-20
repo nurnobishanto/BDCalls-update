@@ -5,9 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\ApplyNumber;
 use App\Models\IpNumber;
 use App\Models\MinuteBundle;
+use App\Models\NumberPurchase;
+use App\Models\Order;
+use App\Models\OrderItem;
 use App\Models\Package;
+use App\Models\Payment;
 use App\Models\User;
 use App\Models\UserIpNumber;
+use App\Services\PaymentService;
 use Artesaos\SEOTools\Facades\SEOMeta;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -122,6 +127,127 @@ class SiteController extends Controller
             'countries' => \App\Models\Country::where('status',true)->get(),
         ];
         return view('website.pages.numberPurchase',$data);
+    }
+    public function numberPurchaseSubmit(Request $request,$id)
+    {
+        $ipNumber = IpNumber::findOrFail($id);
+        // Validate basic required fields (you can expand)
+        $request->validate([
+            'payment_method' => 'required|in:manual,automatic',
+            'your_name' => 'required|string|max:255',
+            'email' => 'nullable|email|max:255',
+            'phone' => 'nullable|string|max:20',
+            'account_type' => 'required|in:personal,business',
+            'nid_font_image' => 'required|image|max:2048',
+            'nid_back_image' => 'required|image|max:2048',
+            'selfie_photo' => 'required|image|max:2048',
+            'trade_license' => 'nullable|image|max:2048',
+        ]);
+        // 1. Find user by email or phone
+        $user = null;
+        if ($request->filled('email')) {
+            $user = User::where('email', $request->email)->first();
+        }
+        if (!$user && $request->filled('phone')) {
+            $user = User::where('phone', $request->phone)->first();
+        }
+
+        // 2. If user not found, create user
+        if (!$user) {
+            $user = User::create([
+                'name' => $request->your_name,
+                'email' => $request->email,
+                'phone' => $request->phone,
+                'password' => Hash::make('defaultpassword'), // or generate random or ask user to reset password
+                'phone_country_code' => $request->phone_country_code,
+                'whatsapp_country_code' => $request->WhatsApp_country_code,
+                'whatsapp_number' => $request->whatsapp_number,
+            ]);
+        }
+
+        // 3. Store uploaded files and get paths
+        $nidFrontPath = $request->file('nid_font_image')->store('apply_numbers/nid_front', 'public');
+        $nidBackPath = $request->file('nid_back_image')->store('apply_numbers/nid_back', 'public');
+        $selfiePhotoPath = $request->file('selfie_photo')->store('apply_numbers/selfie', 'public');
+        $tradeLicensePath = $request->hasFile('trade_license')
+            ? $request->file('trade_license')->store('apply_numbers/trade_license', 'public')
+            : null;
+
+        // 4. Create ApplyNumber record
+        $purchaseNumber = NumberPurchase::create([
+            'user_id' => $user->id,
+            'ip_number_id' => $ipNumber->id,
+            'account_type' => $request->account_type,
+            'name' => $request->your_name,
+            'company_name' => $request->company_name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'phone_country_code' => $request->phone_country_code,
+            'whatsapp_country_code' => $request->whatsapp_country_code,
+            'whatsapp_number' => $request->whatsapp_number,
+            'ip_number' => $request->ip_number,
+            'enather_ip_number' => $request->enather_ip_number,
+            'nid_font_image' => $nidFrontPath,
+            'nid_back_image' => $nidBackPath,
+            'trade_license' => $tradeLicensePath,
+            'selfie_photo' => $selfiePhotoPath,
+            'status' => NumberPurchase::STATUS_PENDING,
+            'payment_status' => NumberPurchase::PAYMENT_PENDING,
+            'payment_method' => $request->payment_method,
+        ]);
+        // 2️⃣ Check if an Order exists for this pending recharge
+        $order = Order::whereJsonContains('billing_details->purchase_number_id',  $purchaseNumber->id->id)
+            ->whereJsonContains('billing_details->user_id', $user->id)
+            ->where('status', 'pending')
+            ->first();
+
+        if (!$order) {
+            $order = Order::create([
+                'user_id' => $user->id,
+                'payment_method' => $request->payment_method,
+                'status' => 'pending',
+                'total' => $ipNumber->price,
+                'billing_details' => [
+                    'ip_number' => $ipNumber->number,
+                    'purchase_number_id' => $purchaseNumber->id,
+                    'user_id' => $user->id,
+                    'name' => $user->name,
+                    'email' => $user->email,
+                    'phone' => $user->phone,
+                    'phone_country_code' => $user->phone_country_code,
+                    'whatsapp_number' => $user->whatsapp_number,
+                    'whatsapp_country_code' => $user->whatsapp_country_code,
+                ],
+            ]);
+
+            // Create OrderItem
+            OrderItem::create([
+                'order_id' => $order->id,
+                'item_id' => $ipNumber->id,
+                'item_type' => get_class($ipNumber),
+                'quantity' => 1,
+                'price' => $ipNumber->price,
+            ]);
+        }
+
+        // 3️⃣ Check if Payment exists for this order
+        $payment = Payment::where('order_id', $order->id)
+            ->where('amount', $ipNumber->price)
+            ->where('status', 'pending')
+            ->first();
+
+        if (!$payment) {
+            $payment = Payment::create([
+                'user_id' => $user->id,
+                'order_id' => $order->id,
+                'amount' => $ipNumber->price,
+                'payment_method' => $request->payment_method,
+                'status' => 'pending',
+            ]);
+        }
+
+        // 4️⃣ Handle payment via service
+        return PaymentService::handlePayment($payment);
     }
     public function applyNumber()
     {
