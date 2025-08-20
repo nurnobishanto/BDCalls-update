@@ -76,12 +76,15 @@
                         title: 'Pay Your Due Bill',
                         html: `
                     <p><strong>IP Number:</strong> ${number}</p>
-                    <p><strong>Total Due:</strong> ${amount} BDT</p>
+                    <p class="text-center text-danger fs-4 fw-bold"><strong>Total Due:</strong> ${amount} BDT</p>
                     <label for="payment-method">Select Payment Method:</label>
-                    <select id="payment-method" class="swal2-select">
-                        <option value="automatic">Automatic</option>
-                        <option value="manual">Manual</option>
-                    </select>
+                    <div style="text-align:center; margin-top:15px;">
+                        <input type="radio" id="automatic" name="payment_method" value="automatic" checked>
+                        <label for="automatic" style="margin-right:15px;">Automatic</label>
+
+                        <input type="radio" id="manual" name="payment_method" value="manual">
+                        <label for="manual">Manual</label>
+                    </div>
                 `,
                         showCancelButton: true,
                         confirmButtonText: 'Pay Now',
