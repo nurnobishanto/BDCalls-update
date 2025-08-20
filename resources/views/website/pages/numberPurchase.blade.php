@@ -147,8 +147,8 @@
                                 </div>
                             </div>
                         </div>
-                        <h6 class="text-center text-primary my-1">Select Payment Method</h6>
-                        <div class="radio-group">
+                        <h6 class="text-center text-primary mt-2">Select Payment Method</h6>
+                        <div class="radio-group m-0">
                             <label>
                                 <input type="radio"  name="payment_method" value="automatic" checked/>
                                 Automatic
