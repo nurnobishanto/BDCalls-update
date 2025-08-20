@@ -6,7 +6,7 @@
             <h2 class="text-center mb-4">Find Your IP Telephone Number</h2>
 
             <!-- Filter & Search -->
-            <form id="filterForm" method="GET" class="row mb-3">
+            <form id="filterForm" method="GET" class="row gy-2 mb-3">
                 <div class="col-sm-4 col-12">
                     <div class="input-group">
                         <span class="input-group-text bg-light">
