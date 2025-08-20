@@ -57,6 +57,7 @@ class SiteController extends Controller
         ];
         return view('website.pages.billPay',$data);
     }
+
     public function package()
     {
         SEOMeta::setTitle('Packages');

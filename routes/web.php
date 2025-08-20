@@ -13,7 +13,7 @@ Route::get('/packages', [SiteController::class, 'package'])->name('package');
 Route::get('/recharge', [SiteController::class, 'recharge'])->name('recharge');
 Route::post('/recharge-ip', [IpNumberController::class, 'recharge'])->name('recharge.ipnumber');
 Route::get('/bill-pay', [SiteController::class, 'billPay'])->name('bill_pay');
-Route::post('/bill-payment', [SiteController::class, 'bill_payment'])->name('bill_payment');
+Route::post('/bill-payment', [IpNumberController::class, 'bill_payment'])->name('bill_payment');
 Route::get('/minute-bundle', [SiteController::class, 'minuteBundle'])->name('minute_bundle');
 Route::get('/thank-you', [SiteController::class, 'thankYou'])->name('thank_you');
 

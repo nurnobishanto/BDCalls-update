@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 
+use App\Models\DueBill;
 use App\Models\Order;
 use App\Models\Payment;
 use App\Models\Recharge;
@@ -87,6 +88,10 @@ class OrderController extends Controller
                             $recharge->payment_request = json_encode($payment->request);
                             $recharge->payment_response = json_encode($payment->response);
                             $recharge->update();
+                        }elseif ($item->item_type == 'App\Models\DueBill'){
+                            $deuBill = DueBill::find($item->item_id);
+                            $deuBill->payment_status = 'paid';
+                            $deuBill->update();
                         }
                     }
                     $order->status = 'completed';

@@ -95,5 +95,80 @@ class IpNumberController extends Controller
         // 4️⃣ Handle payment via service
         return PaymentService::handlePayment($payment);
     }
+    public function bill_payment(Request $request)
+    {
+        // 1️⃣ Validate input
+        $request->validate([
+            'number' => 'required|exists:user_ip_numbers,number',
+            'amount' => 'required|numeric|min:0',
+            'payment_method' => 'required|in:manual,automatic',
+        ]);
+
+        $userIpNumber = UserIpNumber::where('number', $request->number)
+            ->with(['user', 'dueBills' => fn($q) => $q->where('payment_status', 'unpaid')])
+            ->firstOrFail();
+
+        $user = $userIpNumber->user;
+        $unpaidBills = $userIpNumber->dueBills;
+
+        if ($unpaidBills->isEmpty()) {
+            return redirect()->back()->with('info', 'No unpaid bills for this IP number.');
+        }
+
+        // 2️⃣ Find existing pending order for these bills
+        $dueBillIds = $unpaidBills->pluck('id')->toArray();
+
+        $order = Order::whereJsonContains('billing_details->due_bill_ids', $dueBillIds)
+            ->where('status', 'pending')
+            ->first();
+
+        // 3️⃣ If no pending order, create one
+        if (!$order) {
+            $order = Order::create([
+                'user_id' => $user->id,
+                'payment_method' => $request->payment_method,
+                'status' => 'pending',
+                'total' => round($unpaidBills->sum('total')),
+                'billing_details' => [
+                    'ip_number' => $userIpNumber->number,
+                    'due_bill_ids' => $dueBillIds,
+                    'name' => $user->name,
+                    'email' => $user->email,
+                    'phone' => $user->phone,
+                    'phone_country_code' => $user->phone_country_code,
+                    'whatsapp_number' => $user->whatsapp_number,
+                    'whatsapp_country_code' => $user->whatsapp_country_code,
+                ],
+            ]);
+
+            // Create order items
+            foreach ($unpaidBills as $bill) {
+                OrderItem::create([
+                    'order_id' => $order->id,
+                    'item_id' => $bill->id,
+                    'item_type' => get_class($bill),
+                    'quantity' => 1,
+                    'price' => $bill->total,
+                ]);
+            }
+        }
+
+        // 4️⃣ Find or create pending payment
+        $payment = Payment::firstOrCreate(
+            [
+                'order_id' => $order->id,
+                'status' => 'pending',
+            ],
+            [
+                'user_id' => $user->id,
+                'amount' => $order->total,
+                'payment_method' => $request->payment_method,
+            ]
+        );
+
+        // 5️⃣ Handle payment via service
+        return PaymentService::handlePayment($payment);
+    }
+
 
 }
