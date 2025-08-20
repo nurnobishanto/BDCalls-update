@@ -112,6 +112,10 @@ class SiteController extends Controller
         }
         return view('website.pages.searchNumber',$data);
     }
+    public function numberPurchase($id)
+    {
+
+    }
     public function applyNumber()
     {
         SEOMeta::setTitle('Apply Number');

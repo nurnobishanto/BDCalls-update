@@ -27,7 +27,7 @@
             </td>
             <td>
                 @if($ip->status == 'available')
-                    <a href="" class="badge bg-success text-light">Apply Now</a>
+                    <a href="{{route('number_purchase',['id'=>$ip->id])}}" class="badge bg-success text-light">Apply Now</a>
                 @endif
             </td>
         </tr>
