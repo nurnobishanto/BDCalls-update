@@ -141,79 +141,100 @@
             const orderButtons = document.querySelectorAll('.order-btn');
 
             orderButtons.forEach(btn => {
-                btn.addEventListener('click', async function () {
+                btn.addEventListener('click', async function startOrder() {
                     const bundleId = this.dataset.bundleId;
                     const bundleTitle = this.dataset.bundleTitle;
 
-                    // Step 1: Ask user to enter IP number
-                    const { value: number } = await Swal.fire({
-                        title: 'Enter your IP Number',
-                        input: 'text',
-                        inputPlaceholder: 'Type your IP number',
-                        showCancelButton: true,
-                    });
-
-                    if (!number) return;
-
-                    // Step 2: Search IP via Ajax
-                    const response = await fetch(`/api/search-ip?number=${number}`);
-                    const result = await response.json();
-
-                    if (!result.success) {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Not Found',
-                            text: result.message
+                    while (true) { // loop until valid IP or cancelled
+                        // Step 1: Ask user to enter IP number
+                        const { value: number } = await Swal.fire({
+                            title: 'Enter your IP Number',
+                            input: 'text',
+                            inputPlaceholder: 'Type your IP number',
+                            showCancelButton: true,
+                            confirmButtonText: 'Search',
                         });
-                        return;
-                    }
 
-                    const ip = result.data;
+                        if (!number) return; // Cancel pressed
 
-                    // Step 3: Confirm order
-                    const confirmResult = await Swal.fire({
-                        title: 'Confirm Order',
-                        html: `
-                    <p>Bundle: <b>${bundleTitle}</b></p>
-                    <p>IP Number: <b>${ip.number}</b></p>
-                    <p>User Name: <b>${ip.user_name}</b></p>
-                `,
-                        showCancelButton: true,
-                        confirmButtonText: 'Confirm Order',
-                    });
+                        // Step 2: Search IP via Ajax
+                        const response = await fetch(`/api/search-ip?number=${number}`);
+                        const result = await response.json();
 
-                    if (!confirmResult.isConfirmed) return;
-
-                    // Step 4: Submit order
-                    fetch(`/order-bundle`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                        },
-                        body: JSON.stringify({
-                            bundle_id: bundleId,
-                            user_ip_number_id: ip.id
-                        })
-                    })
-                        .then(res => res.json())
-                        .then(res => {
-                            Swal.fire({
-                                icon: res.success ? 'success' : 'error',
-                                title: res.message
-                            });
-                        })
-                        .catch(() => {
-                            Swal.fire({
+                        if (!result.success) {
+                            // If not found, offer to search again
+                            const retry = await Swal.fire({
                                 icon: 'error',
-                                title: 'Something went wrong'
+                                title: 'Not Found',
+                                text: result.message,
+                                showCancelButton: true,
+                                confirmButtonText: 'Search Again',
+                                cancelButtonText: 'Cancel'
                             });
+                            if (!retry.isConfirmed) return; // Cancel pressed
+                            continue; // loop again
+                        }
+
+                        const ip = result.data;
+
+                        // Step 3: Confirm order with payment method
+                        const { value: paymentMethod } = await Swal.fire({
+                            title: 'Confirm Order',
+                            html: `
+                        <p>Bundle: <b>${bundleTitle}</b></p>
+                        <p>IP Number: <b>${ip.number}</b></p>
+                        <p>User Name: <b>${ip.user_name}</b></p>
+                        <label for="payment_method">Payment Method:</label>
+                        <select id="payment_method" class="swal2-select">
+                            <option value="manual">Manual</option>
+                            <option value="automatic">Automatic</option>
+                        </select>
+                    `,
+                            showCancelButton: true,
+                            confirmButtonText: 'Submit Order',
+                            preConfirm: () => {
+                                const method = document.getElementById('payment_method').value;
+                                if (!method) Swal.showValidationMessage('Please select a payment method');
+                                return method;
+                            }
                         });
+
+                        if (!paymentMethod) return; // Cancel pressed
+
+                        // Step 4: Submit order
+                        fetch(`/order-bundle`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                            },
+                            body: JSON.stringify({
+                                bundle_id: bundleId,
+                                user_ip_number_id: ip.id,
+                                payment_method: paymentMethod
+                            })
+                        })
+                            .then(res => res.json())
+                            .then(res => {
+                                Swal.fire({
+                                    icon: res.success ? 'success' : 'error',
+                                    title: res.message
+                                });
+                            })
+                            .catch(() => {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Something went wrong'
+                                });
+                            });
+
+                        break; // exit loop after successful submit
+                    }
                 });
             });
         });
-
     </script>
+
 
 @endsection
 
