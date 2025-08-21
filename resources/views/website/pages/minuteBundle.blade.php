@@ -45,7 +45,7 @@
                             </ul>
 
                             <div class="d-flex justify-content-center mb-3">
-                                <button type="button" class="btn btn-primary"
+                                <button type="button" class="btn btn-primary order-btn"
                                         data-bundle-id="{{ $bundle->id }}"
                                         data-bundle-title="{{ $bundle->title }}">অর্ডার করুন
                                 </button>
