@@ -16,6 +16,14 @@
                                 <h5 class="text-center text-white mb-2 fw-bold mt-3"> {{$bundle->title}}
                                     ({{bn_number($bundle->minutes)}} মিনিট)</h5>
                             </div>
+                            <div class="p-1" style="background-color: rgb(6, 6, 150); border-top-left-radius: 5px; border-top-right-radius: 5px;">
+                                <h5 class="text-center text-white mb-2 fw-bold mt-3">{{$bundle->title}}
+                                    ({{bn_number($bundle->minutes)}} মিনিট)</h5>
+                            </div>
+                            <div class="p-3" style="background-color:rgb(71, 71, 248);">
+                                <p class="h6 fw-bold text-white text-center" style="line-height: 25px;"><b class="h4 fw-bold text-white"> মূল্য:
+                                        {{bn_number(number_format($bundle->price))}} </b> টাকা</p>
+                            </div>
                             <ul class="feature-list px-3 pt-3">
                                 <li class="checked"><span class="icon"><i class="fas fa-check"></i></span>ইনকামিং
                                     চার্জ: {{$bundle->incoming_charge}}
