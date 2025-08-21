@@ -45,7 +45,9 @@
                             </ul>
 
                             <div class="d-flex justify-content-center mb-3">
-                                <button type="button" class="btn btn-primary" >অর্ডার করুন
+                                <button type="button" class="btn btn-primary"
+                                        data-bundle-id="{{ $bundle->id }}"
+                                        data-bundle-title="{{ $bundle->title }}">অর্ডার করুন
                                 </button>
                             </div>
 
@@ -133,6 +135,85 @@
 
 @endsection
 @section('custom_js')
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const orderButtons = document.querySelectorAll('.order-btn');
+
+            orderButtons.forEach(btn => {
+                btn.addEventListener('click', async function () {
+                    const bundleId = this.dataset.bundleId;
+                    const bundleTitle = this.dataset.bundleTitle;
+
+                    // Step 1: Ask user to enter IP number
+                    const { value: number } = await Swal.fire({
+                        title: 'Enter your IP Number',
+                        input: 'text',
+                        inputPlaceholder: 'Type your IP number',
+                        showCancelButton: true,
+                    });
+
+                    if (!number) return;
+
+                    // Step 2: Search IP via Ajax
+                    const response = await fetch(`/api/search-ip?number=${number}`);
+                    const result = await response.json();
+
+                    if (!result.success) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Not Found',
+                            text: result.message
+                        });
+                        return;
+                    }
+
+                    const ip = result.data;
+
+                    // Step 3: Confirm order
+                    const confirmResult = await Swal.fire({
+                        title: 'Confirm Order',
+                        html: `
+                    <p>Bundle: <b>${bundleTitle}</b></p>
+                    <p>IP Number: <b>${ip.number}</b></p>
+                    <p>User Name: <b>${ip.user_name}</b></p>
+                `,
+                        showCancelButton: true,
+                        confirmButtonText: 'Confirm Order',
+                    });
+
+                    if (!confirmResult.isConfirmed) return;
+
+                    // Step 4: Submit order
+                    fetch(`/order-bundle`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        },
+                        body: JSON.stringify({
+                            bundle_id: bundleId,
+                            user_ip_number_id: ip.id
+                        })
+                    })
+                        .then(res => res.json())
+                        .then(res => {
+                            Swal.fire({
+                                icon: res.success ? 'success' : 'error',
+                                title: res.message
+                            });
+                        })
+                        .catch(() => {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Something went wrong'
+                            });
+                        });
+                });
+            });
+        });
+
+    </script>
 
 @endsection
 

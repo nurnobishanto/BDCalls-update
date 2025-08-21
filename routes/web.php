@@ -24,7 +24,8 @@ Route::post('order-pay/{id}',[\App\Http\Controllers\OrderController::class,'orde
 Route::get('/manual-payment/{payment_id}',[\App\Http\Controllers\PaymentController::class,'manual_payment'])->name('manual_payment');
 Route::post('/manual-payment/{payment_id}', [\App\Http\Controllers\PaymentController::class, 'manual_payment_submit'])->name('manual_payment.submit');
 
-
+Route::get('/api/search-ip', [IpNumberController::class, 'searchIp']);
+Route::post('/order-minute-bundle', [IpNumberController::class, 'orderMinuteBundle']);
 Route::get('/{slug}', [SiteController::class, 'slug'])->name('slug');
 
 require __DIR__.'/auth.php';

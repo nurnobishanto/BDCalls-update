@@ -168,6 +168,35 @@ class IpNumberController extends Controller
         // 5️⃣ Handle payment via service
         return PaymentService::handlePayment($payment);
     }
+    public function searchIp(Request $request)
+    {
+        $request->validate([
+            'number' => 'required|string',
+        ]);
 
+        $ip = UserIpNumber::with('user')
+            ->where('number', $request->number)
+            ->first();
+
+        if (!$ip) {
+            return response()->json([
+                'success' => false,
+                'message' => 'IP number not found or has no package assigned.'
+            ]);
+        }
+
+        return response()->json([
+            'success' => true,
+            'data' => [
+                'id' => $ip->id,
+                'number' => $ip->number,
+                'user_name' => $ip->user->name,
+            ],
+        ]);
+    }
+    public function orderMinuteBundle(Request $request)
+    {
+
+    }
 
 }
