@@ -34,7 +34,13 @@ class DueBillResource extends Resource
             ->schema([
                 Forms\Components\Select::make('user_id')
                     ->label('User')
-                    ->options(User::pluck('name', 'id'))
+                    ->options(function () {
+                        // Get users who have at least one IP number with a package
+                        return User::whereHas('ipNumbers', function ($query) {
+                            $query->whereNotNull('package_id');
+                        })
+                            ->pluck('name', 'id');
+                    })
                     ->searchable()
                     ->reactive()
                     ->required(),

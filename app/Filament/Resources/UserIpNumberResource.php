@@ -56,8 +56,7 @@ class UserIpNumberResource extends Resource
                     ->label('Package')
                     ->relationship('package', 'name')
                     ->searchable()
-                    ->preload()
-                    ->required(),
+                    ->preload(),
 
                 TextInput::make('number')
                     ->unique(ignoreRecord: true)
@@ -110,6 +109,7 @@ class UserIpNumberResource extends Resource
             ->actions([
                 Action::make('Add Due Bill')
                     ->button()
+                    ->visible(fn($record) => $record->package_id !== null)
                     ->color('success')
                     ->modalHeading('Add Due Bill')
                     ->form([
@@ -170,7 +170,7 @@ class UserIpNumberResource extends Resource
                                             }
                                         }),
 
-                                    
+
                                     Forms\Components\Select::make('payment_status')
                                         ->options([
                                             'unpaid' => 'Unpaid',

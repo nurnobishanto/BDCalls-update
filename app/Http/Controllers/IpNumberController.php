@@ -140,7 +140,6 @@ class IpNumberController extends Controller
                     'whatsapp_country_code' => $user->whatsapp_country_code,
                 ],
             ]);
-
             // Create order items
             foreach ($unpaidBills as $bill) {
                 OrderItem::create([
