@@ -9,10 +9,6 @@
             <div class="row gy-4 justify-content-center align-items-center">
                 <div class="col-12 col-md-5">
                     <form action="" method="GET" class="p-4 shadow rounded bg-white">
-                        <div class="mb-3 text-center">
-                            <h5 class="fw-bold mb-0">Search Number</h5>
-                        </div>
-
                         <div class="input-group">
                             <input
                                 type="text"

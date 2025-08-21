@@ -19,10 +19,6 @@
                                 </ul>
                             </div>
                         @endif
-                        <div class="mb-3 text-center">
-                            <h5 class="fw-bold mb-0">Search Number</h5>
-                        </div>
-
                         <div class="input-group">
                             <input
                                 type="text"
