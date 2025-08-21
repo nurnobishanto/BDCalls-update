@@ -11,11 +11,6 @@
                 @foreach($bundles as $bundle)
                     <div class="col-12 col-sm-6 col-md-3">
                         <div class="card-custom mb-4 pb-1">
-                            <div class="p-1"
-                                 style="background-color: #4747F8; border-top-left-radius: 5px; border-top-right-radius: 5px;">
-                                <h5 class="text-center text-white mb-2 fw-bold mt-3"> {{$bundle->title}}
-                                    ({{bn_number($bundle->minutes)}} মিনিট)</h5>
-                            </div>
                             <div class="p-1" style="background-color: rgb(6, 6, 150); border-top-left-radius: 5px; border-top-right-radius: 5px;">
                                 <h5 class="text-center text-white mb-2 fw-bold mt-3">{{$bundle->title}}
                                     ({{bn_number($bundle->minutes)}} মিনিট)</h5>
