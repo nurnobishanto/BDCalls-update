@@ -42,8 +42,7 @@
                             </ul>
 
                             <div class="d-flex justify-content-center mb-3">
-                                <button type="button" class="btn-cancel fw-bold order-btn" data-bs-toggle="modal"
-                                        data-bs-target="#exampleModal" data-id="{{$bundle->id}}">অর্ডার করুন
+                                <button type="button" class="btn btn-primary" >অর্ডার করুন
                                 </button>
                             </div>
 

@@ -57,7 +57,7 @@
 
                             </ul>
                             <div class="d-flex justify-content-center w-100 pt-2">
-                                <button type="button" class="btn-cancel fw-bold order-btn" data-bs-toggle="modal" data-bs-target="#exampleModal" data-id="5">অর্ডার করুন</button>
+                                <button type="button" class="btn-cancel fw-bold order-btn">অর্ডার করুন</button>
                             </div>
                         </div>
                     </div>
