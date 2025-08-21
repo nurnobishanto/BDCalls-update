@@ -3,54 +3,56 @@
 @section('content')
     <!-- End Page Title Area -->
     <section>
-        <div class="text-center mb-3 mt-4 px-3">
-            <p class="h3 fw-bold">Choose Your Best Bundle </p>
-        </div>
+        <div class="container">
+            <div class="text-center mb-3 mt-4 px-3">
+                <p class="h3 fw-bold">Choose Your Best Bundle </p>
+            </div>
+            <div class="row gy-3 justify-content-center">
+                @foreach($bundles as $bundle)
+                    <div class="col-12 col-sm-6 col-md-3">
+                        <div class="card-custom mb-4 pb-1">
+                            <div class="p-1"
+                                 style="background-color: #4747F8; border-top-left-radius: 5px; border-top-right-radius: 5px;">
+                                <h5 class="text-center text-white mb-2 fw-bold mt-3"> {{$bundle->title}}
+                                    ({{bn_number($bundle->minutes)}} মিনিট)</h5>
+                            </div>
+                            <ul class="feature-list px-3 pt-3">
+                                <li class="checked"><span class="icon"><i class="fas fa-check"></i></span>ইনকামিং
+                                    চার্জ: {{$bundle->incoming_charge}}
+                                </li>
+                                <li class="checked"><span class="icon"><i class="fas fa-check"></i></span>কল চার্জ আইপি
+                                    নাম্বার: {{$bundle->ip_number_charge}}
+                                </li>
+                                <li class="checked"><span class="icon"><i class="fas fa-check"></i></span>কল চার্জ
+                                    এক্সটেনশন: {{$bundle->extension_charge}}
+                                </li>
+                                <li class="checked"><span class="icon"><i class="fas fa-check"></i></span>আউটগোয়িং কল চার্জ
+                                    : {{$bundle->outgoing_call_charge}}
+                                </li>
+                                <li class="checked"><span class="icon"><i class="fas fa-check"></i></span>পান্স
+                                    : {{$bundle->pulse}}</li>
+                                <li class="checked"><span class="icon"><i class="fas fa-check"></i></span>মিনিট
+                                    : {{bn_number($bundle->minutes)}}</li>
+                                <li class="checked"><span class="icon"><i class="fas fa-check"></i></span>মেয়াদ
+                                    : {{$bundle->validity}}</li>
+                                <li class="checked"><span class="icon"><i class="fas fa-check"></i></span><span
+                                        style="font-size: 17px; margin-right: 3px;">{{bn_number(number_format($bundle->price))}} </span>
+                                    টাকা
+                                </li>
+                            </ul>
 
-        <div class="row justify-content-center">
-            @foreach($bundles as $bundle)
-                <div class="col-12 col-sm-6 col-md-3 d-flex justify-content-center">
-                    <div class="card-custom mb-4 pb-1">
-                        <div class="p-1"
-                             style="background-color: #4747F8; border-top-left-radius: 5px; border-top-right-radius: 5px;">
-                            <h5 class="text-center text-white mb-2 fw-bold mt-3"> {{$bundle->title}}
-                                ({{bn_number($bundle->minutes)}} মিনিট)</h5>
+                            <div class="d-flex justify-content-center mb-3">
+                                <button type="button" class="btn-cancel fw-bold order-btn" data-bs-toggle="modal"
+                                        data-bs-target="#exampleModal" data-id="{{$bundle->id}}">অর্ডার করুন
+                                </button>
+                            </div>
+
                         </div>
-                        <ul class="feature-list px-3 pt-3">
-                            <li class="checked"><span class="icon"><i class="fas fa-check"></i></span>ইনকামিং
-                                চার্জ: {{$bundle->incoming_charge}}
-                            </li>
-                            <li class="checked"><span class="icon"><i class="fas fa-check"></i></span>কল চার্জ আইপি
-                                নাম্বার: {{$bundle->ip_number_charge}}
-                            </li>
-                            <li class="checked"><span class="icon"><i class="fas fa-check"></i></span>কল চার্জ
-                                এক্সটেনশন: {{$bundle->extension_charge}}
-                            </li>
-                            <li class="checked"><span class="icon"><i class="fas fa-check"></i></span>আউটগোয়িং কল চার্জ
-                                : {{$bundle->outgoing_call_charge}}
-                            </li>
-                            <li class="checked"><span class="icon"><i class="fas fa-check"></i></span>পান্স
-                                : {{$bundle->pulse}}</li>
-                            <li class="checked"><span class="icon"><i class="fas fa-check"></i></span>মিনিট
-                                : {{bn_number($bundle->minutes)}}</li>
-                            <li class="checked"><span class="icon"><i class="fas fa-check"></i></span>মেয়াদ
-                                : {{$bundle->validity}}</li>
-                            <li class="checked"><span class="icon"><i class="fas fa-check"></i></span><span
-                                    style="font-size: 17px; margin-right: 3px;">{{bn_number(number_format($bundle->price))}} </span>
-                                টাকা
-                            </li>
-                        </ul>
-
-                        <div class="d-flex justify-content-center mb-3">
-                            <button type="button" class="btn-cancel fw-bold order-btn" data-bs-toggle="modal"
-                                    data-bs-target="#exampleModal" data-id="{{$bundle->id}}">অর্ডার করুন
-                            </button>
-                        </div>
-
                     </div>
-                </div>
-            @endforeach
+                @endforeach
+            </div>
         </div>
+
     </section>
     <!-- Modal -->
 @endsection
