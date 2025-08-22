@@ -181,14 +181,20 @@
                         const { value: paymentMethod } = await Swal.fire({
                             title: 'Confirm Order',
                             html: `
-                        <p>Bundle: <b>${bundleTitle}</b></p>
-                        <p>IP Number: <b>${ip.number}</b></p>
-                        <p>User Name: <b>${ip.user_name}</b></p>
-                        <label for="payment_method">Payment Method:</label>
-                        <select id="payment_method" class="swal2-select">
-                            <option value="manual">Manual</option>
-                            <option value="automatic">Automatic</option>
-                        </select>
+                        <p class="mb-0 fs-4">Bundle: <b>${bundleTitle}</b></p>
+                        <p class="mb-0 fs-3 text-primary">IP Number: <b>${ip.number}</b></p>
+                        <p class="mb-0 fs-5">User Name: <b>${ip.user_name}</b></p>
+                        <div style="text-align:center; margin-top:15px;">
+                        <label class="fs-5 d-block mb-2"><b>Payment Method:</b></label>
+                        <label style="margin: 0 15px;">
+                            <input type="radio" name="payment_method" value="manual" checked>
+                            Manual
+                        </label>
+                        <label style="margin: 0 15px;">
+                            <input type="radio" name="payment_method" value="automatic">
+                            Automatic
+                        </label>
+                    </div>
                     `,
                             showCancelButton: true,
                             confirmButtonText: 'Submit Order',
@@ -202,7 +208,7 @@
                         if (!paymentMethod) return; // Cancel pressed
 
                         // Step 4: Submit order
-                        fetch(`/order-bundle`, {
+                        fetch(`/order-minute-bundle`, {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
