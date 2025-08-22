@@ -146,8 +146,8 @@
             display: none;
         }
         .gateway-option img {
-            max-width: 80px;
-            max-height: 80px;
+            max-width: 75px;
+            max-height: 75px;
             margin-bottom: 2px;
         }
         .gateway-option.selected {
