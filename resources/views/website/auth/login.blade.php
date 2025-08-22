@@ -1,9 +1,7 @@
 @extends('layouts.master')
 
 @section('content')
-    <!-- Start Page Title Area -->
-    @include('website.partials.page_header',['title'=>'Login'])
-    <!-- End Page Title Area -->
+
     <section class="ptb-75">
         <div class="container ">
             <div class="row justify-content-center align-items-center">
@@ -48,9 +46,6 @@
                             </form>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-6 order-2 order-md-1">
-                    <img src="{{asset('website/img/student-login.svg')}}" class="img-fluid">
                 </div>
             </div>
         </div>
