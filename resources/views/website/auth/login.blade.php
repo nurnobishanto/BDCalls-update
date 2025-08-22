@@ -41,18 +41,6 @@
                                     <a href="{{ route('password.reset') }}" class="text-decoration-none small text-primary">পাসওয়ার্ড পুনরুদ্ধার করুন!</a>
                                 </div>
 
-                                <hr class="my-2">
-                                <div class="d-flex justify-content-center gap-2">
-                                    <a href="{{ route('social.login', ['provider' => 'google']) }}"
-                                       class="btn btn-outline-danger rounded-pill d-flex align-items-center px-4">
-                                        <i class="ri-google-fill fs-4 me-2"></i> Google Login
-                                    </a>
-
-                                    <a href="{{ route('social.login', ['provider' => 'facebook']) }}"
-                                       class="btn btn-outline-primary rounded-pill d-flex align-items-center px-4">
-                                        <i class="ri-facebook-fill fs-4 me-2"></i> Facebook Login
-                                    </a>
-                                </div>
                                 <div class="text-center mt-4">
                                     <span class="text-muted">একাউন্ট নেই?</span>
                                     <a href="{{ route('register') }}" class="text-decoration-none fw-semibold">একাউন্ট  খুলুন</a>
