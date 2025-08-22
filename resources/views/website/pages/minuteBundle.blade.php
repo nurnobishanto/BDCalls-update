@@ -185,16 +185,16 @@
                         <p class="mb-0 fs-3 text-primary">IP Number: <b>${ip.number}</b></p>
                         <p class="mb-0 fs-5">User Name: <b>${ip.user_name}</b></p>
                         <div style="text-align:center; margin-top:15px;">
-                        <label class="fs-5 d-block mb-2"><b>Payment Method:</b></label>
-                        <label style="margin: 0 15px;">
-                            <input type="radio" name="payment_method" value="manual" checked>
-                            Manual
-                        </label>
-                        <label style="margin: 0 15px;">
-                            <input type="radio" name="payment_method" value="automatic">
-                            Automatic
-                        </label>
-                    </div>
+                            <label class="fs-5 d-block mb-2"><b>Payment Method:</b></label>
+                            <label style="margin: 0 15px;">
+                                <input type="radio" name="payment_method" value="manual" checked>
+                                Manual
+                            </label>
+                            <label style="margin: 0 15px;">
+                                <input type="radio" name="payment_method" value="automatic">
+                                Automatic
+                            </label>
+                        </div>
                     `,
                             showCancelButton: true,
                             confirmButtonText: 'Submit Order',
