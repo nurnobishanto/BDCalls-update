@@ -145,7 +145,7 @@
                     const bundleId = this.dataset.bundleId;
                     const bundleTitle = this.dataset.bundleTitle;
 
-                    while (true) { // loop until valid IP or cancelled
+                    while (true) {
                         // Step 1: Ask user to enter IP number
                         const { value: number } = await Swal.fire({
                             title: 'Enter your IP Number',
@@ -162,7 +162,6 @@
                         const result = await response.json();
 
                         if (!result.success) {
-                            // If not found, offer to search again
                             const retry = await Swal.fire({
                                 icon: 'error',
                                 title: 'Not Found',
@@ -171,8 +170,8 @@
                                 confirmButtonText: 'Search Again',
                                 cancelButtonText: 'Cancel'
                             });
-                            if (!retry.isConfirmed) return; // Cancel pressed
-                            continue; // loop again
+                            if (!retry.isConfirmed) return;
+                            continue;
                         }
 
                         const ip = result.data;
@@ -182,7 +181,7 @@
                             title: 'Confirm Order',
                             html: `
                         <p class="mb-0 fs-5">Bundle: <b>${bundleTitle}</b></p>
-                        <p class="mb-0 fs-4  text-primary">IP Number: <b>${ip.number}</b></p>
+                        <p class="mb-0 fs-4 text-primary">IP Number: <b>${ip.number}</b></p>
                         <p class="mb-0 fs-6">User Name: <b>${ip.user_name}</b></p>
                         <div style="text-align:center; margin-top:15px;">
                             <label class="fs-5 d-block mb-2"><b>Payment Method:</b></label>
@@ -199,47 +198,52 @@
                             showCancelButton: true,
                             confirmButtonText: 'Submit Order',
                             preConfirm: () => {
-                                const method = document.getElementById('payment_method').value;
-                                if (!method) Swal.showValidationMessage('Please select a payment method');
-                                return method;
+                                const selected = document.querySelector('input[name="payment_method"]:checked');
+                                if (!selected) Swal.showValidationMessage('Please select a payment method');
+                                return selected.value;
                             }
                         });
 
-                        if (!paymentMethod) return; // Cancel pressed
+                        if (!paymentMethod) return;
 
-                        // Step 4: Submit order
-                        fetch(`/order-minute-bundle`, {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                            },
-                            body: JSON.stringify({
-                                bundle_id: bundleId,
-                                user_ip_number_id: ip.id,
-                                payment_method: paymentMethod
-                            })
-                        })
-                            .then(res => res.json())
-                            .then(res => {
-                                Swal.fire({
-                                    icon: res.success ? 'success' : 'error',
-                                    title: res.message
-                                });
-                            })
-                            .catch(() => {
-                                Swal.fire({
-                                    icon: 'error',
-                                    title: 'Something went wrong'
-                                });
-                            });
+                        // Step 4: Submit normal form
+                        const form = document.createElement('form');
+                        form.method = 'POST';
+                        form.action = `/order-minute-bundle`;
 
-                        break; // exit loop after successful submit
+                        const csrf = document.createElement('input');
+                        csrf.type = 'hidden';
+                        csrf.name = '_token';
+                        csrf.value = '{{ csrf_token() }}';
+                        form.appendChild(csrf);
+
+                        const bundleInput = document.createElement('input');
+                        bundleInput.type = 'hidden';
+                        bundleInput.name = 'bundle_id';
+                        bundleInput.value = bundleId;
+                        form.appendChild(bundleInput);
+
+                        const ipInput = document.createElement('input');
+                        ipInput.type = 'hidden';
+                        ipInput.name = 'user_ip_number_id';
+                        ipInput.value = ip.id;
+                        form.appendChild(ipInput);
+
+                        const methodInput = document.createElement('input');
+                        methodInput.type = 'hidden';
+                        methodInput.name = 'payment_method';
+                        methodInput.value = paymentMethod;
+                        form.appendChild(methodInput);
+
+                        document.body.appendChild(form);
+                        form.submit(); // Controller will handle redirect
+                        break; // exit loop
                     }
                 });
             });
         });
     </script>
+
 
 
 @endsection
