@@ -31,8 +31,6 @@ class UserPanelProvider extends PanelProvider
             ])
             ->brandLogo(asset('uploads/'.getSetting('site_logo')))
             ->sidebarCollapsibleOnDesktop()
-            ->login(Login::class)
-            ->passwordReset()
             ->discoverResources(in: app_path('Filament/User/Resources'), for: 'App\\Filament\\User\\Resources')
             ->discoverPages(in: app_path('Filament/User/Pages'), for: 'App\\Filament\\User\\Pages')
             ->pages([
