@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 
 use App\Models\DueBill;
+use App\Models\MinuteBundle;
+use App\Models\MinuteBundlePurchase;
 use App\Models\NumberPurchase;
 use App\Models\Order;
 use App\Models\Payment;
@@ -97,6 +99,12 @@ class OrderController extends Controller
                             $numberPurchase->payment_status = 'paid';
                             $numberPurchase->payment_method = $order->payment_method;
                             $numberPurchase->update();
+                        }elseif ($item->item_type == 'App\Models\MinuteBundlePurchase'){
+                            $mbp = MinuteBundlePurchase::find($item->item_id);
+                            $mbp->status = 'progress';
+                            $mbp->payment_status = 'paid';
+                            $mbp->payment_method = $order->payment_method;
+                            $mbp->update();
                         }
                     }
                     $order->status = 'completed';

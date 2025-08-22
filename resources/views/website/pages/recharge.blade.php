@@ -36,15 +36,27 @@
                     @forelse($numbers as $number)
                         <div class="card shadow border-0 h-100 mt-3">
                             <div class="card-body">
-                                <h6 class="card-title mb-2 text-primary fw-bold">
+                                <h5 class="card-title mb-2 text-primary fw-bold text-center">
                                     IP Number: <span class="text-dark">{{ $number->number }}</span>
-                                </h6>
-                                <p class="mb-1"><strong>User:</strong> {{ $number->user?->name ?? '-' }}</p>
+                                </h5>
+                                <p class="mb-1 fs-6"><strong>User:</strong> {{ $number->user?->name ?? '-' }}</p>
                                 <p class="mb-3"><strong>Package:</strong> {{ $number->package?->name ?? '-' }}</p>
-                                <a href="#" class="btn btn-sm btn-success w-100 btn-recharge"
-                                   data-id="{{ $number->id }}"
-                                   data-number="{{ $number->number }}"
-                                >Recharge</a>
+                                @if(strlen($number->number) < 10)
+                                    <div class="alert alert-warning text-center">
+                                        Number is invalid or incomplete.
+                                    </div>
+                                    <a href="{{ route('bill_pay',['number'=>$number->number] ) }}"
+                                       class="btn btn-sm btn-danger w-100 mb-2">
+                                        Pay Due Bill
+                                    </a>
+                                @else
+                                    <a href="#" class="btn btn-sm btn-success w-100 btn-recharge"
+                                       data-id="{{ $number->id }}"
+                                       data-number="{{ $number->number }}"
+                                    >Recharge</a>
+                                @endif
+
+
                             </div>
                         </div>
                     @empty

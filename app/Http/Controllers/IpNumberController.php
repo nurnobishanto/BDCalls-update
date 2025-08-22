@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\IpNumber;
 use App\Models\MinuteBundle;
+use App\Models\MinuteBundlePurchase;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Payment;
@@ -229,13 +230,22 @@ class IpNumberController extends Controller
                     'whatsapp_country_code' => $user->whatsapp_country_code,
                 ],
             ]);
+            $mbp = MinuteBundlePurchase::create([
+                'minute_bundle_id'=>$bundle->id,
+                'user_id'=>$user->id,
+                'user_ip_number_id'=>$userIpNumber->id,
+                'price'=>$bundle->price,
+                'status'=>'pending',
+                'payment_status'=>'pending',
+            ]);
+
             // Create order items
             OrderItem::create([
                 'order_id' => $order->id,
-                'item_id' => $bundle->id,
-                'item_type' => get_class($bundle),
+                'item_id' => $mbp->id,
+                'item_type' => get_class($mbp),
                 'quantity' => 1,
-                'price' => $bundle->price,
+                'price' => $mbp->price,
             ]);
 
         }
