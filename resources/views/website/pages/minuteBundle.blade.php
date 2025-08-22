@@ -219,7 +219,7 @@
 
                         const bundleInput = document.createElement('input');
                         bundleInput.type = 'hidden';
-                        bundleInput.name = 'bundle_id';
+                        bundleInput.name = 'minute_bundle_id';
                         bundleInput.value = bundleId;
                         form.appendChild(bundleInput);
 

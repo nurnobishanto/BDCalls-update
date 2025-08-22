@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\IpNumber;
+use App\Models\MinuteBundle;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Payment;
@@ -196,7 +197,64 @@ class IpNumberController extends Controller
     }
     public function orderMinuteBundle(Request $request)
     {
+        $request->validate([
+            'minute_bundle_id'         => 'required|exists:minute_bundles,id',
+            'user_ip_number_id' => 'required|exists:user_ip_numbers,id',
+            'payment_method'    => 'required|in:manual,automatic',
+        ]);
+        $userIpNumber = UserIpNumber::first($request->user_ip_number_id);
+        $bundle = MinuteBundle::first($request->minute_bundle_id);
+        $user = $userIpNumber->user;
 
+        $order = Order::whereJsonContains('billing_details->user_ip_number_id', $userIpNumber->id)
+            ->whereJsonContains('billing_details->minute_bundle_id', $bundle->id)
+            ->where('status', 'pending')
+            ->first();
+
+        // 3️⃣ If no pending order, create one
+        if (!$order) {
+            $order = Order::create([
+                'user_id' => $user->id,
+                'payment_method' => $request->payment_method,
+                'status' => 'pending',
+                'total' => $bundle->price,
+                'billing_details' => [
+                    'user_ip_number_id' => $userIpNumber->id,
+                    'minute_bundle_id' => $bundle->id,
+                    'name' => $user->name,
+                    'email' => $user->email,
+                    'phone' => $user->phone,
+                    'phone_country_code' => $user->phone_country_code,
+                    'whatsapp_number' => $user->whatsapp_number,
+                    'whatsapp_country_code' => $user->whatsapp_country_code,
+                ],
+            ]);
+            // Create order items
+            OrderItem::create([
+                'order_id' => $order->id,
+                'item_id' => $bundle->id,
+                'item_type' => get_class($bundle),
+                'quantity' => 1,
+                'price' => $bundle->price,
+            ]);
+
+        }
+
+        // 4️⃣ Find or create pending payment
+        $payment = Payment::firstOrCreate(
+            [
+                'order_id' => $order->id,
+                'status' => 'pending',
+            ],
+            [
+                'user_id' => $user->id,
+                'amount' => $order->total,
+                'payment_method' => $request->payment_method,
+            ]
+        );
+
+        // 5️⃣ Handle payment via service
+        return PaymentService::handlePayment($payment);
     }
 
 }

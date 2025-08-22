@@ -110,7 +110,7 @@
         }
 
         .taka-symbol {
-            font-size: 3rem; /* টাকা চিহ্ন একটু বড় */
+            font-size: 2rem; /* টাকা চিহ্ন একটু বড় */
             vertical-align: middle;
             margin-right: 5px;
         }
@@ -118,11 +118,11 @@
         /* Responsive: ছোট স্ক্রিনে ফন্ট কমানো */
         @media (max-width: 576px) {
             .amount-display {
-                font-size: 1.8rem;
+                font-size: 1.5rem;
                 padding: 8px 15px;
             }
             .taka-symbol {
-                font-size: 2rem;
+                font-size: 1.5rem;
             }
         }
 
