@@ -181,9 +181,9 @@
                         const { value: paymentMethod } = await Swal.fire({
                             title: 'Confirm Order',
                             html: `
-                        <p class="mb-0 fs-4">Bundle: <b>${bundleTitle}</b></p>
-                        <p class="mb-0 fs-3 text-primary">IP Number: <b>${ip.number}</b></p>
-                        <p class="mb-0 fs-5">User Name: <b>${ip.user_name}</b></p>
+                        <p class="mb-0 fs-5">Bundle: <b>${bundleTitle}</b></p>
+                        <p class="mb-0 fs-4  text-primary">IP Number: <b>${ip.number}</b></p>
+                        <p class="mb-0 fs-6">User Name: <b>${ip.user_name}</b></p>
                         <div style="text-align:center; margin-top:15px;">
                             <label class="fs-5 d-block mb-2"><b>Payment Method:</b></label>
                             <label style="margin: 0 15px;">

@@ -26,7 +26,7 @@ class PaymentService
             'eps' => [EpsController::class, 'PayWithEps'],
             'pay_station' => [PayStationController::class, 'payWithPayStation'],
             'manual' => [PaymentController::class, 'manual_payment'],
-            'automatic' => [PayStationController::class, 'payWithPayStation'],
+            //'automatic' => [PayStationController::class, 'payWithPayStation'],
         ];
 
         if (isset($paymentHandlers[$payment->payment_method]) && class_exists($paymentHandlers[$payment->payment_method][0])) {
