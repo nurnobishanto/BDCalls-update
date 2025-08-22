@@ -14,12 +14,30 @@ use App\Models\User;
 use App\Models\UserIpNumber;
 use App\Services\PaymentService;
 use Artesaos\SEOTools\Facades\SEOMeta;
+use Artesaos\SEOTools\Facades\SEOTools;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 class SiteController extends Controller
 {
+    public function login(){
+        SEOTools::setTitle('Login');
+        return view('website.auth.login');
+    }
+    public function otp_login(){
+        SEOTools::setTitle('Login');
+        return view('website.auth.otp_login');
+    }
+    public function register(){
+        SEOTools::setTitle('Registration');
+        return view('website.auth.register');
+    }
+    public function password_reset()
+    {
+        SEOTools::setTitle('Password Reset');
+        return view('website.auth.reset');
+    }
     public function home(){
         SEOMeta::setTitle('Home');
         SEOMeta::setDescription(getSetting('site_tagline'));

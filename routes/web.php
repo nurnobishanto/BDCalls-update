@@ -6,6 +6,17 @@ use App\Http\Controllers\SiteController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/',[SiteController::class,'home'])->name('home');
+Route::post('/ajax-login', [\App\Http\Controllers\Auth\AjaxAuthController::class, 'login'])->name('ajax.login');
+Route::post('/ajax-register', [App\Http\Controllers\Auth\AjaxAuthController::class, 'register'])->name('ajax.register');
+Route::post('/ajax-password-send-otp', [App\Http\Controllers\Auth\AjaxAuthController::class, 'resetPasswordSendOtp'])->name('ajax.password_send_otp');
+Route::post('/ajax-password-verify-otp', [App\Http\Controllers\Auth\AjaxAuthController::class, 'resetPasswordVerifyOtp'])->name('ajax.password_verify_otp');
+Route::post('/otp-send', [App\Http\Controllers\Auth\AjaxAuthController::class, 'sendOtp'])->name('ajax.otp_send');
+Route::post('/otp-verify', [App\Http\Controllers\Auth\AjaxAuthController::class, 'verifyOtp'])->name('ajax.otp_verify');
+Route::get('/otp-login',[\App\Http\Controllers\SiteController::class,'otp_login'])->name('otp_login')->middleware('guest_user');
+Route::get('/login',[\App\Http\Controllers\SiteController::class,'login'])->name('login')->middleware('guest_user');
+Route::get('/register',[\App\Http\Controllers\SiteController::class,'register'])->name('register')->middleware('guest_user');
+Route::get('/password-reset',[\App\Http\Controllers\SiteController::class,'password_reset'])->name('password.reset')->middleware('guest_user');
+
 Route::get('/search-number', [SiteController::class, 'searchNumber'])->name('search_number');
 Route::get('/number-purchase/{id}', [SiteController::class, 'numberPurchase'])->name('number_purchase');
 Route::post('/number-purchase-submit/{id}', [SiteController::class, 'numberPurchaseSubmit'])->name('number_purchase_submit');

@@ -42,7 +42,7 @@
                                 <p class="mb-1 fs-6"><strong>User:</strong> {{ $number->user?->name ?? '-' }}</p>
                                 <p class="mb-3"><strong>Package:</strong> {{ $number->package?->name ?? '-' }}</p>
                                 @if(strlen($number->number) < 10)
-                                    
+
                                     <a href="{{ route('bill_pay',['number'=>$number->number] ) }}"
                                        class="btn btn-sm btn-danger w-100 mb-2">
                                         Pay Due Bill
