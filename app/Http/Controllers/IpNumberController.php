@@ -202,8 +202,8 @@ class IpNumberController extends Controller
             'user_ip_number_id' => 'required|exists:user_ip_numbers,id',
             'payment_method'    => 'required|in:manual,automatic',
         ]);
-        $userIpNumber = UserIpNumber::first($request->user_ip_number_id);
-        $bundle = MinuteBundle::first($request->minute_bundle_id);
+        $userIpNumber = UserIpNumber::where('id',$request->user_ip_number_id)->first();
+        $bundle = MinuteBundle::where('id',$request->minute_bundle_id)->first();
         $user = $userIpNumber->user;
 
         $order = Order::whereJsonContains('billing_details->user_ip_number_id', $userIpNumber->id)
