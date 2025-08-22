@@ -132,7 +132,7 @@
             border: 2px solid #ccc;
             border-radius: 10px;
             text-align: center;
-            padding: 5px;
+            padding: 0 2px 2px;
             margin: 5px;
             cursor: pointer;
             position: relative;
