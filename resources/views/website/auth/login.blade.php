@@ -39,10 +39,10 @@
                                     <a href="{{ route('password.reset') }}" class="text-decoration-none small text-primary">পাসওয়ার্ড পুনরুদ্ধার করুন!</a>
                                 </div>
 
-                                <div class="text-center mt-4">
-                                    <span class="text-muted">একাউন্ট নেই?</span>
-                                    <a href="{{ route('register') }}" class="text-decoration-none fw-semibold">একাউন্ট  খুলুন</a>
-                                </div>
+{{--                                <div class="text-center mt-4">--}}
+{{--                                    <span class="text-muted">একাউন্ট নেই?</span>--}}
+{{--                                    <a href="{{ route('register') }}" class="text-decoration-none fw-semibold">একাউন্ট  খুলুন</a>--}}
+{{--                                </div>--}}
                             </form>
                         </div>
                     </div>
