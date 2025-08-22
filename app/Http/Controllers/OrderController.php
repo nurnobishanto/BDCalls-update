@@ -8,6 +8,7 @@ use App\Models\NumberPurchase;
 use App\Models\Order;
 use App\Models\Payment;
 use App\Models\Recharge;
+use App\Models\User;
 use App\Services\PaymentService;
 use Artesaos\SEOTools\Facades\SEOTools;
 use Carbon\Carbon;
@@ -32,11 +33,8 @@ class OrderController extends Controller
             alert()->error('You must to select a payment method.');
             return redirect()->back();
         }
-        $user = Auth::guard('web')->user();
-        if (!$user) {
-            return redirect(route('login'));
-        }
         $order = Order::find($id);
+        $user =  User::find($order->user_id);
         if ($order) {
             if ($order->status == 'paid') {
                 return redirect(route('order_details', ['id' => $order->id]));
