@@ -12,10 +12,10 @@ Route::post('/ajax-password-send-otp', [App\Http\Controllers\Auth\AjaxAuthContro
 Route::post('/ajax-password-verify-otp', [App\Http\Controllers\Auth\AjaxAuthController::class, 'resetPasswordVerifyOtp'])->name('ajax.password_verify_otp');
 Route::post('/otp-send', [App\Http\Controllers\Auth\AjaxAuthController::class, 'sendOtp'])->name('ajax.otp_send');
 Route::post('/otp-verify', [App\Http\Controllers\Auth\AjaxAuthController::class, 'verifyOtp'])->name('ajax.otp_verify');
-Route::get('/otp-login',[\App\Http\Controllers\SiteController::class,'otp_login'])->name('otp_login')->middleware('guest_user');
-Route::get('/login',[\App\Http\Controllers\SiteController::class,'login'])->name('login')->middleware('guest_user');
-Route::get('/register',[\App\Http\Controllers\SiteController::class,'register'])->name('register')->middleware('guest_user');
-Route::get('/password-reset',[\App\Http\Controllers\SiteController::class,'password_reset'])->name('password.reset')->middleware('guest_user');
+Route::get('/otp-login',[\App\Http\Controllers\SiteController::class,'otp_login'])->name('otp_login')->middleware('guest');
+Route::get('/login',[\App\Http\Controllers\SiteController::class,'login'])->name('login')->middleware('guest');
+Route::get('/register',[\App\Http\Controllers\SiteController::class,'register'])->name('register')->middleware('guest');
+Route::get('/password-reset',[\App\Http\Controllers\SiteController::class,'password_reset'])->name('password.reset')->middleware('guest');
 
 Route::get('/search-number', [SiteController::class, 'searchNumber'])->name('search_number');
 Route::get('/number-purchase/{id}', [SiteController::class, 'numberPurchase'])->name('number_purchase');
