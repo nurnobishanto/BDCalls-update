@@ -8,7 +8,7 @@
                 <div class="col-md-6">
                     <div class="card shadow-sm">
                         <div class="card-header bg-primary">
-                            <h5 class="text-light text-center">Payment for Invoice #{{ $payment->order?->invoice_no }}</h5>
+                            <h6 class="text-light small text-center">Invoice #{{ $payment->order?->invoice_no }}</h6>
                         </div>
                         <div class="card-body">
                             <div class="d-flex justify-content-end mb-2">
@@ -40,7 +40,7 @@
                                                         No Logo
                                                     </div>
                                                 @endif
-                                                <div>{{ $gateway->name }}</div>
+                                                <div class="small text-truncate" style="max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $gateway->name }}</div>
                                                 <div class="tick">✔</div>
                                             </label>
                                         @endforeach
@@ -127,8 +127,8 @@
         }
 
         .gateway-option {
-            width: 120px;
-            height: 120px;
+            width: 80px;
+            height: 80px;
             border: 2px solid #ccc;
             border-radius: 10px;
             text-align: center;
@@ -148,7 +148,7 @@
         .gateway-option img {
             max-width: 80px;
             max-height: 80px;
-            margin-bottom: 4px;
+            margin-bottom: 2px;
         }
         .gateway-option.selected {
             border-color: #198754;
