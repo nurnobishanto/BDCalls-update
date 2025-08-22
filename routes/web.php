@@ -23,6 +23,7 @@ Route::get('order-details/{id}',[\App\Http\Controllers\OrderController::class,'o
 Route::post('order-pay/{id}',[\App\Http\Controllers\OrderController::class,'order_pay'])->name('order_pay');
 Route::get('/manual-payment/{payment_id}',[\App\Http\Controllers\PaymentController::class,'manual_payment'])->name('manual_payment');
 Route::post('/manual-payment/{payment_id}', [\App\Http\Controllers\PaymentController::class, 'manual_payment_submit'])->name('manual_payment.submit');
+Route::post('/pay-station/callback/{id}', [\App\Http\Controllers\Payment\PayStationController::class, 'payStationCallback'])->name('pay_station.callback');
 
 Route::get('/api/search-ip', [IpNumberController::class, 'searchIp']);
 Route::post('/order-minute-bundle', [IpNumberController::class, 'orderMinuteBundle']);

@@ -18,7 +18,8 @@
         "livewire/livewire": "^3.6",
         "realrashid/sweet-alert": "^7.3",
         "stechstudio/filament-impersonate": "^3.16",
-        "tomatophp/filament-users": "^2.0"
+        "tomatophp/filament-users": "^2.0",
+        "ext-curl": "*"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",

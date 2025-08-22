@@ -13,7 +13,6 @@ class IpNumberService
     public function checkAndUpdateStatus(): void
     {
         $ipNumbers = IpNumber::all();
-        Log::info("Tets");
         foreach ($ipNumbers as $ip) {
             // Example logic: if this IP is assigned to any user, mark unavailable, else available.
             $isAssigned = $ip->userIpNumbers()->exists(); // assuming relation userIpNumbers exists
