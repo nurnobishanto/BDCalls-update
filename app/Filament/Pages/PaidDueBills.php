@@ -2,22 +2,25 @@
 
 namespace App\Filament\Pages;
 
+use App\Models\DueBill;
 use Filament\Pages\Page;
-use Filament\Tables\Columns\BadgeColumn;
+use Filament\Tables;
+use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Concerns\InteractsWithTable;
+use Filament\Tables\Columns\BadgeColumn;
 use Filament\Tables\Filters\SelectFilter;
 
-class PaidDueBills extends Page
+class PaidDueBills extends Page implements HasTable
 {
+    use Tables\Concerns\InteractsWithTable;
+
     protected static ?string $navigationLabel = 'Paid Due Bills';
     protected static ?string $navigationIcon = 'heroicon-o-check-circle';
-    protected static ?string $navigationGroup = 'Billing';
     protected static ?int $navigationSort = 2;
     protected static string $view = 'filament.pages.paid-due-bills';
 
-    use InteractsWithTable;
-    protected function getTableQuery()
+    // Query only paid due bills
+    protected function getTableQuery(): \Illuminate\Database\Eloquent\Builder
     {
         return DueBill::query()->where('payment_status', 'paid');
     }
@@ -50,5 +53,4 @@ class PaidDueBills extends Page
                 ->relationship('userIpNumber', 'number'),
         ];
     }
-
 }
