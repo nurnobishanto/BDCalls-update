@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\DueBillResource\Pages;
 use App\Filament\Resources\DueBillResource\RelationManagers;
+use App\Jobs\SendDueBillMessages;
 use App\Models\DueBill;
 use App\Models\User;
 use App\Models\UserIpNumber;
@@ -179,6 +180,7 @@ class DueBillResource extends Resource
                 Tables\Filters\TrashedFilter::make()
             ])
             ->actions([
+
                 ActionGroup::make([
                     ViewAction::make(),
                     EditAction::make(),
@@ -188,6 +190,32 @@ class DueBillResource extends Resource
                 ]),
             ])
             ->bulkActions([
+                Tables\Actions\BulkAction::make('send_sms')
+                    ->label('Send SMS')
+                    ->action(function ($records) {
+
+                        SendDueBillMessages::dispatch($records, 'sms');
+
+                        \Filament\Notifications\Notification::make()
+                            ->title('SMS sent successfully')
+                            ->success()
+                            ->send();
+                    })
+                    ->icon('heroicon-o-chat-bubble-left-right'),
+
+                Tables\Actions\BulkAction::make('send_whatsapp')
+                    ->label('Send WhatsApp')
+                    ->action(function ($records) {
+
+                        SendDueBillMessages::dispatch($records, 'whatsapp');
+
+                        \Filament\Notifications\Notification::make()
+                            ->title('WhatsApp messages sent successfully')
+                            ->success()
+                            ->send();
+                    })
+                    ->color('success')
+                    ->icon('heroicon-o-chat-bubble-left-right'),
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                     Tables\Actions\RestoreBulkAction::make(),
