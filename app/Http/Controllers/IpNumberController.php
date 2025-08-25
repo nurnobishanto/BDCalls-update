@@ -167,6 +167,7 @@ class IpNumberController extends Controller
             ]
         );
 
+        return $payment;
         // 5️⃣ Handle payment via service
         return PaymentService::handlePayment($payment);
     }
