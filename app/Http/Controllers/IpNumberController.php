@@ -167,7 +167,12 @@ class IpNumberController extends Controller
             ]
         );
 
-        return $payment;
+        // Update payment_method if record already exists
+        if (!$payment->wasRecentlyCreated) {
+            $payment->update([
+                'payment_method' => $request->payment_method,
+            ]);
+        }
         // 5️⃣ Handle payment via service
         return PaymentService::handlePayment($payment);
     }
