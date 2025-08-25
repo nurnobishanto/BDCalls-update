@@ -20,6 +20,9 @@ class ManualPaymentGateway extends Model
         'maximum_amount',
         'status',
         'details',          // HTML instructions
+        'account_name',
+        'branch',
+        'routing_no',
     ];
 
     protected $casts = [

@@ -71,12 +71,27 @@ class ManualPaymentGatewayResource extends Resource
                     'primary' => 'bank',
                     'success' => 'mobile',
                 ]),
+                // ✅ Only show when type = bank
+                TextInput::make('account_name')
+                    ->visible(fn (callable $get) => $get('type') === 'bank')
+                    ->required(fn (callable $get) => $get('type') === 'bank')
+                    ->maxLength(255),
+
+                TextInput::make('branch')
+                    ->visible(fn (callable $get) => $get('type') === 'bank')
+                    ->required(fn (callable $get) => $get('type') === 'bank')
+                    ->maxLength(255),
+
+                TextInput::make('routing_no')
+                    ->visible(fn (callable $get) => $get('type') === 'bank')
+                    ->required(fn (callable $get) => $get('type') === 'bank')
+                    ->maxLength(255),
                 IconColumn::make('status')
                     ->boolean()
                     ->trueIcon('heroicon-o-check')
                     ->falseIcon('heroicon-o-x'),
-                TextColumn::make('minimum_amount')->money('usd'),
-                TextColumn::make('maximum_amount')->money('usd'),
+                TextColumn::make('minimum_amount')->money('BDT'),
+                TextColumn::make('maximum_amount')->money('BDT'),
                 TextColumn::make('created_at')->dateTime('d M Y'),
             ])
             ->filters([

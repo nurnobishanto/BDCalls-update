@@ -3,7 +3,7 @@
 @section('content')
 
     <!-- End Page Title Area -->
-    <section class="py-md-5 py-3 bg-light">
+    <section class="py-md-4 py-3 bg-light">
         <div class="container">
             <h2 class="text-center">Recharge Your IP Number</h2>
             <div class="row  gy-4 justify-content-center align-items-center">
