@@ -59,8 +59,8 @@ class EpsController extends Controller
             'ProductProfile' => 'general',
             'ProductCategory' => 'Service',
             'ProductList' =>  [],
-            'ValueA' =>  $payment->id,
-            'ValueB' =>  $order->id,
+            'ValueA' =>  "$payment->id",
+            'ValueB' =>  "$order->id",
             'ValueC' =>  null,
             'ValueD' =>  null,
         ];
@@ -69,6 +69,7 @@ class EpsController extends Controller
         if (!empty($initResponse['RedirectURL'])) {
             return redirect()->to($initResponse['RedirectURL']); // 🔹 redirect user
         }
+      
         alert()->error($initResponse['ErrorMessage'] ?? 'Payment initialization failed');
         return redirect()->route('order_details', ['id' => $payment->order_id]);
     }
