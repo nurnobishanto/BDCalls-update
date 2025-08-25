@@ -137,10 +137,9 @@ class DueBillResource extends Resource
                     ->required(),
             ]);
     }
-    public static function getTableQuery(): Builder
+    public static function getEloquentQuery(): Builder
     {
-        // Only show unpaid bills by default
-        return parent::getTableQuery()->where('payment_status', 'unpaid');
+        return parent::getEloquentQuery()->where('payment_status', 'unpaid');
     }
 
     public static function table(Table $table): Table
