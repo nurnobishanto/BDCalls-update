@@ -48,15 +48,16 @@ class SendDueBillMessages implements ShouldQueue
 
                 $link = route('bill_pay', ['number' => $ip->number]);
 
-                $messageParts[] = "আপনার {$ip->number} আইপি নাম্বারের, {$month} মাসের বিল {$currentDue} টাকা। পূর্বের বকেয়া বিল {$previousDue} টাকা। সর্বমোট: {$total} টাকা। পেমেন্ট করতে ক্লিক করুন {$link}";
+                $messageParts[] = "আপনার {$ip->number} আইপি নাম্বারের, {$month} মাসের বিল {$currentDue} টাকা। পূর্বের বকেয়া বিল {$previousDue} টাকা। সর্বমোট: {$total} টাকা। পেমেন্ট করতে ক্লিক করুন {$link}\n";
             }
 
-            $finalMessage = "আসসালামু আলাইকুম, প্রিয় গ্রাহক\n" . implode("\n", $messageParts) . "\nঅনুগ্রহ করে আগামী সাত দিনের মধ্যেই বিল পরিশোধ করুন।";
+            $finalMessage = "আসসালামু আলাইকুম, প্রিয় গ্রাহক\n" . implode("\n", $messageParts) . "\n\nঅনুগ্রহ করে আগামী সাত দিনের মধ্যেই বিল পরিশোধ করুন।";
 
             if ($this->type === 'sms') {
 
                 // SmsService::send($user->phone, $finalMessage);
             } elseif ($this->type === 'whatsapp') {
+                wa_cloud_sms_send(normalize_phone($user->whatsapp_number,$user->whatsapp_country_code),$finalMessage);
                 // WhatsAppService::send($user->phone, $finalMessage);
             }
         }
