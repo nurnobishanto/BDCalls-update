@@ -130,7 +130,24 @@
             background: transparent;
         }
     </style>
+    <style>
+        .payment-options .option {
+            cursor: pointer;
+            border: 2px solid #ccc;
+            border-radius: 10px;
+            padding: 8px;
+            transition: all 0.3s;
+        }
 
+        .payment-options .option:hover {
+            border-color: #198754;
+            background-color: #e7f7ee;
+        }
+
+        .payment-options input[type="radio"] {
+            cursor: pointer;
+        }
+    </style>
 
 
 @endsection
@@ -183,16 +200,23 @@
                         <p class="mb-0 fs-5">Bundle: <b>${bundleTitle}</b></p>
                         <p class="mb-0 fs-4 text-primary">IP Number: <b>${ip.number}</b></p>
                         <p class="mb-0 fs-6">User Name: <b>${ip.user_name}</b></p>
-                        <div style="text-align:center; margin-top:15px;">
-                            <label class="fs-5 d-block mb-2"><b>Payment Method:</b></label>
-                            <label style="margin: 0 15px;">
-                                <input type="radio" name="payment_method" value="manual" checked>
-                                Manual
+                        <div class="payment-options d-flex flex-column gap-3">
+                            <label class="option d-flex flex-column align-items-start">
+                                <span class="option-text mb-1 small">Credit/Debit Card/Bkash/Nagad (Extra Charge 2%)</span>
+                                <div class="d-flex align-items-center">
+                                    <input type="radio" name="payment_method" value="automatic" checked class="me-2">
+                                    <img src="/website/img/automatic.png" style="max-width: 95%">
+                                </div>
                             </label>
-                            <label style="margin: 0 15px;">
-                                <input type="radio" name="payment_method" value="automatic">
-                                Automatic
+
+                            <label class="option d-flex flex-column align-items-start">
+                                <span class="option-text mb-1 small">Manual Payment</span>
+                                <div class="d-flex align-items-center">
+                                    <input type="radio" name="payment_method" value="manual" class="me-2">
+                                    <img src="/website/img/manual.png" style="max-width: 95%">
+                                </div>
                             </label>
+
                         </div>
                     `,
                             showCancelButton: true,
