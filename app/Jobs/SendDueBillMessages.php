@@ -32,8 +32,6 @@ class SendDueBillMessages implements ShouldQueue
     public function handle(): void
     {
         $records = $this->dueBills;
-        Log::info($records);
-
         // Group by user
         $usersGrouped = $records->groupBy('user_id');
 

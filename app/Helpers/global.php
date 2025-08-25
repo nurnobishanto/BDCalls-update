@@ -292,18 +292,15 @@ if (!function_exists('netsmsbd_sms_send')) {
             return false;
         }
 
-        // If multiple numbers, convert to comma-separated
-        if (is_array($phone_number)) {
-            $phone_number = implode(',', number_validation($phone_number));
-        }
+
 
         $data = [
             "apiKey"   => $api_key,
             "senderId" => $senderid,
-            "mobileNo" => $phone_number,
+            "mobileNo" => number_validation($phone_number),
             "msgBody"  => $msg
         ];
-        Log::info($data);
+       
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
