@@ -116,7 +116,7 @@
 @section('custom_css')
     <style>
         .amount-display {
-            font-size: 2.5rem;
+            font-size: 1.3rem;
             font-weight: 700;
             color: #28a745;
             background: #e9f7ef;
@@ -126,7 +126,7 @@
             white-space: nowrap;
         }
         .taka-symbol {
-            font-size: 2rem;
+            font-size: 1rem;
             margin-right: 5px;
         }
         .gateway-option {
