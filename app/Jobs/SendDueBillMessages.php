@@ -64,7 +64,7 @@ class SendDueBillMessages implements ShouldQueue
                     'status' => $result ? 'success' : 'failed',
                 ]);
             } elseif ($this->type === 'whatsapp' && $user->whatsapp_sms) {
-                $wa_number = normalize_phone($user->whatsapp_number, $user->whatsapp_country_code);
+                $wa_number = $user->whatsapp_country_code+$user->whatsapp_number;
                 $result = wa_cloud_sms_send($wa_number, $finalMessage);
                 Log::info('WhatsApp sent', [
                     'user_id' => $user->id,
