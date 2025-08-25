@@ -52,6 +52,21 @@ class ManualPaymentGatewayResource extends Resource
                         'bank' => 'Bank',
                         'mobile' => 'Mobile',
                     ]),
+                // ✅ Only show when type = bank
+                TextInput::make('account_name')
+                    ->visible(fn (callable $get) => $get('type') === 'bank')
+                    ->required(fn (callable $get) => $get('type') === 'bank')
+                    ->maxLength(255),
+
+                TextInput::make('branch')
+                    ->visible(fn (callable $get) => $get('type') === 'bank')
+                    ->required(fn (callable $get) => $get('type') === 'bank')
+                    ->maxLength(255),
+
+                TextInput::make('routing_no')
+                    ->visible(fn (callable $get) => $get('type') === 'bank')
+                    ->required(fn (callable $get) => $get('type') === 'bank')
+                    ->maxLength(255),
                 FileUpload::make('logo')->directory('manual-gateways/logos')->image()->nullable(),
                 ColorPicker::make('color')->nullable(),
                 TextInput::make('minimum_amount')->numeric()->required(),
@@ -71,21 +86,7 @@ class ManualPaymentGatewayResource extends Resource
                     'primary' => 'bank',
                     'success' => 'mobile',
                 ]),
-                // ✅ Only show when type = bank
-                TextInput::make('account_name')
-                    ->visible(fn (callable $get) => $get('type') === 'bank')
-                    ->required(fn (callable $get) => $get('type') === 'bank')
-                    ->maxLength(255),
 
-                TextInput::make('branch')
-                    ->visible(fn (callable $get) => $get('type') === 'bank')
-                    ->required(fn (callable $get) => $get('type') === 'bank')
-                    ->maxLength(255),
-
-                TextInput::make('routing_no')
-                    ->visible(fn (callable $get) => $get('type') === 'bank')
-                    ->required(fn (callable $get) => $get('type') === 'bank')
-                    ->maxLength(255),
                 IconColumn::make('status')
                     ->boolean()
                     ->trueIcon('heroicon-o-check')
