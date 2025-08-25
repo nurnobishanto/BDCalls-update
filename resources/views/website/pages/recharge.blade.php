@@ -70,6 +70,24 @@
     </section>
 @endsection
 @section('custom_css')
+    <style>
+        .payment-options .option {
+            cursor: pointer;
+            border: 2px solid #ccc;
+            border-radius: 10px;
+            padding: 8px;
+            transition: all 0.3s;
+        }
+
+        .payment-options .option:hover {
+            border-color: #198754;
+            background-color: #e7f7ee;
+        }
+
+        .payment-options input[type="radio"] {
+            cursor: pointer;
+        }
+    </style>
 @endsection
 @section('custom_js')
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -87,13 +105,24 @@
                         title: `Recharge IP Number: ${numberText}`,
                         html: `
                     <input type="number" id="amount" class="swal2-input" placeholder="Enter Amount">
-                    <div style="text-align:center; margin-top:15px;">
-                        <label style="margin-right:15px;">
-                            <input type="radio" name="payment_method" value="manual" checked> Manual
+                    <label for="payment-method">Select Payment Method:</label>
+                    <div class="payment-options d-flex flex-column gap-3">
+                        <label class="option d-flex flex-column align-items-start">
+                            <span class="option-text mb-1 small">Credit/Debit Card/Bkash/Nagad (Extra Charge 2%)</span>
+                            <div class="d-flex align-items-center">
+                                <input type="radio" name="payment_method" value="automatic" checked class="me-2">
+                                <img src="/website/img/automatic.png" style="max-width: 95%">
+                            </div>
                         </label>
-                        <label>
-                            <input type="radio" name="payment_method" value="automatic"> Automatic
+
+                        <label class="option d-flex flex-column align-items-start">
+                            <span class="option-text mb-1 small">Manual Payment</span>
+                            <div class="d-flex align-items-center">
+                                <input type="radio" name="payment_method" value="manual" class="me-2">
+                                <img src="/website/img/manual.png" style="max-width: 95%">
+                            </div>
                         </label>
+
                     </div>
                 `,
                         confirmButtonText: 'Recharge',

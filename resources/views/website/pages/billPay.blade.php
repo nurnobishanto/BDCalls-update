@@ -99,7 +99,6 @@
                     <p class="text-center text-danger fs-4 fw-bold"><strong>Total Due:</strong> ${amount} BDT</p>
                     <label for="payment-method">Select Payment Method:</label>
                     <div class="payment-options d-flex flex-column gap-3">
-
                         <label class="option d-flex flex-column align-items-start">
                             <span class="option-text mb-1 small">Credit/Debit Card/Bkash/Nagad (Extra Charge 2%)</span>
                             <div class="d-flex align-items-center">

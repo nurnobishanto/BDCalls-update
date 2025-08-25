@@ -92,6 +92,9 @@ class IpNumberController extends Controller
                 'payment_method' => $request->payment_method,
                 'status' => 'pending',
             ]);
+        }else{
+            $payment->payment_method =$request->payment_method;
+            $payment->update();
         }
 
         // 4️⃣ Handle payment via service
