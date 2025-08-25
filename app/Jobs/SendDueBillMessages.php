@@ -42,9 +42,10 @@ class SendDueBillMessages implements ShouldQueue
             $messageParts = [];
 
             foreach ($userRecords->groupBy('user_ip_number_id') as $ipRecords) {
-                $ip = $ipRecords->first()->userIpNumber;
+                $ipId = $ipRecords->first()->user_ip_number_id; // ID for queries
+                $ip = $ipRecords->first()->userIpNumber;       // model for display
                 // Get the latest month for this IP
-                $latestMonth = DueBill::where('user_ip_number_id', $ip->id)
+                $latestMonth = DueBill::where('user_ip_number_id', $ipId)
                     ->where('payment_status', 'unpaid')
                     ->latest('month')
                     ->value('month');
@@ -54,12 +55,12 @@ class SendDueBillMessages implements ShouldQueue
                 }
 
                 // Current month due
-                $currentDue = DueBill::where('user_ip_number_id', $ip->id)
+                $currentDue = DueBill::where('user_ip_number_id', $ipId)
                     ->where('month', $latestMonth)
                     ->sum('total');
 
                 // Previous dues (before latest month)
-                $previousDue = DueBill::where('user_ip_number_id', $ip->id)
+                $previousDue = DueBill::where('user_ip_number_id', $ipId)
                     ->where('month', '<', $latestMonth)
                     ->where('payment_status', 'unpaid')
                     ->sum('total');
