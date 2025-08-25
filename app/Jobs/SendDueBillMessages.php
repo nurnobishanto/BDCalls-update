@@ -50,7 +50,15 @@ class SendDueBillMessages implements ShouldQueue
 
                 $link = route('bill_pay', ['number' => $ip->number]);
 
-                $messageParts[] = "আপনার {$ip->number} আইপি নাম্বারের, {$month} মাসের বিল {$currentDue} টাকা। পূর্বের বকেয়া বিল {$previousDue} টাকা। সর্বমোট: {$total} টাকা। পেমেন্ট করতে ক্লিক করুন {$link}\n";
+                $message = "আপনার {$ip->number} আইপি নাম্বারের, {$month} মাসের বিল {$currentDue} টাকা।";
+
+                if ($previousDue > 0) {
+                    $message .= " পূর্বের বকেয়া বিল {$previousDue} টাকা। সর্বমোট: {$total} টাকা।";
+                }
+
+                $message .= "\nপেমেন্ট করতে ক্লিক করুন {$link}\n";
+
+                $messageParts[] = $message;
             }
 
             $finalMessage = "আসসালামু আলাইকুম, প্রিয় গ্রাহক\n" . implode("\n", $messageParts) . "\n\nঅনুগ্রহ করে আগামী সাত দিনের মধ্যেই বিল পরিশোধ করুন।";
