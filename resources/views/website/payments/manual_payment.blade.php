@@ -7,15 +7,15 @@
             <div class="row justify-content-center">
                 <div class="col-md-6">
                     <div class="card shadow-sm">
-                        <div class="card-header bg-primary">
-                            <h6 class="text-light small text-center">Invoice #{{ $payment->order?->invoice_no }}</h6>
-                        </div>
-                        <div class="card-body">
-                            <div class="d-flex justify-content-end mb-2">
-                                <div class="amount-display">
-                                    <span class="taka-symbol">৳</span> {{ number_format($payment->amount) }}
-                                </div>
+                        <div class="card-header bg-primary d-flex justify-content-between align-items-center">
+                            <h6 class="text-light small mb-0">Invoice #{{ $payment->order?->invoice_no }}</h6>
+                            <div class="amount-display bg-light text-success px-3 py-1 rounded">
+                                <span class="taka-symbol">৳</span> {{ number_format($payment->amount) }}
                             </div>
+                        </div>
+
+                        <div class="card-body">
+
 
                             <form id="manual-payment-form" action="{{ route('manual_payment.submit', $payment->id) }}" method="POST" enctype="multipart/form-data">
                                 @csrf
