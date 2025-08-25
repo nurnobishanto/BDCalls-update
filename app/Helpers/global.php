@@ -242,39 +242,29 @@ if (!function_exists('get_balance_bulksmsbd')) {
     }
 }
 if (!function_exists('normalize_phone')) {
-    /**
-     * Normalize phone number with given country code.
-     *
-     * @param string $rawPhone
-     * @param string $countryCode (without +, e.g., "880" for BD)
-     * @return string|null
-     */
     function normalize_phone(string $rawPhone, string $countryCode = '880'): ?string
     {
-        if ($countryCode === "88"){
+        // Ensure country code is in full form
+        if ($countryCode === "88") {
             $countryCode = "880";
         }
-        // Remove any characters except digits
+
+        // Remove any non-digit characters
         $phone = preg_replace('/\D+/', '', $rawPhone);
 
-        // Remove leading zeros
-        $phone = ltrim($phone, '0');
-
-        // Remove duplicate country code if exists (e.g. 88088017...)
-        if (str_starts_with($phone, $countryCode . $countryCode)) {
-            $phone = substr($phone, strlen($countryCode));
-        }
-
-        // Remove single occurrence of country code if it's already there
+        // Remove leading country code if already present
         if (str_starts_with($phone, $countryCode)) {
             $phone = substr($phone, strlen($countryCode));
         }
 
-        // Return final normalized phone
+        // Remove leading zero if exists
+        $phone = ltrim($phone, '0');
 
+        // Return normalized number
         return $countryCode . $phone;
     }
 }
+
 if (!function_exists('netsmsbd_sms_send')) {
     /**
      * Send SMS via NetSMSBD
