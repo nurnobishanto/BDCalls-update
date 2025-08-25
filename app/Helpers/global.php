@@ -242,28 +242,36 @@ if (!function_exists('get_balance_bulksmsbd')) {
     }
 }
 if (!function_exists('normalize_phone')) {
+    /**
+     * Normalize phone number with given country code.
+     *
+     * @param string $rawPhone
+     * @param string $countryCode (without +, e.g., "880" for BD)
+     * @return string|null
+     */
     function normalize_phone(string $rawPhone, string $countryCode = '880'): ?string
     {
-        // Ensure country code is in full form
+        // Ensure full country code
         if ($countryCode === "88") {
             $countryCode = "880";
         }
 
-        // Remove any non-digit characters
+        // Remove all non-digit characters
         $phone = preg_replace('/\D+/', '', $rawPhone);
 
-        // Remove leading country code if already present
+        // Remove leading zeros
+        $phone = ltrim($phone, '0');
+
+        // Remove duplicate country code if phone already has it
         if (str_starts_with($phone, $countryCode)) {
             $phone = substr($phone, strlen($countryCode));
         }
 
-        // Remove leading zero if exists
-        $phone = ltrim($phone, '0');
-
-        // Return normalized number
+        // Prepend country code
         return $countryCode . $phone;
     }
 }
+
 
 if (!function_exists('netsmsbd_sms_send')) {
     /**
