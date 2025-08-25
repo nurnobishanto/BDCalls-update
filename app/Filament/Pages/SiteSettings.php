@@ -29,6 +29,9 @@ class SiteSettings extends Page
     public $site_email;
     public $site_whatsapp;
 
+    public $wa_cloud_api;
+    public $wa_cloud_instance_id;
+
     public function mount()
     {
         $this->form->fill([
@@ -43,6 +46,8 @@ class SiteSettings extends Page
             'site_phone' => getSetting('site_phone'),
             'site_email' => getSetting('site_email'),
             'site_whatsapp' => getSetting('site_whatsapp'),
+            'wa_cloud_api' => getSetting('wa_cloud_api'),
+            'wa_cloud_instance_id' => getSetting('wa_cloud_instance_id'),
 
         ]);
     }
@@ -64,6 +69,8 @@ class SiteSettings extends Page
         setSetting('site_phone',$this->site_phone);
         setSetting('site_email',$this->site_email);
         setSetting('site_whatsapp',$this->site_whatsapp);
+        setSetting('wa_cloud_api',$this->wa_cloud_api);
+        setSetting('wa_cloud_instance_id',$this->wa_cloud_instance_id);
 
 
         Notification::make()
@@ -133,6 +140,24 @@ class SiteSettings extends Page
                         ->email()
                         ->label('Site email (site_email)')
                         ->placeholder('Enter Site email'),
+
+
+                ]),
+
+            Section::make('Whatsapp SMS Configaration')
+                ->columns([
+                    'sm' => 1,
+                    'md' => 2
+                ])
+                ->schema([
+                    TextInput::make('wa_cloud_api')
+                        ->label('Wa Cloud Api (wa_cloud_api)')
+                        ->placeholder('Enter Wa Cloud Api'),
+
+                    TextInput::make('wa_cloud_instance_id')
+                        ->label('Wa Cloud Instance ID (wa_cloud_instance_id)')
+                        ->placeholder('Enter Wa Cloud Instance ID'),
+
 
 
                 ]),

@@ -38,6 +38,13 @@ Route::post('/pay-station/callback/{id}', [\App\Http\Controllers\Payment\PayStat
 
 Route::get('/api/search-ip', [IpNumberController::class, 'searchIp']);
 Route::post('/order-minute-bundle', [IpNumberController::class, 'orderMinuteBundle']);
+Route::prefix('eps-payment')->group(function () {
+
+    Route::get('/success',[\App\Http\Controllers\Payment\EpsController::class,'success'])->name('eps.success');
+    Route::get('/fail',[\App\Http\Controllers\Payment\EpsController::class,'fail'])->name('eps.fail');
+    Route::get('/cancel',[\App\Http\Controllers\Payment\EpsController::class,'cancel'])->name('eps.cancel');
+
+});
 Route::get('/{slug}', [SiteController::class, 'slug'])->name('slug');
 
 require __DIR__.'/auth.php';
