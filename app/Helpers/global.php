@@ -251,11 +251,14 @@ if (!function_exists('normalize_phone')) {
      */
     function normalize_phone(string $rawPhone, string $countryCode = '880'): ?string
     {
+        if ($countryCode=="88"){
+            $countryCode = "880";
+        }
         // Remove any characters except digits
         $phone = preg_replace('/\D+/', '', $rawPhone);
 
         // Remove leading zeros
-        //$phone = ltrim($phone, '0');
+        $phone = ltrim($phone, '0');
 
         // Remove duplicate country code if exists (e.g. 88088017...)
         if (str_starts_with($phone, $countryCode . $countryCode)) {
@@ -268,6 +271,7 @@ if (!function_exists('normalize_phone')) {
         }
 
         // Return final normalized phone
+
         return $countryCode . $phone;
     }
 }
