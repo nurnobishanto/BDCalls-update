@@ -130,6 +130,7 @@
                     }).then((result) => {
                         if (result.isConfirmed) {
                             // Fill hidden form and submit
+                            alert(result.value.method);
                             document.getElementById('bill-number').value = number;
                             document.getElementById('bill-amount').value = amount;
                             document.getElementById('bill-method').value = result.value.method;
