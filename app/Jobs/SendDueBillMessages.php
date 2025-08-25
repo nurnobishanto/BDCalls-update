@@ -42,6 +42,7 @@ class SendDueBillMessages implements ShouldQueue
             $messageParts = [];
 
             foreach ($userRecords->groupBy('user_ip_number_id') as $ipRecords) {
+                Log::info($ipRecords);
                 $ipId = $ipRecords->first()->user_ip_number_id; // ID for queries
                 $ip = $ipRecords->first()->userIpNumber;       // model for display
                 // Get the latest month for this IP
