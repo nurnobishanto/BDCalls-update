@@ -8,6 +8,8 @@ use App\Models\DueBill;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
+
 class SendDueBillMessages implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
@@ -54,11 +56,22 @@ class SendDueBillMessages implements ShouldQueue
             $finalMessage = "আসসালামু আলাইকুম, প্রিয় গ্রাহক\n" . implode("\n", $messageParts) . "\n\nঅনুগ্রহ করে আগামী সাত দিনের মধ্যেই বিল পরিশোধ করুন।";
 
             if ($this->type === 'sms' && $user->phone_sms) {
-
-                // SmsService::send($user->phone, $finalMessage);
+                $result = netsmsbd_sms_send(number_validation($user->phone), $finalMessage);
+                Log::info('SMS sent', [
+                    'user_id' => $user->id,
+                    'phone' => $user->phone,
+                    'message' => $finalMessage,
+                    'status' => $result ? 'success' : 'failed',
+                ]);
             } elseif ($this->type === 'whatsapp' && $user->whatsapp_sms) {
-                wa_cloud_sms_send(normalize_phone($user->whatsapp_number,$user->whatsapp_country_code),$finalMessage);
-                // WhatsAppService::send($user->phone, $finalMessage);
+                $wa_number = normalize_phone($user->whatsapp_number, $user->whatsapp_country_code);
+                $result = wa_cloud_sms_send($wa_number, $finalMessage);
+                Log::info('WhatsApp sent', [
+                    'user_id' => $user->id,
+                    'whatsapp_number' => $wa_number,
+                    'message' => $finalMessage,
+                    'status' => $result ? 'success' : 'failed',
+                ]);
             }
         }
     }
