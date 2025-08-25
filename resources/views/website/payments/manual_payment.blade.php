@@ -16,6 +16,7 @@
                                     <span class="taka-symbol">৳</span> {{ number_format($payment->amount) }}
                                 </div>
                             </div>
+
                             <form id="manual-payment-form" action="{{ route('manual_payment.submit', $payment->id) }}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 @if ($errors->any())
@@ -27,11 +28,21 @@
                                         </ul>
                                     </div>
                                 @endif
+
+                                {{-- Gateway options --}}
                                 <div class="mb-2">
                                     <label class="form-label">Select Payment Gateway <span class="text-danger">*</span></label>
                                     <div class="d-flex flex-wrap justify-content-start" id="gateway-options">
                                         @foreach($gateways as $gateway)
-                                            <label class="gateway-option" data-type="{{ $gateway->type }}" data-color="{{$gateway->color}}" data-details="{{ htmlentities($gateway->details) }}">
+                                            <label class="gateway-option"
+                                                   data-type="{{ $gateway->type }}"
+                                                   data-color="{{ $gateway->color }}"
+                                                   data-details="{{ htmlentities($gateway->details) }}"
+                                                   data-name="{{ $gateway->name }}"
+                                                   data-account-name="{{ $gateway->account_name }}"
+                                                   data-account-number="{{ $gateway->number }}"
+                                                   data-branch="{{ $gateway->branch }}"
+                                                   data-routing="{{ $gateway->routing_no }}">
                                                 <input type="radio" name="gateway_id" value="{{ $gateway->id }}">
                                                 @if($gateway->logo)
                                                     <img src="{{ asset('uploads/'.$gateway->logo) }}" alt="{{ $gateway->name }}">
@@ -40,16 +51,18 @@
                                                         No Logo
                                                     </div>
                                                 @endif
-                                                <div class="small text-truncate" style="max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $gateway->name }}</div>
+                                                <div class="small text-truncate">{{ $gateway->name }}</div>
                                                 <div class="tick">✔</div>
                                             </label>
                                         @endforeach
                                     </div>
                                 </div>
 
+                                {{-- Instructions box --}}
                                 <div id="gateway-details" class="alert alert-info d-none text-light"></div>
 
-                                <div class="row mt-3" id="mobile-fields" style="display: none;">
+                                {{-- Mobile fields --}}
+                                <div class="row mt-3" id="mobile-fields" style="display:none;">
                                     <div class="col-md-6 mb-3">
                                         <label class="form-label">Sender Number <span class="text-danger">*</span></label>
                                         <input type="text" name="sender_number" class="form-control" placeholder="01XXXXXXXXX">
@@ -60,79 +73,68 @@
                                     </div>
                                 </div>
 
-                                <div class="row mt-3" id="bank-fields" style="display: none;">
-                                    <div class="col-md-12 mb-3">
+                                {{-- Bank fields --}}
+                                <div class="row mt-3" id="bank-fields" style="display:none; flex-direction:column; gap:12px;">
+                                    <div class="bank-info">
+                                        <strong>Gateway Name:</strong> <span id="bank-gateway-name"></span>
+                                        <button type="button" class="btn btn-sm btn-outline-secondary copy-btn" data-target="bank-gateway-name">Copy</button>
+                                    </div>
+                                    <div class="bank-info">
+                                        <strong>Account Name:</strong> <span id="bank-account-name"></span>
+                                        <button type="button" class="btn btn-sm btn-outline-secondary copy-btn" data-target="bank-account-name">Copy</button>
+                                    </div>
+                                    <div class="bank-info">
+                                        <strong>Account Number:</strong> <span id="bank-account-number"></span>
+                                        <button type="button" class="btn btn-sm btn-outline-secondary copy-btn" data-target="bank-account-number">Copy</button>
+                                    </div>
+                                    <div class="bank-info">
+                                        <strong>Branch:</strong> <span id="bank-branch"></span>
+                                        <button type="button" class="btn btn-sm btn-outline-secondary copy-btn" data-target="bank-branch">Copy</button>
+                                    </div>
+                                    <div class="bank-info">
+                                        <strong>Routing No:</strong> <span id="bank-routing"></span>
+                                        <button type="button" class="btn btn-sm btn-outline-secondary copy-btn" data-target="bank-routing">Copy</button>
+                                    </div>
+                                    <div class="mb-3">
                                         <label class="form-label">Upload Payment Slip/File <span class="text-danger">*</span></label>
                                         <input type="file" name="transaction_file" class="form-control">
                                     </div>
                                 </div>
 
                                 <div class="mt-2">
-                                    <button type="submit" class="btn btn-success w-100">
-                                        Submit Payment Info
-                                    </button>
+                                    <button type="submit" class="btn btn-success w-100">Submit Payment Info</button>
                                 </div>
                             </form>
                         </div>
                     </div>
                 </div>
             </div>
-
         </div>
     </section>
 @endsection
 
 @section('custom_css')
     <style>
-        ul.instructions {
-            font-size: 1.12rem; /* 18px এর কাছাকাছি, ভালো পড়ার সাইজ */
-            line-height: 1.3;    /* লাইন গ্যাপ একটু বাড়িয়ে পড়া সহজ করতে */
-            color: #333;         /* ডার্ক গ্রে কালার, প্রফেশনাল লুক */
-            padding-left: 1.25rem; /* লিস্ট আইটেমের বুলেট দেখানোর জায়গা */
-        }
-
-        ul.instructions li {
-            color:white;
-            padding-top: 0.5rem; /* প্রতিটি আইটেমের নিচে একটু স্পেস */
-            padding-bottom: 0.5rem; /* প্রতিটি আইটেমের নিচে একটু স্পেস */
-            border-bottom: 1px dashed white;
-        }
-
         .amount-display {
-            font-size: 2.5rem; /* বড় ফন্ট সাইজ */
+            font-size: 2.5rem;
             font-weight: 700;
-            color: #28a745; /* গ্রীন কালার, চাইলে পরিবর্তন করুন */
-            background: #e9f7ef; /* হালকা ব্যাকগ্রাউন্ড */
+            color: #28a745;
+            background: #e9f7ef;
             padding: 10px 20px;
             border-radius: 8px;
             box-shadow: 0 2px 6px rgba(0,0,0,0.1);
             white-space: nowrap;
         }
-
         .taka-symbol {
-            font-size: 2rem; /* টাকা চিহ্ন একটু বড় */
-            vertical-align: middle;
+            font-size: 2rem;
             margin-right: 5px;
         }
-
-        /* Responsive: ছোট স্ক্রিনে ফন্ট কমানো */
-        @media (max-width: 576px) {
-            .amount-display {
-                font-size: 1.5rem;
-                padding: 8px 15px;
-            }
-            .taka-symbol {
-                font-size: 1.5rem;
-            }
-        }
-
         .gateway-option {
             width: 80px;
             height: 80px;
             border: 2px solid #ccc;
             border-radius: 10px;
             text-align: center;
-            padding: 0 2px 2px;
             margin: 5px;
             cursor: pointer;
             position: relative;
@@ -142,9 +144,7 @@
             flex-direction: column;
             transition: all 0.3s ease-in-out;
         }
-        .gateway-option input[type="radio"] {
-            display: none;
-        }
+        .gateway-option input[type="radio"] { display: none; }
         .gateway-option img {
             max-width: 75px;
             max-height: 75px;
@@ -168,11 +168,19 @@
             justify-content: center;
             font-size: 14px;
         }
-        .gateway-option.selected .tick {
-            display: flex;
+        .gateway-option.selected .tick { display: flex; }
+        .bank-info {
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            padding:6px 10px;
+            border:1px dashed #ccc;
+            border-radius:6px;
+            background:#f8f9fa;
         }
     </style>
 @endsection
+
 @section('custom_js')
     <script>
         document.addEventListener('DOMContentLoaded', function () {
@@ -192,7 +200,7 @@
                     const color = this.getAttribute('data-color');
 
                     if (details) {
-                        detailsBox.innerHTML = `${decodeHTMLEntities(details)}`;
+                        detailsBox.innerHTML = decodeHTMLEntities(details);
                         detailsBox.style.backgroundColor = color;
                         detailsBox.style.borderColor = color;
                         detailsBox.classList.remove('d-none');
@@ -204,6 +212,12 @@
                         mobileFields.style.display = 'flex';
                         bankFields.style.display = 'none';
                     } else if (type === 'bank') {
+                        document.getElementById('bank-gateway-name').textContent = this.getAttribute('data-name') || '';
+                        document.getElementById('bank-account-name').textContent = this.getAttribute('data-account-name') || '';
+                        document.getElementById('bank-account-number').textContent = this.getAttribute('data-account-number') || '';
+                        document.getElementById('bank-branch').textContent = this.getAttribute('data-branch') || '';
+                        document.getElementById('bank-routing').textContent = this.getAttribute('data-routing') || '';
+
                         bankFields.style.display = 'flex';
                         mobileFields.style.display = 'none';
                     } else {
@@ -211,6 +225,18 @@
                         bankFields.style.display = 'none';
                     }
                 });
+            });
+
+            // Copy button
+            document.addEventListener('click', function(e) {
+                if (e.target.classList.contains('copy-btn')) {
+                    const targetId = e.target.getAttribute('data-target');
+                    const text = document.getElementById(targetId).textContent.trim();
+                    navigator.clipboard.writeText(text).then(() => {
+                        e.target.textContent = "Copied!";
+                        setTimeout(() => e.target.textContent = "Copy", 1500);
+                    });
+                }
             });
 
             function decodeHTMLEntities(text) {
@@ -221,4 +247,3 @@
         });
     </script>
 @endsection
-

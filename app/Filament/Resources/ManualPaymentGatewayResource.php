@@ -63,6 +63,7 @@ class ManualPaymentGatewayResource extends Resource
                     ->required(fn (callable $get) => $get('type') === 'bank')
                     ->maxLength(255),
 
+
                 TextInput::make('routing_no')
                     ->visible(fn (callable $get) => $get('type') === 'bank')
                     ->required(fn (callable $get) => $get('type') === 'bank')
