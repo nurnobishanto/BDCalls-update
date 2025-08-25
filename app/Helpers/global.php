@@ -255,7 +255,7 @@ if (!function_exists('normalize_phone')) {
         $phone = preg_replace('/\D+/', '', $rawPhone);
 
         // Remove leading zeros
-        $phone = ltrim($phone, '0');
+        //$phone = ltrim($phone, '0');
 
         // Remove duplicate country code if exists (e.g. 88088017...)
         if (str_starts_with($phone, $countryCode . $countryCode)) {
