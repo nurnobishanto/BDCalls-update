@@ -104,8 +104,8 @@
                     Swal.fire({
                         title: `Recharge IP Number: ${numberText}`,
                         html: `
-                    <input type="number" id="amount" class="swal2-input" placeholder="Enter Amount">
-                    <label for="payment-method">Select Payment Method:</label>
+                    <input type="number" id="amount" class="form-control mb-2" placeholder="Enter Amount">
+
                     <div class="payment-options d-flex flex-column gap-3">
                         <label class="option d-flex flex-column align-items-start">
                             <span class="option-text mb-1 small">Credit/Debit Card/Bkash/Nagad (Extra Charge 2%)</span>
