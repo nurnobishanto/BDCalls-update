@@ -288,11 +288,6 @@ if (!function_exists('netsmsbd_sms_send')) {
         $api_key = getSetting('netsms_api_key');
         $senderid = getSetting('netsms_sender_id') ?: 'BDCALLS';
 
-        if (!$api_key || !$phone_number || !$msg || !number_validation($phone_number)) {
-            return false;
-        }
-
-
 
         $data = [
             "apiKey"   => $api_key,
@@ -300,8 +295,7 @@ if (!function_exists('netsmsbd_sms_send')) {
             "mobileNo" => number_validation($phone_number),
             "msgBody"  => $msg
         ];
-       
-
+        Log::info($data);
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_POST, true);
