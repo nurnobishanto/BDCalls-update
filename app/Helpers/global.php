@@ -251,7 +251,7 @@ if (!function_exists('normalize_phone')) {
      */
     function normalize_phone(string $rawPhone, string $countryCode = '880'): ?string
     {
-        if ($countryCode=="88"){
+        if ($countryCode === "88"){
             $countryCode = "880";
         }
         // Remove any characters except digits
