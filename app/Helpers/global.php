@@ -303,6 +303,7 @@ if (!function_exists('netsmsbd_sms_send')) {
             "mobileNo" => $phone_number,
             "msgBody"  => $msg
         ];
+        Log::info($data);
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
