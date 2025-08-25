@@ -43,14 +43,33 @@ class SendDueBillMessages implements ShouldQueue
 
             foreach ($userRecords->groupBy('user_ip_number_id') as $ipRecords) {
                 $ip = $ipRecords->first()->userIpNumber;
-                $month = $ipRecords->first()->month;
-                $currentDue = $ipRecords->where('month', $month)->sum('total');
-                $previousDue = $ipRecords->sum('total') - $currentDue;
+                // Get the latest month for this IP
+                $latestMonth = DueBill::where('user_ip_number_id', $ip->id)
+                    ->where('payment_status', 'unpaid')
+                    ->latest('month')
+                    ->value('month');
+
+                if (!$latestMonth) {
+                    continue; // skip if no unpaid dues
+                }
+
+                // Current month due
+                $currentDue = DueBill::where('user_ip_number_id', $ip->id)
+                    ->where('month', $latestMonth)
+                    ->sum('total');
+
+                // Previous dues (before latest month)
+                $previousDue = DueBill::where('user_ip_number_id', $ip->id)
+                    ->where('month', '<', $latestMonth)
+                    ->where('payment_status', 'unpaid')
+                    ->sum('total');
+
+                // Total due
                 $total = $currentDue + $previousDue;
 
                 $link = route('bill_pay', ['number' => $ip->number]);
 
-                $message = "আপনার {$ip->number} আইপি নাম্বারের, {$month} মাসের বিল {$currentDue} টাকা।";
+                $message = "আপনার {$ip->number} আইপি নাম্বারের, {$latestMonth} মাসের বিল {$currentDue} টাকা।";
 
                 if ($previousDue > 0) {
                     $message .= " পূর্বের বকেয়া বিল {$previousDue} টাকা। সর্বমোট: {$total} টাকা।";
