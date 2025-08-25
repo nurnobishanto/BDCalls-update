@@ -102,11 +102,9 @@ if (!function_exists('send_sms')) {
             $provider = getSetting('sms_provider','bulk_sms_bd');
             if ($provider == 'bulk_sms_bd') {
                 $status = bulksmsbd_sms_send($number, $msg);
-                addSMSLog($number, $msg, getSetting('bulk_sms_bd_sender_id'), $status, $type);
                 return $status;
             }elseif ($provider == 'wa_cloud'){
                 $status = wa_cloud_sms_send($number, $msg);
-                addSMSLog($number, $msg, getSetting('wa_cloud_instance_id'), $status, $type);
                 return $status;
             }
         }
@@ -271,5 +269,50 @@ if (!function_exists('normalize_phone')) {
 
         // Return final normalized phone
         return $countryCode . $phone;
+    }
+}
+if (!function_exists('netsmsbd_sms_send')) {
+    /**
+     * Send SMS via NetSMSBD
+     *
+     * @param string|array $phone_number
+     * @param string $msg
+     * @return bool
+     */
+    function netsmsbd_sms_send($phone_number, string $msg): bool
+    {
+        // Collect API info dynamically
+        $url = "https://netsmsbd.com/v1.1/sms";
+        $api_key = getSetting('netsms_api_key');
+        $senderid = getSetting('netsms_sender_id') ?: 'BDCALLS';
+
+        if (!$api_key || !$phone_number || !$msg || !number_validation($phone_number)) {
+            return false;
+        }
+
+        // If multiple numbers, convert to comma-separated
+        if (is_array($phone_number)) {
+            $phone_number = implode(',', number_validation($phone_number));
+        }
+
+        $data = [
+            "apiKey"   => $api_key,
+            "senderId" => $senderid,
+            "mobileNo" => $phone_number,
+            "msgBody"  => $msg
+        ];
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        $response = curl_exec($ch);
+        curl_close($ch);
+
+        $data = json_decode($response);
+
+        return isset($data->response_code) && $data->response_code == 202;
     }
 }

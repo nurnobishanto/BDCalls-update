@@ -31,6 +31,8 @@ class SiteSettings extends Page
 
     public $wa_cloud_api;
     public $wa_cloud_instance_id;
+    public $netsms_api_key;
+    public $netsms_sender_id;
 
     public function mount()
     {
@@ -48,6 +50,8 @@ class SiteSettings extends Page
             'site_whatsapp' => getSetting('site_whatsapp'),
             'wa_cloud_api' => getSetting('wa_cloud_api'),
             'wa_cloud_instance_id' => getSetting('wa_cloud_instance_id'),
+            'netsms_api_key' => getSetting('netsms_api_key'),
+            'netsms_sender_id' => getSetting('netsms_sender_id'),
 
         ]);
     }
@@ -71,6 +75,8 @@ class SiteSettings extends Page
         setSetting('site_whatsapp',$this->site_whatsapp);
         setSetting('wa_cloud_api',$this->wa_cloud_api);
         setSetting('wa_cloud_instance_id',$this->wa_cloud_instance_id);
+        setSetting('netsms_api_key',$this->netsms_api_key);
+        setSetting('netsms_sender_id',$this->netsms_sender_id);
 
 
         Notification::make()
@@ -144,7 +150,24 @@ class SiteSettings extends Page
 
                 ]),
 
-            Section::make('Whatsapp SMS Configaration')
+            Section::make('Phone SMS Configuration')
+                ->columns([
+                    'sm' => 1,
+                    'md' => 2
+                ])
+                ->schema([
+                    TextInput::make('netsms_api_key')
+                        ->label('Wa NETSMS Api (netsms_api_key)')
+                        ->placeholder('Enter NETSMS Api'),
+
+                    TextInput::make('netsms_sender_id')
+                        ->label('Wa NETSMS Sender ID (netsms_sender_id)')
+                        ->placeholder('Enter NETSMS Sender ID'),
+
+
+
+                ]),
+            Section::make('Whatsapp SMS Configuration')
                 ->columns([
                     'sm' => 1,
                     'md' => 2

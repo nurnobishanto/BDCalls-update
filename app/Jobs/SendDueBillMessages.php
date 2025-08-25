@@ -53,10 +53,10 @@ class SendDueBillMessages implements ShouldQueue
 
             $finalMessage = "আসসালামু আলাইকুম, প্রিয় গ্রাহক\n" . implode("\n", $messageParts) . "\n\nঅনুগ্রহ করে আগামী সাত দিনের মধ্যেই বিল পরিশোধ করুন।";
 
-            if ($this->type === 'sms') {
+            if ($this->type === 'sms' && $user->phone_sms) {
 
                 // SmsService::send($user->phone, $finalMessage);
-            } elseif ($this->type === 'whatsapp') {
+            } elseif ($this->type === 'whatsapp' && $user->whatsapp_sms) {
                 wa_cloud_sms_send(normalize_phone($user->whatsapp_number,$user->whatsapp_country_code),$finalMessage);
                 // WhatsAppService::send($user->phone, $finalMessage);
             }
