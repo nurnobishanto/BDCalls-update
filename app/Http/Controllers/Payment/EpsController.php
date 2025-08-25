@@ -69,7 +69,7 @@ class EpsController extends Controller
         if (!empty($initResponse['RedirectURL'])) {
             return redirect()->to($initResponse['RedirectURL']); // 🔹 redirect user
         }
-      
+
         alert()->error($initResponse['ErrorMessage'] ?? 'Payment initialization failed');
         return redirect()->route('order_details', ['id' => $payment->order_id]);
     }
